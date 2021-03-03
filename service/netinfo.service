@@ -1,0 +1,13 @@
+[Unit]
+Description=Network Info Server
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/root/netinfo -s
+Restart=on-failure
+SyslogIdentifier=NetInfo Server
+
+[Install]
+WantedBy=multi-user.target
