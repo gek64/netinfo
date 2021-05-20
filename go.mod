@@ -1,7 +1,7 @@
-module netinfo
+module "vnetinfo"
 
-go 1.15
+go 1.16
 
-require github.com/cekys/gopkg v0.0.10
+require localhost/vivycore v0.1.0
 
-replace github.com/cekys/gopkg v0.0.10 => ../gopkg
+replace localhost/vivycore => ../vivycore

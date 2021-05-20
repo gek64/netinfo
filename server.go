@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/cekys/gopkg"
+	"localhost/vivycore"
 	"log"
 	"net"
 )
 
 func getServerInfo() {
 	var IPv4, IPv6, IPv4p, IPv6p net.IP
-	netInterfaces, err := gopkg.NetInterfaces()
+	netInterfaces, err := vivycore.NetInterfaces()
 	if err != nil {
 		log.Fatal(err)
 	}
