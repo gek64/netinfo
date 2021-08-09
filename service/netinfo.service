@@ -1,11 +1,11 @@
 [Unit]
-Description=Network Info Server
+Description=NetInfo Server
 After=network.target
 
 [Service]
 Type=simple
 User=root
-ExecStart=/root/netinfo -s
+ExecStart=/usr/local/bin/netinfo -s
 Restart=on-failure
 SyslogIdentifier=NetInfo Server
 

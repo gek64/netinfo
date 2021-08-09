@@ -1,7 +1,5 @@
-module "vnetinfo"
+module "netinfo"
 
-go 1.16
+require "gek_net" v0.0.0
 
-require localhost/vivycore v0.1.0
-
-replace localhost/vivycore => ../vivycore
+replace "gek_net" => "../gek/gek_net"

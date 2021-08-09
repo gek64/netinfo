@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"localhost/vivycore"
+	"gek_net"
 	"net/http"
 )
 
@@ -18,7 +18,7 @@ func getClientInfo(resp http.ResponseWriter, req *http.Request) {
 		resp.Header().Set("Content-Type", "application/json")
 
 		// client结构体中填充数据
-		client.RemoteAddress = vivycore.GetClientIP(req)
+		client.RemoteAddress = gek_net.GetClientIP(req)
 		client.UserAgent = req.Header.Values("User-Agent")
 
 		// 转换为json []byte

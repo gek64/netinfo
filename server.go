@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"localhost/vivycore"
+	"gek_net"
 	"log"
 	"net"
 )
 
 func getServerInfo() {
 	var IPv4, IPv6, IPv4p, IPv6p net.IP
-	netInterfaces, err := vivycore.NetInterfaces()
+	netInterfaces, err := gek_net.NetInterfaces()
 	if err != nil {
 		log.Fatal(err)
 	}
