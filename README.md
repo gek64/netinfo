@@ -1,8 +1,8 @@
 # Netinfo
 Netinfo
 - Display local IP information
-- setup as a server to tell the client its ip information 
-- written in golang 
+- Setup as a server to tell the client its ip information 
+- Written in golang 
 
 ## Usage
 ```
