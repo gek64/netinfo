@@ -38,7 +38,7 @@ func init() {
 	// 重写显示用法函数
 	flag.Usage = func() {
 		var helpInfo = `Version:
-  1.00
+  1.01
 
 Usage:
   netinfo {Command} [Option]
@@ -75,20 +75,25 @@ Example:
 	}
 
 	// 获取服务器信息
-	getServerInfo()
+	err := GetLocalNetworkInfo()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func showVersion() {
 	var versionInfo = `Changelog:
   1.00:
-    - First release`
+    - First release
+  1.01:
+    - Change GetLocalNetworkInfo() to match the multi-network environment `
 	fmt.Println(versionInfo)
 }
 
 func main() {
 	// 启动服务
 	if cliServe {
-		http.HandleFunc("/", getClientInfo)
+		http.HandleFunc("/", httpReturnClientNetworkInfo)
 		fmt.Println("Info Program Serve at:", cliAddr+":"+strconv.Itoa(cliPort))
 		err := http.ListenAndServe(cliAddr+":"+strconv.Itoa(cliPort), nil)
 		if err != nil {
