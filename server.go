@@ -9,8 +9,8 @@ import (
 )
 
 type Client struct {
-	RemoteAddress string   `json:"Remote-Address"`
-	UserAgent     []string `json:"User-Agent"`
+	RemoteAddress string `json:"Remote-Address"`
+	UserAgent     string `json:"User-Agent"`
 }
 
 func httpReturnClientNetworkInfo(resp http.ResponseWriter, req *http.Request) {
@@ -21,7 +21,7 @@ func httpReturnClientNetworkInfo(resp http.ResponseWriter, req *http.Request) {
 
 		// client结构体中填充数据
 		client.RemoteAddress = gek_net.GetClientIP(req)
-		client.UserAgent = req.Header.Values("User-Agent")
+		client.UserAgent = req.Header.Values("User-Agent")[0]
 
 		// 转换为json []byte
 		respBody, err := json.Marshal(client)

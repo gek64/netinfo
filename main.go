@@ -38,7 +38,7 @@ func init() {
 	// 重写显示用法函数
 	flag.Usage = func() {
 		var helpInfo = `Version:
-  1.02
+  1.03
 
 Usage:
   netinfo {Command} [Option]
@@ -88,7 +88,9 @@ func showVersion() {
   1.01:
     - Change GetLocalNetworkInfo() to match the multi-network environment
   1.02:
-    - Update use golang 1.17`
+    - Update use golang 1.17
+  1.03:
+    - user agent use string instead of []string`
 
 	fmt.Println(versionInfo)
 }
