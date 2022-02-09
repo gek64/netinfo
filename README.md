@@ -1,13 +1,11 @@
 # Netinfo
-Netinfo
+
+## Features
 - Display local IP information
 - Setup as a server to tell the client its ip information
 
 ## Usage
 ```
-Version:
-  1.00
-
 Usage:
   netinfo {Command} [Option]
 
