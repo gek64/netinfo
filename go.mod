@@ -1,6 +1,6 @@
 module netinfo
 
-go 1.17
+go 1.18
 
 require gek_net v0.0.0
 

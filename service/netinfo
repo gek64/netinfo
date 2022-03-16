@@ -6,7 +6,7 @@
 #
 # mkdir /usr/local/etc/rc.d/
 # ee /usr/local/etc/rc.d/netinfo && chmod +x /usr/local/etc/rc.d/netinfo
-# server netinfo enable && server netinfo start
+# service netinfo enable && service netinfo start
 
 . /etc/rc.subr
 
@@ -17,16 +17,10 @@ command="/usr/local/bin/${name}"
 pidfile="/var/run/${name}.pid"
 
 start_cmd="${name}_start"
-stop_cmd="${name}_stop"
 
 netinfo_start() {
   echo "Starting ${name}."
   /usr/sbin/daemon -cf -p ${pidfile} ${command} -a 0.0.0.0 -s
-}
-
-netinfo_stop() {
-  echo "Stopping ${name}."
-  pkill -F ${pidfile}
 }
 
 load_rc_config $name

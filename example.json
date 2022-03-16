@@ -1,0 +1,10 @@
+{
+  "ip": {
+    "address": "192.168.1.1",
+    "as": "as123456",
+    "asn": "as telecom",
+    "city": "a",
+    "country": "z"
+  },
+  "ua": "Mozilla/5.0"
+}

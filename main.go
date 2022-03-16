@@ -4,10 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"net"
-	"net/http"
 	"os"
-	"strconv"
 )
 
 var (
@@ -19,43 +16,32 @@ var (
 )
 
 func init() {
-	flag.StringVar(&cliAddr, "a", "127.0.0.1", "-a 127.0.0.1")
-	flag.IntVar(&cliPort, "p", 1996, "-p 1996")
-	flag.BoolVar(&cliServe, "s", false, "-s")
+	flag.StringVar(&cliAddr, "addr", "127.0.0.1", "-addr 127.0.0.1")
+	flag.IntVar(&cliPort, "port", 1996, "-port 1996")
+	flag.BoolVar(&cliServe, "server", false, "-server")
 	flag.BoolVar(&cliHelp, "h", false, "show help")
 	flag.BoolVar(&cliVersion, "v", false, "show version")
 	flag.Parse()
 
-	// 检查IP
-	if ip := net.ParseIP(cliAddr); ip == nil {
-		log.Fatalf("%s is not a valid host", cliAddr)
-	}
-	// 检查端口
-	if cliPort < 0 || cliPort > 65535 {
-		log.Fatalf("%d is not a valid port", cliPort)
-	}
-
 	// 重写显示用法函数
 	flag.Usage = func() {
 		var helpInfo = `Version:
-  1.03
-
 Usage:
   netinfo {Command} [Option]
 
 Command:
-  -s                : start http server
+  -server           : start http server
   -h                : show help
   -v                : show version
 
 Option:
-  -a  <IP>          : set server IP
-  -p  <Port>        : set server port
+  -addr  <IP>       : set server IP
+  -port  <Port>     : set server port
 
 Example:
   1) netinfo
-  2) netinfo -s
-  3) netinfo -s -a 127.0.0.1 -p 1996
+  2) netinfo -server
+  3) netinfo -server -addr 127.0.0.1 -port 1996
   4) netinfo -h
   5) netinfo -v`
 
@@ -70,20 +56,18 @@ Example:
 
 	// 打印版本信息
 	if cliVersion {
-		showVersion()
+		fmt.Println("v1.03")
 		os.Exit(0)
 	}
 
-	// 获取服务器信息
-	err := GetLocalNetworkInfo()
-	if err != nil {
-		log.Fatal(err)
+	// 如果无 args 返回本地网络信息
+	if len(os.Args) == 1 {
+		err := GetLocalNetworkInfo()
+		if err != nil {
+			log.Panicln(err)
+		}
+		os.Exit(0)
 	}
-}
-
-func showVersion() {
-	var versionInfo = `v1.03`
-	fmt.Println(versionInfo)
 }
 
 func showChangelog() {
@@ -103,11 +87,9 @@ func showChangelog() {
 func main() {
 	// 启动服务
 	if cliServe {
-		http.HandleFunc("/", httpReturnClientNetworkInfo)
-		fmt.Println("Info Program Serve at:", cliAddr+":"+strconv.Itoa(cliPort))
-		err := http.ListenAndServe(cliAddr+":"+strconv.Itoa(cliPort), nil)
+		err := startService(cliAddr, cliPort)
 		if err != nil {
-			log.Fatal(err)
+			log.Panicln(err)
 		}
 	}
 }
