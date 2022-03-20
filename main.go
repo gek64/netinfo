@@ -62,11 +62,11 @@ Example:
 
 	// 如果无 args 返回本地网络信息
 	if len(os.Args) == 1 {
-		err := GetLocalNetworkInfo()
+		err := getActiveNetworkInterface()
 		if err != nil {
 			log.Panicln(err)
 		}
-		os.Exit(0)
+		//os.Exit(0)
 	}
 }
 
@@ -75,7 +75,7 @@ func showChangelog() {
   1.00:
     - First release
   1.01:
-    - Change GetLocalNetworkInfo() to match the multi-network environment
+    - Change getActiveNetworkInterface() to match the multi-network environment
   1.02:
     - Update use golang 1.17
   1.03:
