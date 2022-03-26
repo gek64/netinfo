@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"gek_net"
 	"net"
@@ -44,4 +45,27 @@ func getActiveNetworkInterface() error {
 	}
 
 	return err
+}
+
+func httpReturnClientNetworkInfo(resp http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case "GET":
+		resp.Header().Set("Content-Type", "application/json")
+
+		var response Response
+
+		// 转换为json []byte
+		respBody, err := json.Marshal(response)
+		if err != nil {
+			http.Error(resp, "Internal Server Error", http.StatusInternalServerError)
+		}
+
+		// 写入resp中
+		_, err = resp.Write(respBody)
+		if err != nil {
+			http.Error(resp, "Internal Server Error", http.StatusInternalServerError)
+		}
+	default:
+		http.Error(resp, "Method Not Allowed", http.StatusMethodNotAllowed)
+	}
 }

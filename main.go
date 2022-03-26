@@ -92,4 +92,6 @@ func main() {
 			log.Panicln(err)
 		}
 	}
+
+	checkDatabase("database")
 }
