@@ -93,5 +93,9 @@ func main() {
 		}
 	}
 
-	checkDatabase("database")
+	internet, err := getIPInfoFromInternet("1.1.1.1")
+	if err != nil {
+		log.Panicln(err)
+	}
+	fmt.Println(internet)
 }

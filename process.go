@@ -52,7 +52,7 @@ func httpReturnClientNetworkInfo(resp http.ResponseWriter, req *http.Request) {
 	case "GET":
 		resp.Header().Set("Content-Type", "application/json")
 
-		var response Response
+		var response IPInfoMax
 
 		// 转换为json []byte
 		respBody, err := json.Marshal(response)
