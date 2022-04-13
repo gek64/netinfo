@@ -1,6 +1,6 @@
 package main
 
-type IPInfoMax struct {
+type IPInfo struct {
 	IP       string `json:"ip"`
 	City     string `json:"city"`
 	Region   string `json:"region"`
@@ -10,16 +10,12 @@ type IPInfoMax struct {
 	Timezone string `json:"timezone"`
 }
 
-type IPInfoMin struct {
-	IP string `json:"ip"`
-}
-
-type RespMax struct {
-	IPInfo    IPInfoMax
+type Resp struct {
+	IPInfo    IPInfo
 	UserAgent string
 }
 
 type RespMin struct {
-	IPInfo    IPInfoMin
+	IP        string
 	UserAgent string
 }

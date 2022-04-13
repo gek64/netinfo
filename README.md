@@ -2,7 +2,7 @@
 
 ## Features
 - Display local IP information
-- Setup as a server to tell the client its ip information
+- Setup as a server to tell client its ip information
 
 ## Usage
 ```
@@ -10,18 +10,19 @@ Usage:
   netinfo {Command} [Option]
 
 Command:
-  -s                : start http server
+  -server           : start http server
   -h                : show help
   -v                : show version
 
 Option:
-  -a  <IP>          : set server IP
-  -p  <Port>        : set server port
+  -address <IP>     : set server IP
+  -port    <Port>   : set server port
+  -netdb            : use net ip database to get ip info
 
 Example:
   1) netinfo
-  2) netinfo -s
-  3) netinfo -s -a 127.0.0.1 -p 1996
+  2) netinfo -server
+  3) netinfo -server -address 127.0.0.1 -port 1996 -netdb
   4) netinfo -h
   5) netinfo -v
 ```

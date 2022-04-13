@@ -20,7 +20,7 @@ start_cmd="${name}_start"
 
 netinfo_start() {
   echo "Starting ${name}."
-  /usr/sbin/daemon -cf -p ${pidfile} ${command} -a 0.0.0.0 -s
+  /usr/sbin/daemon -cf -p ${pidfile} ${command} -address 0.0.0.0 -server
 }
 
 load_rc_config $name

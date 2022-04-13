@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=root
-ExecStart=/usr/local/bin/netinfo -a 0.0.0.0 -s
+ExecStart=/usr/local/bin/netinfo -address 0.0.0.0 -server
 Restart=on-failure
 SyslogIdentifier=NetInfo Server
 
