@@ -20,7 +20,7 @@ start_cmd="${name}_start"
 
 netinfo_start() {
   echo "Starting ${name}."
-  /usr/sbin/daemon -cf -p ${pidfile} ${command} -address 0.0.0.0 -server
+  /usr/sbin/daemon -cf -p ${pidfile} ${command} -server -address 0.0.0.0 -port 1996 -netdb
 }
 
 load_rc_config $name
