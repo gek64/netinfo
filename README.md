@@ -63,10 +63,6 @@ cd netinfo
 go build -v -trimpath -ldflags "-s -w"
 ```
 
-## QA
-### Q: Windows Security detect `.exe` as `Trojan:Win32/Wacatac.B!ml`
-A: This application does not contain any malware, backdoors, and advertisements, all released files are build by github actions. For more information, see https://go.dev/doc/faq#virus
-
 ## License
 - **GPL-3.0 License**
 - See `LICENSE` for details
