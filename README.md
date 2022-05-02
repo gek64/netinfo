@@ -63,6 +63,12 @@ cd netinfo
 go build -v -trimpath -ldflags "-s -w"
 ```
 
+## Test
+```sh
+curl -H "X-Forwarded-For: 8.8.8.8" http://127.0.0.1:1996
+curl -H "X-Real-Ip: 8.8.8.8" http://127.0.0.1:1996
+```
+
 ## License
 - **GPL-3.0 License**
 - See `LICENSE` for details
