@@ -67,6 +67,7 @@ go build -v -trimpath -ldflags "-s -w"
 ```sh
 netinfo -server -address 127.0.0.1 -port 1996 -netdb
 curl -H "X-Forwarded-For: 8.8.8.8" http://127.0.0.1:1996
+# 
 curl -H "X-Real-Ip: 8.8.8.8" http://127.0.0.1:1996
 ```
 
