@@ -65,9 +65,13 @@ go build -v -trimpath -ldflags "-s -w"
 
 ## Test
 ```sh
+# start netinfo service at 127.0.0.1:1996 and search ip info use net ip database
 netinfo -server -address 127.0.0.1 -port 1996 -netdb
+
+# use X-Forwarded-For to give ip that you want to search for info
 curl -H "X-Forwarded-For: 8.8.8.8" http://127.0.0.1:1996
-# 
+
+# use X-Real-Ip to give ip that you want to search for info
 curl -H "X-Real-Ip: 8.8.8.8" http://127.0.0.1:1996
 ```
 
