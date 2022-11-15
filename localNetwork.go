@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"gek_net"
+	"github.com/gek64/gek/gNet"
 )
 
 func getActiveNetworkInterface() error {
-	netInterfaces, err := gek_net.GetNetInterfaces()
+	netInterfaces, err := gNet.GetNetInterfaces()
 	if err != nil {
 		return err
 	}

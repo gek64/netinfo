@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"gek_net"
+	"github.com/gek64/gek/gNet"
 	"net/http"
 )
 
@@ -30,7 +30,7 @@ func httpIpInfo(resp http.ResponseWriter, req *http.Request) {
 
 func respBodyBuilder(req *http.Request, useragent string, useNetDB bool) (respBody []byte, err error) {
 	// 获取req中真实ip
-	ip, err := gek_net.GetIPFromRequest(req)
+	ip, err := gNet.GetIPFromRequest(req)
 	if err != nil {
 		return nil, err
 	}

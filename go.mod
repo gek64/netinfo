@@ -1,11 +1,5 @@
 module netinfo
 
-go 1.18
+go 1.19
 
-require (
-	gek_net v0.0.0
-)
-
-replace (
-	gek_net => ../gek/gek_net
-)
+require github.com/gek64/gek v0.0.0-20221115142751-a8fedf716943 // indirect
