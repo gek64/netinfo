@@ -57,7 +57,6 @@ server netinfo enable && server netinfo start
 ## Compile
 ### How to compile if prebuilt binaries are not found
 ```sh
-git clone https://github.com/gek64/gek.git
 git clone https://github.com/gek64/netinfo.git
 cd netinfo
 go build -v -trimpath -ldflags "-s -w"
