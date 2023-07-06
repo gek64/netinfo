@@ -1,9 +1,14 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"log"
+	"netinfo/internal/database"
+	"netinfo/internal/middleware"
+	"netinfo/internal/routers"
 	"os"
 )
 
@@ -63,13 +68,9 @@ Example:
 	}
 
 	// 如果无 args 返回本地网络信息
-	if len(os.Args) == 1 {
-		err := getActiveNetworkInterface()
-		if err != nil {
-			log.Panicln(err)
-		}
-		os.Exit(0)
-	}
+	//if len(os.Args) == 1 {
+	//	os.Exit(0)
+	//}
 }
 
 func showChangelog() {
@@ -89,11 +90,30 @@ func showChangelog() {
 }
 
 func main() {
-	// 启动服务
-	if cliServe {
-		err := startService(cliAddr, cliPort)
-		if err != nil {
-			log.Panicln(err)
-		}
+	// 创建默认路由引擎,上下文
+	engine := gin.Default()
+	ctx := context.Background()
+
+	// 初始化数据库
+	client, err := database.NewSqliteClient(":memory:")
+	if err != nil {
+		return
+	}
+	defer client.Close()
+
+	// 数据库表同步
+	err = client.Schema.Create(ctx)
+	if err != nil {
+		log.Panicf("failed creating schema resources: %v\n", err)
+	}
+
+	// 中间件传递参数
+	engine.Use(middleware.ParameterPasser(client, ctx))
+	// 加载路由
+	routers.LoadRouters(engine)
+	// 启动
+	err = engine.Run("127.0.0.1" + ":" + "9999")
+	if err != nil {
+		log.Panicln(err)
 	}
 }
