@@ -13,6 +13,9 @@ type Resp struct {
 
 func Create(url string, description string) (result ent.Record, err error) {
 	client := req.C()
+	// 默认不启用跳过TLS证书检测
+	//client.EnableInsecureSkipVerify()
+
 	// 组装好发送POST请求的Body
 	body, err := GetCreateRecordBody(description)
 	if err != nil {
@@ -37,6 +40,7 @@ func Create(url string, description string) (result ent.Record, err error) {
 
 func Update(url string, description string) (result Resp, err error) {
 	client := req.C()
+
 	// 组装好发送PUT请求的Body
 	body, err := GetUpdateRecordBody(description)
 	if err != nil {
