@@ -33,7 +33,7 @@ Usage:
 
 ```sh
 # system is linux(debian,redhat linux,ubuntu,fedora...) and arch is amd64
-curl -Lo /usr/local/bin/netinfo https://github.com/gek64/netinfo/releases/latest/download/netinfo-linux-amd64
+curl -Lo /usr/local/bin/netinfo https://github.com/gek64/netinfo/releases/latest/download/netinfo-linux-386
 chmod +x /usr/local/bin/netinfo
 
 # system is freebsd and arch is amd64
