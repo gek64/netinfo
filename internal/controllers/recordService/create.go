@@ -1,4 +1,4 @@
-package recordController
+package recordService
 
 import (
 	"context"
@@ -10,14 +10,14 @@ import (
 	"netinfo/internal/middleware"
 )
 
-type createRecordBody struct {
+type CreateRecordBody struct {
 	Description   string                `json:"description"`
 	NetInterfaces []schema.NetInterface `json:"netInterfaces"`
 }
 
 // CreateRecord 创建内容记录
 func CreateRecord(c *gin.Context) {
-	var reqBody createRecordBody
+	var reqBody CreateRecordBody
 	client := c.MustGet(middleware.Client).(*ent.Client)
 	ctx := c.MustGet(middleware.Context).(context.Context)
 

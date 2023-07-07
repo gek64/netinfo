@@ -1,4 +1,4 @@
-package recordController
+package recordService
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 )
 
 type deleteRecordQuery struct {
-	Id uint `form:"id" binding:"required"`
+	Id uint `json:"id" binding:"required"`
 }
 
 // DeleteRecordByID 搜索内容记录

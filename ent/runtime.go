@@ -14,14 +14,14 @@ import (
 func init() {
 	recordFields := schema.Record{}.Fields()
 	_ = recordFields
-	// recordDescCreatedAt is the schema descriptor for created_at field.
+	// recordDescCreatedAt is the schema descriptor for createdAt field.
 	recordDescCreatedAt := recordFields[1].Descriptor()
-	// record.DefaultCreatedAt holds the default value on creation for the created_at field.
+	// record.DefaultCreatedAt holds the default value on creation for the createdAt field.
 	record.DefaultCreatedAt = recordDescCreatedAt.Default.(time.Time)
-	// recordDescUpdatedAt is the schema descriptor for updated_at field.
+	// recordDescUpdatedAt is the schema descriptor for updatedAt field.
 	recordDescUpdatedAt := recordFields[2].Descriptor()
-	// record.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	// record.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
 	record.DefaultUpdatedAt = recordDescUpdatedAt.Default.(func() time.Time)
-	// record.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	// record.UpdateDefaultUpdatedAt holds the default value on update for the updatedAt field.
 	record.UpdateDefaultUpdatedAt = recordDescUpdatedAt.UpdateDefault.(func() time.Time)
 }

@@ -3,7 +3,7 @@ package schema
 import (
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
-	"net"
+	"net/netip"
 	"time"
 )
 
@@ -12,8 +12,9 @@ type Record struct {
 }
 
 type NetInterface struct {
-	Name string   `json:"name"`
-	IPs  []net.IP `json:"ips"`
+	Name string       `json:"name"`
+	IPs  []netip.Addr `json:"ips"`
+	Mac  string       `json:"mac,omitempty"`
 }
 
 // Fields 数据库属性
@@ -21,17 +22,17 @@ func (Record) Fields() []ent.Field {
 	return []ent.Field{
 		field.Uint("id"),
 
-		field.Time("created_at").
+		field.Time("createdAt").
 			Default(time.Now()).
 			Immutable(),
 
-		field.Time("updated_at").
+		field.Time("updatedAt").
 			Default(time.Now).
 			UpdateDefault(time.Now),
 
 		field.String("description"),
 
-		field.JSON("net_interfaces", []NetInterface{}),
+		field.JSON("netInterfaces", []NetInterface{}),
 	}
 }
 

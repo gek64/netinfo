@@ -19,14 +19,14 @@ type Record struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID uint `json:"id,omitempty"`
-	// CreatedAt holds the value of the "created_at" field.
-	CreatedAt time.Time `json:"created_at,omitempty"`
-	// UpdatedAt holds the value of the "updated_at" field.
-	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	// CreatedAt holds the value of the "createdAt" field.
+	CreatedAt time.Time `json:"createdAt,omitempty"`
+	// UpdatedAt holds the value of the "updatedAt" field.
+	UpdatedAt time.Time `json:"updatedAt,omitempty"`
 	// Description holds the value of the "description" field.
 	Description string `json:"description,omitempty"`
-	// NetInterfaces holds the value of the "net_interfaces" field.
-	NetInterfaces []schema.NetInterface `json:"net_interfaces,omitempty"`
+	// NetInterfaces holds the value of the "netInterfaces" field.
+	NetInterfaces []schema.NetInterface `json:"netInterfaces,omitempty"`
 	selectValues  sql.SelectValues
 }
 
@@ -66,13 +66,13 @@ func (r *Record) assignValues(columns []string, values []any) error {
 			r.ID = uint(value.Int64)
 		case record.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field created_at", values[i])
+				return fmt.Errorf("unexpected type %T for field createdAt", values[i])
 			} else if value.Valid {
 				r.CreatedAt = value.Time
 			}
 		case record.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
+				return fmt.Errorf("unexpected type %T for field updatedAt", values[i])
 			} else if value.Valid {
 				r.UpdatedAt = value.Time
 			}
@@ -84,10 +84,10 @@ func (r *Record) assignValues(columns []string, values []any) error {
 			}
 		case record.FieldNetInterfaces:
 			if value, ok := values[i].(*[]byte); !ok {
-				return fmt.Errorf("unexpected type %T for field net_interfaces", values[i])
+				return fmt.Errorf("unexpected type %T for field netInterfaces", values[i])
 			} else if value != nil && len(*value) > 0 {
 				if err := json.Unmarshal(*value, &r.NetInterfaces); err != nil {
-					return fmt.Errorf("unmarshal field net_interfaces: %w", err)
+					return fmt.Errorf("unmarshal field netInterfaces: %w", err)
 				}
 			}
 		default:
@@ -126,16 +126,16 @@ func (r *Record) String() string {
 	var builder strings.Builder
 	builder.WriteString("Record(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", r.ID))
-	builder.WriteString("created_at=")
+	builder.WriteString("createdAt=")
 	builder.WriteString(r.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
-	builder.WriteString("updated_at=")
+	builder.WriteString("updatedAt=")
 	builder.WriteString(r.UpdatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("description=")
 	builder.WriteString(r.Description)
 	builder.WriteString(", ")
-	builder.WriteString("net_interfaces=")
+	builder.WriteString("netInterfaces=")
 	builder.WriteString(fmt.Sprintf("%v", r.NetInterfaces))
 	builder.WriteByte(')')
 	return builder.String()

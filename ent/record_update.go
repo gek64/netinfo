@@ -30,7 +30,7 @@ func (ru *RecordUpdate) Where(ps ...predicate.Record) *RecordUpdate {
 	return ru
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "updatedAt" field.
 func (ru *RecordUpdate) SetUpdatedAt(t time.Time) *RecordUpdate {
 	ru.mutation.SetUpdatedAt(t)
 	return ru
@@ -42,13 +42,13 @@ func (ru *RecordUpdate) SetDescription(s string) *RecordUpdate {
 	return ru
 }
 
-// SetNetInterfaces sets the "net_interfaces" field.
+// SetNetInterfaces sets the "netInterfaces" field.
 func (ru *RecordUpdate) SetNetInterfaces(si []schema.NetInterface) *RecordUpdate {
 	ru.mutation.SetNetInterfaces(si)
 	return ru
 }
 
-// AppendNetInterfaces appends si to the "net_interfaces" field.
+// AppendNetInterfaces appends si to the "netInterfaces" field.
 func (ru *RecordUpdate) AppendNetInterfaces(si []schema.NetInterface) *RecordUpdate {
 	ru.mutation.AppendNetInterfaces(si)
 	return ru
@@ -138,7 +138,7 @@ type RecordUpdateOne struct {
 	mutation *RecordMutation
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "updatedAt" field.
 func (ruo *RecordUpdateOne) SetUpdatedAt(t time.Time) *RecordUpdateOne {
 	ruo.mutation.SetUpdatedAt(t)
 	return ruo
@@ -150,13 +150,13 @@ func (ruo *RecordUpdateOne) SetDescription(s string) *RecordUpdateOne {
 	return ruo
 }
 
-// SetNetInterfaces sets the "net_interfaces" field.
+// SetNetInterfaces sets the "netInterfaces" field.
 func (ruo *RecordUpdateOne) SetNetInterfaces(si []schema.NetInterface) *RecordUpdateOne {
 	ruo.mutation.SetNetInterfaces(si)
 	return ruo
 }
 
-// AppendNetInterfaces appends si to the "net_interfaces" field.
+// AppendNetInterfaces appends si to the "netInterfaces" field.
 func (ruo *RecordUpdateOne) AppendNetInterfaces(si []schema.NetInterface) *RecordUpdateOne {
 	ruo.mutation.AppendNetInterfaces(si)
 	return ruo

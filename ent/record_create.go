@@ -21,13 +21,13 @@ type RecordCreate struct {
 	hooks    []Hook
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "createdAt" field.
 func (rc *RecordCreate) SetCreatedAt(t time.Time) *RecordCreate {
 	rc.mutation.SetCreatedAt(t)
 	return rc
 }
 
-// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+// SetNillableCreatedAt sets the "createdAt" field if the given value is not nil.
 func (rc *RecordCreate) SetNillableCreatedAt(t *time.Time) *RecordCreate {
 	if t != nil {
 		rc.SetCreatedAt(*t)
@@ -35,13 +35,13 @@ func (rc *RecordCreate) SetNillableCreatedAt(t *time.Time) *RecordCreate {
 	return rc
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "updatedAt" field.
 func (rc *RecordCreate) SetUpdatedAt(t time.Time) *RecordCreate {
 	rc.mutation.SetUpdatedAt(t)
 	return rc
 }
 
-// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+// SetNillableUpdatedAt sets the "updatedAt" field if the given value is not nil.
 func (rc *RecordCreate) SetNillableUpdatedAt(t *time.Time) *RecordCreate {
 	if t != nil {
 		rc.SetUpdatedAt(*t)
@@ -55,7 +55,7 @@ func (rc *RecordCreate) SetDescription(s string) *RecordCreate {
 	return rc
 }
 
-// SetNetInterfaces sets the "net_interfaces" field.
+// SetNetInterfaces sets the "netInterfaces" field.
 func (rc *RecordCreate) SetNetInterfaces(si []schema.NetInterface) *RecordCreate {
 	rc.mutation.SetNetInterfaces(si)
 	return rc
@@ -115,16 +115,16 @@ func (rc *RecordCreate) defaults() {
 // check runs all checks and user-defined validators on the builder.
 func (rc *RecordCreate) check() error {
 	if _, ok := rc.mutation.CreatedAt(); !ok {
-		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "Record.created_at"`)}
+		return &ValidationError{Name: "createdAt", err: errors.New(`ent: missing required field "Record.createdAt"`)}
 	}
 	if _, ok := rc.mutation.UpdatedAt(); !ok {
-		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "Record.updated_at"`)}
+		return &ValidationError{Name: "updatedAt", err: errors.New(`ent: missing required field "Record.updatedAt"`)}
 	}
 	if _, ok := rc.mutation.Description(); !ok {
 		return &ValidationError{Name: "description", err: errors.New(`ent: missing required field "Record.description"`)}
 	}
 	if _, ok := rc.mutation.NetInterfaces(); !ok {
-		return &ValidationError{Name: "net_interfaces", err: errors.New(`ent: missing required field "Record.net_interfaces"`)}
+		return &ValidationError{Name: "netInterfaces", err: errors.New(`ent: missing required field "Record.netInterfaces"`)}
 	}
 	return nil
 }

@@ -2,26 +2,26 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"netinfo/internal/controllers/queryController"
-	"netinfo/internal/controllers/recordController"
+	"netinfo/internal/controllers/queryService"
+	"netinfo/internal/controllers/recordService"
 )
 
 func LoadRouters(router *gin.Engine) {
 	recordRouterGroup := router.Group("/record")
 	{
 		// 增加记录
-		recordRouterGroup.POST("/", recordController.CreateRecord)
+		recordRouterGroup.POST("/", recordService.CreateRecord)
 		// 删除记录
-		recordRouterGroup.DELETE("/", recordController.DeleteRecordByID)
+		recordRouterGroup.DELETE("/", recordService.DeleteRecordByID)
 		// 修改记录
-		recordRouterGroup.PUT("/", recordController.UpdateRecordByID)
+		recordRouterGroup.PUT("/", recordService.UpdateRecordByID)
 		// 查询记录
-		recordRouterGroup.GET("/", recordController.ReadRecordByID)
-		recordRouterGroup.GET("/all", recordController.ReadRecordAll)
+		recordRouterGroup.GET("/", recordService.ReadRecordByID)
+		recordRouterGroup.GET("/all", recordService.ReadRecordAll)
 	}
 
 	queryRouterGroup := router.Group("/query")
 	{
-		queryRouterGroup.GET("/", queryController.Query)
+		queryRouterGroup.GET("/", queryService.Query)
 	}
 }

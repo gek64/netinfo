@@ -31,18 +31,18 @@ const (
 // RecordMutation represents an operation that mutates the Record nodes in the graph.
 type RecordMutation struct {
 	config
-	op                   Op
-	typ                  string
-	id                   *uint
-	created_at           *time.Time
-	updated_at           *time.Time
-	description          *string
-	net_interfaces       *[]schema.NetInterface
-	appendnet_interfaces []schema.NetInterface
-	clearedFields        map[string]struct{}
-	done                 bool
-	oldValue             func(context.Context) (*Record, error)
-	predicates           []predicate.Record
+	op                  Op
+	typ                 string
+	id                  *uint
+	createdAt           *time.Time
+	updatedAt           *time.Time
+	description         *string
+	netInterfaces       *[]schema.NetInterface
+	appendnetInterfaces []schema.NetInterface
+	clearedFields       map[string]struct{}
+	done                bool
+	oldValue            func(context.Context) (*Record, error)
+	predicates          []predicate.Record
 }
 
 var _ ent.Mutation = (*RecordMutation)(nil)
@@ -149,21 +149,21 @@ func (m *RecordMutation) IDs(ctx context.Context) ([]uint, error) {
 	}
 }
 
-// SetCreatedAt sets the "created_at" field.
+// SetCreatedAt sets the "createdAt" field.
 func (m *RecordMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
+	m.createdAt = &t
 }
 
-// CreatedAt returns the value of the "created_at" field in the mutation.
+// CreatedAt returns the value of the "createdAt" field in the mutation.
 func (m *RecordMutation) CreatedAt() (r time.Time, exists bool) {
-	v := m.created_at
+	v := m.createdAt
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldCreatedAt returns the old "created_at" field's value of the Record entity.
+// OldCreatedAt returns the old "createdAt" field's value of the Record entity.
 // If the Record object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *RecordMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
@@ -180,26 +180,26 @@ func (m *RecordMutation) OldCreatedAt(ctx context.Context) (v time.Time, err err
 	return oldValue.CreatedAt, nil
 }
 
-// ResetCreatedAt resets all changes to the "created_at" field.
+// ResetCreatedAt resets all changes to the "createdAt" field.
 func (m *RecordMutation) ResetCreatedAt() {
-	m.created_at = nil
+	m.createdAt = nil
 }
 
-// SetUpdatedAt sets the "updated_at" field.
+// SetUpdatedAt sets the "updatedAt" field.
 func (m *RecordMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
+	m.updatedAt = &t
 }
 
-// UpdatedAt returns the value of the "updated_at" field in the mutation.
+// UpdatedAt returns the value of the "updatedAt" field in the mutation.
 func (m *RecordMutation) UpdatedAt() (r time.Time, exists bool) {
-	v := m.updated_at
+	v := m.updatedAt
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldUpdatedAt returns the old "updated_at" field's value of the Record entity.
+// OldUpdatedAt returns the old "updatedAt" field's value of the Record entity.
 // If the Record object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *RecordMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
@@ -216,9 +216,9 @@ func (m *RecordMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err err
 	return oldValue.UpdatedAt, nil
 }
 
-// ResetUpdatedAt resets all changes to the "updated_at" field.
+// ResetUpdatedAt resets all changes to the "updatedAt" field.
 func (m *RecordMutation) ResetUpdatedAt() {
-	m.updated_at = nil
+	m.updatedAt = nil
 }
 
 // SetDescription sets the "description" field.
@@ -257,22 +257,22 @@ func (m *RecordMutation) ResetDescription() {
 	m.description = nil
 }
 
-// SetNetInterfaces sets the "net_interfaces" field.
+// SetNetInterfaces sets the "netInterfaces" field.
 func (m *RecordMutation) SetNetInterfaces(si []schema.NetInterface) {
-	m.net_interfaces = &si
-	m.appendnet_interfaces = nil
+	m.netInterfaces = &si
+	m.appendnetInterfaces = nil
 }
 
-// NetInterfaces returns the value of the "net_interfaces" field in the mutation.
+// NetInterfaces returns the value of the "netInterfaces" field in the mutation.
 func (m *RecordMutation) NetInterfaces() (r []schema.NetInterface, exists bool) {
-	v := m.net_interfaces
+	v := m.netInterfaces
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldNetInterfaces returns the old "net_interfaces" field's value of the Record entity.
+// OldNetInterfaces returns the old "netInterfaces" field's value of the Record entity.
 // If the Record object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *RecordMutation) OldNetInterfaces(ctx context.Context) (v []schema.NetInterface, err error) {
@@ -289,23 +289,23 @@ func (m *RecordMutation) OldNetInterfaces(ctx context.Context) (v []schema.NetIn
 	return oldValue.NetInterfaces, nil
 }
 
-// AppendNetInterfaces adds si to the "net_interfaces" field.
+// AppendNetInterfaces adds si to the "netInterfaces" field.
 func (m *RecordMutation) AppendNetInterfaces(si []schema.NetInterface) {
-	m.appendnet_interfaces = append(m.appendnet_interfaces, si...)
+	m.appendnetInterfaces = append(m.appendnetInterfaces, si...)
 }
 
-// AppendedNetInterfaces returns the list of values that were appended to the "net_interfaces" field in this mutation.
+// AppendedNetInterfaces returns the list of values that were appended to the "netInterfaces" field in this mutation.
 func (m *RecordMutation) AppendedNetInterfaces() ([]schema.NetInterface, bool) {
-	if len(m.appendnet_interfaces) == 0 {
+	if len(m.appendnetInterfaces) == 0 {
 		return nil, false
 	}
-	return m.appendnet_interfaces, true
+	return m.appendnetInterfaces, true
 }
 
-// ResetNetInterfaces resets all changes to the "net_interfaces" field.
+// ResetNetInterfaces resets all changes to the "netInterfaces" field.
 func (m *RecordMutation) ResetNetInterfaces() {
-	m.net_interfaces = nil
-	m.appendnet_interfaces = nil
+	m.netInterfaces = nil
+	m.appendnetInterfaces = nil
 }
 
 // Where appends a list predicates to the RecordMutation builder.
@@ -343,16 +343,16 @@ func (m *RecordMutation) Type() string {
 // AddedFields().
 func (m *RecordMutation) Fields() []string {
 	fields := make([]string, 0, 4)
-	if m.created_at != nil {
+	if m.createdAt != nil {
 		fields = append(fields, record.FieldCreatedAt)
 	}
-	if m.updated_at != nil {
+	if m.updatedAt != nil {
 		fields = append(fields, record.FieldUpdatedAt)
 	}
 	if m.description != nil {
 		fields = append(fields, record.FieldDescription)
 	}
-	if m.net_interfaces != nil {
+	if m.netInterfaces != nil {
 		fields = append(fields, record.FieldNetInterfaces)
 	}
 	return fields

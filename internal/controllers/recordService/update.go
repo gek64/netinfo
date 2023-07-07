@@ -1,4 +1,4 @@
-package recordController
+package recordService
 
 import (
 	"context"
@@ -11,20 +11,20 @@ import (
 	"netinfo/internal/middleware"
 )
 
-type updateRecordBody struct {
-	Id            uint                  `json:"id"`
+type UpdateRecordBody struct {
+	Id            uint                  `json:"id" binding:"required"`
 	Description   string                `json:"description"`
 	NetInterfaces []schema.NetInterface `json:"netInterfaces"`
 }
 
 // UpdateRecordByID 修改记录
 func UpdateRecordByID(c *gin.Context) {
-	var reqBody updateRecordBody
+	var reqBody UpdateRecordBody
 	client := c.MustGet(middleware.Client).(*ent.Client)
 	ctx := c.MustGet(middleware.Context).(context.Context)
 
 	// put请求的json数据绑定到结构体
-	err := c.ShouldBindBodyWith(&reqBody, binding.JSON)
+	err := c.ShouldBindWith(&reqBody, binding.JSON)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
