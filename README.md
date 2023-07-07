@@ -47,7 +47,7 @@ chmod +x /usr/local/bin/netinfo
 
 ```sh
 curl -Lo /etc/systemd/system/netinfo.service https://github.com/gek64/netinfo/raw/main/configs/netinfo.service
-systemctl enable netinfo && systemctl start netinfo
+systemctl enable netinfo && systemctl restart netinfo && systemctl status netinfo
 ```
 
 ### FreeBSD(rc.d)
@@ -56,7 +56,7 @@ systemctl enable netinfo && systemctl start netinfo
 mkdir /usr/local/etc/rc.d/
 curl -Lo /usr/local/etc/rc.d/netinfo https://github.com/gek64/netinfo/raw/main/configs/netinfo
 chmod +x /usr/local/etc/rc.d/netinfo
-server netinfo enable && server netinfo start
+service netinfo enable && service netinfo restart && service netinfo status
 ```
 
 ## Compile
