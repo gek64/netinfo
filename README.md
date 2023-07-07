@@ -46,7 +46,7 @@ chmod +x /usr/local/bin/netinfo
 ### Linux(systemd)
 
 ```sh
-curl -Lo /etc/systemd/system/netinfo.service https://github.com/gek64/netinfo/raw/main/service/netinfo.service
+curl -Lo /etc/systemd/system/netinfo.service https://github.com/gek64/netinfo/raw/main/configs/netinfo.service
 systemctl enable netinfo && systemctl start netinfo
 ```
 
@@ -54,7 +54,7 @@ systemctl enable netinfo && systemctl start netinfo
 
 ```sh
 mkdir /usr/local/etc/rc.d/
-curl -Lo /usr/local/etc/rc.d/netinfo https://github.com/gek64/netinfo/raw/main/service/netinfo
+curl -Lo /usr/local/etc/rc.d/netinfo https://github.com/gek64/netinfo/raw/main/configs/netinfo
 chmod +x /usr/local/etc/rc.d/netinfo
 server netinfo enable && server netinfo start
 ```
