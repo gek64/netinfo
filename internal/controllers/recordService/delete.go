@@ -10,7 +10,7 @@ import (
 )
 
 type deleteRecordQuery struct {
-	Id uint `json:"id" binding:"required"`
+	ID string `json:"id" form:"id" binding:"required"`
 }
 
 // DeleteRecordByID 搜索内容记录
@@ -26,9 +26,9 @@ func DeleteRecordByID(c *gin.Context) {
 		return
 	}
 
-	// 按主键id=reqQuery.Id,删除记录
+	// 按主键id=reqQuery.ID,删除记录
 	operationCount, err := client.Record.Delete().
-		Where(record.IDEQ(reqQuery.Id)).
+		Where(record.IDEQ(reqQuery.ID)).
 		Exec(ctx)
 	if err != nil || operationCount == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"msg": "record not found"})

@@ -2,19 +2,19 @@ package ipClient
 
 import (
 	"fmt"
+	"github.com/denisbrodbeck/machineid"
 	"github.com/imroc/req/v3"
 	"netinfo/ent"
-	"strconv"
 )
 
 type Resp struct {
-	mes string
+	Mes string `json:"mes" form:"mes"`
 }
 
 func Create(url string, description string) (result ent.Record, err error) {
 	client := req.C()
 	// 组装好发送POST请求的Body
-	body, err := CreateRecordBody(description)
+	body, err := GetCreateRecordBody(description)
 	if err != nil {
 		return ent.Record{}, err
 	}
@@ -31,14 +31,14 @@ func Create(url string, description string) (result ent.Record, err error) {
 	if resp.IsSuccessState() {
 		return result, nil
 	} else {
-		return ent.Record{}, fmt.Errorf(resp.Status)
+		return ent.Record{}, fmt.Errorf(resp.ToString())
 	}
 }
 
-func Update(url string, id uint, description string) (result Resp, err error) {
+func Update(url string, description string) (result Resp, err error) {
 	client := req.C()
 	// 组装好发送PUT请求的Body
-	body, err := UpdateRecordBody(id, description)
+	body, err := GetUpdateRecordBody(description)
 	if err != nil {
 		return Resp{}, err
 	}
@@ -55,18 +55,23 @@ func Update(url string, id uint, description string) (result Resp, err error) {
 	if resp.IsSuccessState() {
 		return result, nil
 	} else {
-		return Resp{}, fmt.Errorf(resp.Status)
+		return Resp{}, fmt.Errorf(resp.ToString())
 	}
 }
 
-func Delete(url string, id uint) (result Resp, err error) {
+func Delete(url string) (result Resp, err error) {
 	client := req.C()
+
+	deviceID, err := machineid.ID()
+	if err != nil {
+		return Resp{}, err
+	}
 
 	// 发送DELETE请求
 	resp, err := client.R().
-		SetQueryParam("id", strconv.Itoa(int(id))).
+		SetQueryParam("id", deviceID).
 		SetSuccessResult(&result).
-		Put(url)
+		Delete(url)
 	if err != nil {
 		return Resp{}, err
 	}
@@ -75,6 +80,6 @@ func Delete(url string, id uint) (result Resp, err error) {
 	if resp.IsSuccessState() {
 		return result, nil
 	} else {
-		return Resp{}, fmt.Errorf(resp.Status)
+		return Resp{}, fmt.Errorf(resp.ToString())
 	}
 }

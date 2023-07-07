@@ -10,48 +10,58 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id uint) predicate.Record {
+func ID(id string) predicate.Record {
 	return predicate.Record(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id uint) predicate.Record {
+func IDEQ(id string) predicate.Record {
 	return predicate.Record(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id uint) predicate.Record {
+func IDNEQ(id string) predicate.Record {
 	return predicate.Record(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...uint) predicate.Record {
+func IDIn(ids ...string) predicate.Record {
 	return predicate.Record(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...uint) predicate.Record {
+func IDNotIn(ids ...string) predicate.Record {
 	return predicate.Record(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id uint) predicate.Record {
+func IDGT(id string) predicate.Record {
 	return predicate.Record(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id uint) predicate.Record {
+func IDGTE(id string) predicate.Record {
 	return predicate.Record(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id uint) predicate.Record {
+func IDLT(id string) predicate.Record {
 	return predicate.Record(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id uint) predicate.Record {
+func IDLTE(id string) predicate.Record {
 	return predicate.Record(sql.FieldLTE(FieldID, id))
+}
+
+// IDEqualFold applies the EqualFold predicate on the ID field.
+func IDEqualFold(id string) predicate.Record {
+	return predicate.Record(sql.FieldEqualFold(FieldID, id))
+}
+
+// IDContainsFold applies the ContainsFold predicate on the ID field.
+func IDContainsFold(id string) predicate.Record {
+	return predicate.Record(sql.FieldContainsFold(FieldID, id))
 }
 
 // CreatedAt applies equality check predicate on the "createdAt" field. It's identical to CreatedAtEQ.
@@ -202,6 +212,16 @@ func DescriptionHasPrefix(v string) predicate.Record {
 // DescriptionHasSuffix applies the HasSuffix predicate on the "description" field.
 func DescriptionHasSuffix(v string) predicate.Record {
 	return predicate.Record(sql.FieldHasSuffix(FieldDescription, v))
+}
+
+// DescriptionIsNil applies the IsNil predicate on the "description" field.
+func DescriptionIsNil() predicate.Record {
+	return predicate.Record(sql.FieldIsNull(FieldDescription))
+}
+
+// DescriptionNotNil applies the NotNil predicate on the "description" field.
+func DescriptionNotNil() predicate.Record {
+	return predicate.Record(sql.FieldNotNull(FieldDescription))
 }
 
 // DescriptionEqualFold applies the EqualFold predicate on the "description" field.

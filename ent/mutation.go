@@ -33,7 +33,7 @@ type RecordMutation struct {
 	config
 	op                  Op
 	typ                 string
-	id                  *uint
+	id                  *string
 	createdAt           *time.Time
 	updatedAt           *time.Time
 	description         *string
@@ -65,7 +65,7 @@ func newRecordMutation(c config, op Op, opts ...recordOption) *RecordMutation {
 }
 
 // withRecordID sets the ID field of the mutation.
-func withRecordID(id uint) recordOption {
+func withRecordID(id string) recordOption {
 	return func(m *RecordMutation) {
 		var (
 			err   error
@@ -117,13 +117,13 @@ func (m RecordMutation) Tx() (*Tx, error) {
 
 // SetID sets the value of the id field. Note that this
 // operation is only accepted on creation of Record entities.
-func (m *RecordMutation) SetID(id uint) {
+func (m *RecordMutation) SetID(id string) {
 	m.id = &id
 }
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *RecordMutation) ID() (id uint, exists bool) {
+func (m *RecordMutation) ID() (id string, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -134,12 +134,12 @@ func (m *RecordMutation) ID() (id uint, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *RecordMutation) IDs(ctx context.Context) ([]uint, error) {
+func (m *RecordMutation) IDs(ctx context.Context) ([]string, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
 		if exists {
-			return []uint{id}, nil
+			return []string{id}, nil
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
@@ -252,9 +252,22 @@ func (m *RecordMutation) OldDescription(ctx context.Context) (v string, err erro
 	return oldValue.Description, nil
 }
 
+// ClearDescription clears the value of the "description" field.
+func (m *RecordMutation) ClearDescription() {
+	m.description = nil
+	m.clearedFields[record.FieldDescription] = struct{}{}
+}
+
+// DescriptionCleared returns if the "description" field was cleared in this mutation.
+func (m *RecordMutation) DescriptionCleared() bool {
+	_, ok := m.clearedFields[record.FieldDescription]
+	return ok
+}
+
 // ResetDescription resets all changes to the "description" field.
 func (m *RecordMutation) ResetDescription() {
 	m.description = nil
+	delete(m.clearedFields, record.FieldDescription)
 }
 
 // SetNetInterfaces sets the "netInterfaces" field.
@@ -454,7 +467,11 @@ func (m *RecordMutation) AddField(name string, value ent.Value) error {
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *RecordMutation) ClearedFields() []string {
-	return nil
+	var fields []string
+	if m.FieldCleared(record.FieldDescription) {
+		fields = append(fields, record.FieldDescription)
+	}
+	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -467,6 +484,11 @@ func (m *RecordMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *RecordMutation) ClearField(name string) error {
+	switch name {
+	case record.FieldDescription:
+		m.ClearDescription()
+		return nil
+	}
 	return fmt.Errorf("unknown Record nullable field %s", name)
 }
 

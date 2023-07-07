@@ -1,6 +1,8 @@
 package ipClient
 
 import (
+	"fmt"
+	"github.com/denisbrodbeck/machineid"
 	"github.com/gek64/gek/gNet"
 	"net/netip"
 	"netinfo/ent/schema"
@@ -48,27 +50,49 @@ func GetNetInterfaces() (netInterfaces []schema.NetInterface, err error) {
 	return netInterfaces, nil
 }
 
-func CreateRecordBody(description string) (createRecordBody recordService.CreateRecordBody, err error) {
+func GetCreateRecordBody(description string) (createRecordBody recordService.CreateRecordBody, err error) {
 	netInterfaces, err := GetNetInterfaces()
 	if err != nil {
 		return recordService.CreateRecordBody{}, err
 	}
 
+	deviceID, err := machineid.ID()
+	if err != nil {
+		return recordService.CreateRecordBody{}, err
+	}
+
+	createRecordBody.ID = deviceID
 	createRecordBody.Description = description
 	createRecordBody.NetInterfaces = netInterfaces
 
 	return createRecordBody, err
 }
 
-func UpdateRecordBody(id uint, description string) (updateRecordBody recordService.UpdateRecordBody, err error) {
+func GetUpdateRecordBody(description string) (updateRecordBody recordService.UpdateRecordBody, err error) {
 	netInterfaces, err := GetNetInterfaces()
 	if err != nil {
 		return recordService.UpdateRecordBody{}, err
 	}
 
-	updateRecordBody.Id = id
+	deviceID, err := machineid.ID()
+	if err != nil {
+		return recordService.UpdateRecordBody{}, err
+	}
+
+	updateRecordBody.ID = deviceID
 	updateRecordBody.Description = description
 	updateRecordBody.NetInterfaces = netInterfaces
 
 	return updateRecordBody, err
+}
+
+func PrintNetInterfaces() (err error) {
+	netInterfaces, err := GetNetInterfaces()
+	if err != nil {
+		return err
+	}
+	for i, netInterface := range netInterfaces {
+		fmt.Printf("interface: %d\nname: %s\nmac: %s\nips: %v\n", i, netInterface.Name, netInterface.Mac, netInterface.IPs)
+	}
+	return nil
 }

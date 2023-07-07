@@ -234,7 +234,7 @@ func (c *RecordClient) UpdateOne(r *Record) *RecordUpdateOne {
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *RecordClient) UpdateOneID(id uint) *RecordUpdateOne {
+func (c *RecordClient) UpdateOneID(id string) *RecordUpdateOne {
 	mutation := newRecordMutation(c.config, OpUpdateOne, withRecordID(id))
 	return &RecordUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -251,7 +251,7 @@ func (c *RecordClient) DeleteOne(r *Record) *RecordDeleteOne {
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *RecordClient) DeleteOneID(id uint) *RecordDeleteOne {
+func (c *RecordClient) DeleteOneID(id string) *RecordDeleteOne {
 	builder := c.Delete().Where(record.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -268,12 +268,12 @@ func (c *RecordClient) Query() *RecordQuery {
 }
 
 // Get returns a Record entity by its id.
-func (c *RecordClient) Get(ctx context.Context, id uint) (*Record, error) {
+func (c *RecordClient) Get(ctx context.Context, id string) (*Record, error) {
 	return c.Query().Where(record.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *RecordClient) GetX(ctx context.Context, id uint) *Record {
+func (c *RecordClient) GetX(ctx context.Context, id string) *Record {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)

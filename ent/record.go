@@ -18,7 +18,7 @@ import (
 type Record struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID uint `json:"id,omitempty"`
+	ID string `json:"id,omitempty"`
 	// CreatedAt holds the value of the "createdAt" field.
 	CreatedAt time.Time `json:"createdAt,omitempty"`
 	// UpdatedAt holds the value of the "updatedAt" field.
@@ -37,9 +37,7 @@ func (*Record) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case record.FieldNetInterfaces:
 			values[i] = new([]byte)
-		case record.FieldID:
-			values[i] = new(sql.NullInt64)
-		case record.FieldDescription:
+		case record.FieldID, record.FieldDescription:
 			values[i] = new(sql.NullString)
 		case record.FieldCreatedAt, record.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -59,11 +57,11 @@ func (r *Record) assignValues(columns []string, values []any) error {
 	for i := range columns {
 		switch columns[i] {
 		case record.FieldID:
-			value, ok := values[i].(*sql.NullInt64)
-			if !ok {
-				return fmt.Errorf("unexpected type %T for field id", value)
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field id", values[i])
+			} else if value.Valid {
+				r.ID = value.String
 			}
-			r.ID = uint(value.Int64)
 		case record.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field createdAt", values[i])

@@ -42,6 +42,20 @@ func (ru *RecordUpdate) SetDescription(s string) *RecordUpdate {
 	return ru
 }
 
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (ru *RecordUpdate) SetNillableDescription(s *string) *RecordUpdate {
+	if s != nil {
+		ru.SetDescription(*s)
+	}
+	return ru
+}
+
+// ClearDescription clears the value of the "description" field.
+func (ru *RecordUpdate) ClearDescription() *RecordUpdate {
+	ru.mutation.ClearDescription()
+	return ru
+}
+
 // SetNetInterfaces sets the "netInterfaces" field.
 func (ru *RecordUpdate) SetNetInterfaces(si []schema.NetInterface) *RecordUpdate {
 	ru.mutation.SetNetInterfaces(si)
@@ -96,7 +110,7 @@ func (ru *RecordUpdate) defaults() {
 }
 
 func (ru *RecordUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(record.Table, record.Columns, sqlgraph.NewFieldSpec(record.FieldID, field.TypeUint))
+	_spec := sqlgraph.NewUpdateSpec(record.Table, record.Columns, sqlgraph.NewFieldSpec(record.FieldID, field.TypeString))
 	if ps := ru.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -109,6 +123,9 @@ func (ru *RecordUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := ru.mutation.Description(); ok {
 		_spec.SetField(record.FieldDescription, field.TypeString, value)
+	}
+	if ru.mutation.DescriptionCleared() {
+		_spec.ClearField(record.FieldDescription, field.TypeString)
 	}
 	if value, ok := ru.mutation.NetInterfaces(); ok {
 		_spec.SetField(record.FieldNetInterfaces, field.TypeJSON, value)
@@ -147,6 +164,20 @@ func (ruo *RecordUpdateOne) SetUpdatedAt(t time.Time) *RecordUpdateOne {
 // SetDescription sets the "description" field.
 func (ruo *RecordUpdateOne) SetDescription(s string) *RecordUpdateOne {
 	ruo.mutation.SetDescription(s)
+	return ruo
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (ruo *RecordUpdateOne) SetNillableDescription(s *string) *RecordUpdateOne {
+	if s != nil {
+		ruo.SetDescription(*s)
+	}
+	return ruo
+}
+
+// ClearDescription clears the value of the "description" field.
+func (ruo *RecordUpdateOne) ClearDescription() *RecordUpdateOne {
+	ruo.mutation.ClearDescription()
 	return ruo
 }
 
@@ -217,7 +248,7 @@ func (ruo *RecordUpdateOne) defaults() {
 }
 
 func (ruo *RecordUpdateOne) sqlSave(ctx context.Context) (_node *Record, err error) {
-	_spec := sqlgraph.NewUpdateSpec(record.Table, record.Columns, sqlgraph.NewFieldSpec(record.FieldID, field.TypeUint))
+	_spec := sqlgraph.NewUpdateSpec(record.Table, record.Columns, sqlgraph.NewFieldSpec(record.FieldID, field.TypeString))
 	id, ok := ruo.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Record.id" for update`)}
@@ -247,6 +278,9 @@ func (ruo *RecordUpdateOne) sqlSave(ctx context.Context) (_node *Record, err err
 	}
 	if value, ok := ruo.mutation.Description(); ok {
 		_spec.SetField(record.FieldDescription, field.TypeString, value)
+	}
+	if ruo.mutation.DescriptionCleared() {
+		_spec.ClearField(record.FieldDescription, field.TypeString)
 	}
 	if value, ok := ruo.mutation.NetInterfaces(); ok {
 		_spec.SetField(record.FieldNetInterfaces, field.TypeJSON, value)

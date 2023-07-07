@@ -12,9 +12,9 @@ import (
 )
 
 type UpdateRecordBody struct {
-	Id            uint                  `json:"id" binding:"required"`
-	Description   string                `json:"description"`
-	NetInterfaces []schema.NetInterface `json:"netInterfaces"`
+	ID            string                `json:"id" form:"id" binding:"required"`
+	Description   string                `json:"description" form:"description"`
+	NetInterfaces []schema.NetInterface `json:"netInterfaces" form:"netInterfaces" binding:"required"`
 }
 
 // UpdateRecordByID 修改记录
@@ -32,7 +32,7 @@ func UpdateRecordByID(c *gin.Context) {
 
 	// 更新到数据库
 	operationCount, err := client.Record.Update().
-		Where(record.IDEQ(reqBody.Id)).
+		Where(record.IDEQ(reqBody.ID)).
 		SetDescription(reqBody.Description).
 		SetNetInterfaces(reqBody.NetInterfaces).
 		Save(ctx)

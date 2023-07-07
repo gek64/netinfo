@@ -10,10 +10,10 @@ import (
 var (
 	// RecordsColumns holds the columns for the "records" table.
 	RecordsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint, Increment: true},
+		{Name: "id", Type: field.TypeString, Unique: true},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "description", Type: field.TypeString},
+		{Name: "description", Type: field.TypeString, Nullable: true},
 		{Name: "net_interfaces", Type: field.TypeJSON},
 	}
 	// RecordsTable holds the schema information for the "records" table.

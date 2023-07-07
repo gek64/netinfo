@@ -55,6 +55,14 @@ func (rc *RecordCreate) SetDescription(s string) *RecordCreate {
 	return rc
 }
 
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (rc *RecordCreate) SetNillableDescription(s *string) *RecordCreate {
+	if s != nil {
+		rc.SetDescription(*s)
+	}
+	return rc
+}
+
 // SetNetInterfaces sets the "netInterfaces" field.
 func (rc *RecordCreate) SetNetInterfaces(si []schema.NetInterface) *RecordCreate {
 	rc.mutation.SetNetInterfaces(si)
@@ -62,8 +70,8 @@ func (rc *RecordCreate) SetNetInterfaces(si []schema.NetInterface) *RecordCreate
 }
 
 // SetID sets the "id" field.
-func (rc *RecordCreate) SetID(u uint) *RecordCreate {
-	rc.mutation.SetID(u)
+func (rc *RecordCreate) SetID(s string) *RecordCreate {
+	rc.mutation.SetID(s)
 	return rc
 }
 
@@ -120,11 +128,13 @@ func (rc *RecordCreate) check() error {
 	if _, ok := rc.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updatedAt", err: errors.New(`ent: missing required field "Record.updatedAt"`)}
 	}
-	if _, ok := rc.mutation.Description(); !ok {
-		return &ValidationError{Name: "description", err: errors.New(`ent: missing required field "Record.description"`)}
-	}
 	if _, ok := rc.mutation.NetInterfaces(); !ok {
 		return &ValidationError{Name: "netInterfaces", err: errors.New(`ent: missing required field "Record.netInterfaces"`)}
+	}
+	if v, ok := rc.mutation.ID(); ok {
+		if err := record.IDValidator(v); err != nil {
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Record.id": %w`, err)}
+		}
 	}
 	return nil
 }
@@ -140,9 +150,12 @@ func (rc *RecordCreate) sqlSave(ctx context.Context) (*Record, error) {
 		}
 		return nil, err
 	}
-	if _spec.ID.Value != _node.ID {
-		id := _spec.ID.Value.(int64)
-		_node.ID = uint(id)
+	if _spec.ID.Value != nil {
+		if id, ok := _spec.ID.Value.(string); ok {
+			_node.ID = id
+		} else {
+			return nil, fmt.Errorf("unexpected Record.ID type: %T", _spec.ID.Value)
+		}
 	}
 	rc.mutation.id = &_node.ID
 	rc.mutation.done = true
@@ -152,7 +165,7 @@ func (rc *RecordCreate) sqlSave(ctx context.Context) (*Record, error) {
 func (rc *RecordCreate) createSpec() (*Record, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Record{config: rc.config}
-		_spec = sqlgraph.NewCreateSpec(record.Table, sqlgraph.NewFieldSpec(record.FieldID, field.TypeUint))
+		_spec = sqlgraph.NewCreateSpec(record.Table, sqlgraph.NewFieldSpec(record.FieldID, field.TypeString))
 	)
 	if id, ok := rc.mutation.ID(); ok {
 		_node.ID = id
@@ -218,10 +231,6 @@ func (rcb *RecordCreateBulk) Save(ctx context.Context) ([]*Record, error) {
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
-					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = uint(id)
-				}
 				mutation.done = true
 				return nodes[i], nil
 			})

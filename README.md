@@ -8,25 +8,25 @@
 ## Usage
 
 ```
-Usage:
-  netinfo {Command} [Option]
+Usage:                                   
+         netinfo {Command} [Option]      
+                                         
+        Command:                         
+         -client           : start client
+         -server           : start server
+         -h                : show help   
+         -v                : show version
+                                         
+        Option:                          
+         -interval       <IP>     : set client interval
+         -description    <Port>   : set client description
 
-Command:
-  -server           : start http server
-  -h                : show help
-  -v                : show version
-
-Option:
-  -address <IP>     : set server IP
-  -port    <Port>   : set server port
-  -netdb            : use net ip database to get ip info
-
-Example:
-  1) netinfo
-  2) netinfo -server
-  3) netinfo -server -address 127.0.0.1 -port 1996 -netdb
-  4) netinfo -h
-  5) netinfo -v
+        Example:
+         1) netinfo -show
+         2) netinfo -server localhost:1996
+         3) netinfo -client http://localhost:1996/record -interval 6h -description home_opnsense
+         4) netinfo -h
+         5) netinfo -v
 ```
 
 ## Install
@@ -72,14 +72,14 @@ go build -v -trimpath -ldflags "-s -w"
 ## Test
 
 ```sh
-# start netinfo service at 127.0.0.1:1996 and search ip info use net ip database
-netinfo -server -address 127.0.0.1 -port 1996 -netdb
+# start netinfo server at 127.0.0.1:1996
+netinfo -server localhost:1996
 
-# use X-Forwarded-For to give ip that you want to search for info
-curl -H "X-Forwarded-For: 8.8.8.8" http://127.0.0.1:1996
+# start netinfo client
+netinfo -client http://localhost:1996/record -interval 1h -description home_opnsense
 
-# use X-Real-Ip to give ip that you want to search for info
-curl -H "X-Real-Ip: 8.8.8.8" http://127.0.0.1:1996
+# check info
+curl http://localhost:1996/record/all
 ```
 
 ## License

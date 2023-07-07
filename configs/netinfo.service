@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=root
-ExecStart=/usr/local/bin/netinfo -server -address 127.0.0.1 -port 1996 -netdb
+ExecStart=/usr/local/bin/netinfo -server localhost:1996
 Restart=on-failure
 SyslogIdentifier=NetInfo Server
 

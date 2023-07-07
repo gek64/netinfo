@@ -24,4 +24,8 @@ func init() {
 	record.DefaultUpdatedAt = recordDescUpdatedAt.Default.(func() time.Time)
 	// record.UpdateDefaultUpdatedAt holds the default value on update for the updatedAt field.
 	record.UpdateDefaultUpdatedAt = recordDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// recordDescID is the schema descriptor for id field.
+	recordDescID := recordFields[0].Descriptor()
+	// record.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	record.IDValidator = recordDescID.Validators[0].(func(string) error)
 }

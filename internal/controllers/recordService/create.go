@@ -11,8 +11,9 @@ import (
 )
 
 type CreateRecordBody struct {
-	Description   string                `json:"description"`
-	NetInterfaces []schema.NetInterface `json:"netInterfaces"`
+	ID            string                `json:"id" form:"id" binding:"required"`
+	Description   string                `json:"description" form:"description"`
+	NetInterfaces []schema.NetInterface `json:"netInterfaces" form:"netInterfaces" binding:"required"`
 }
 
 // CreateRecord 创建内容记录
@@ -30,6 +31,7 @@ func CreateRecord(c *gin.Context) {
 
 	// 新增到数据库
 	recordCreated, err := client.Record.Create().
+		SetID(reqBody.ID).
 		SetDescription(reqBody.Description).
 		SetNetInterfaces(reqBody.NetInterfaces).
 		Save(ctx)

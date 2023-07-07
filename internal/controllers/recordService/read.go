@@ -10,7 +10,7 @@ import (
 )
 
 type readRecordQuery struct {
-	Id uint `json:"id" binding:"required"`
+	ID string `json:"id" form:"id" binding:"required"`
 }
 
 // ReadRecordByID 搜索记录(ID)
@@ -28,7 +28,7 @@ func ReadRecordByID(c *gin.Context) {
 
 	// 查询主键id为reqQuery.Id的第一个记录到result
 	result, err := client.Record.Query().
-		Where(record.IDEQ(reqQuery.Id)).
+		Where(record.IDEQ(reqQuery.ID)).
 		First(ctx)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"msg": err.Error()})

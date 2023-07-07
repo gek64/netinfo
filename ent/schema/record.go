@@ -19,8 +19,12 @@ type NetInterface struct {
 
 // Fields 数据库属性
 func (Record) Fields() []ent.Field {
+
 	return []ent.Field{
-		field.Uint("id"),
+		field.String("id").
+			NotEmpty().
+			Unique().
+			Immutable(),
 
 		field.Time("createdAt").
 			Default(time.Now()).
@@ -30,7 +34,8 @@ func (Record) Fields() []ent.Field {
 			Default(time.Now).
 			UpdateDefault(time.Now),
 
-		field.String("description"),
+		field.String("description").
+			Optional(),
 
 		field.JSON("netInterfaces", []NetInterface{}),
 	}
