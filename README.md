@@ -9,26 +9,25 @@
 
 ```
 Usage:
-        netinfo {Command} [Option]
+    netinfo {Command} [Option]
 
-        Command:
-         -client           : start client
-         -server           : start server
-         -h                : show help
-         -v                : show version
+    Command:
+     -client           : start client
+     -server           : start server
+     -h                : show help
+     -v                : show ver
+    Option:
+     -interval      <IP>          : set client interval   
+     -description   <Port>        : set client description
+     -username      <Username>    : set client basic auth username
+     -password      <Password>    : set client password
 
-        Option:
-         -interval      <IP>          : set client interval   
-         -description   <Port>        : set client description
-         -username      <Username>    : set client basic auth username
-         -password      <Password>    : set client password
-
-        Example:
-         1) netinfo -show
-         2) netinfo -server localhost:1996
-         3) netinfo -client http://localhost:1996/record -interval 1h -description home_opnsense -username bob -password 123456
-         4) netinfo -h
-         5) netinfo -v
+    Example:
+     1) netinfo -show
+     2) netinfo -server localhost:1996
+     3) netinfo -client http://localhost:1996/record -interval 1h -description home_opnsense -username bob -password 123456
+     4) netinfo -h
+     5) netinfo -v
 ```
 
 ## Install
