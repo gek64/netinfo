@@ -9,20 +9,16 @@ import (
 	"netinfo/internal/middleware"
 )
 
-type readRecordQuery struct {
-	ID string `json:"id" form:"id" binding:"required"`
-}
-
 // ReadRecordByID 搜索记录(ID)
 func ReadRecordByID(c *gin.Context) {
-	var reqQuery readRecordQuery
+	var reqQuery RecordQuery
 	client := c.MustGet(middleware.Client).(*ent.Client)
 	ctx := c.MustGet(middleware.Context).(context.Context)
 
 	// get请求的query表单数据绑定到结构体
 	err := c.ShouldBindQuery(&reqQuery)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
+		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -31,7 +27,7 @@ func ReadRecordByID(c *gin.Context) {
 		Where(record.IDEQ(reqQuery.ID)).
 		First(ctx)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"msg": err.Error()})
+		c.JSON(http.StatusNotFound, err.Error())
 		return
 	}
 
@@ -48,7 +44,7 @@ func ReadRecordAll(c *gin.Context) {
 	records, err := client.Record.Query().
 		All(ctx)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"msg": err.Error()})
+		c.JSON(http.StatusNotFound, err.Error())
 		return
 	}
 

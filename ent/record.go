@@ -23,6 +23,8 @@ type Record struct {
 	CreatedAt time.Time `json:"createdAt,omitempty"`
 	// UpdatedAt holds the value of the "updatedAt" field.
 	UpdatedAt time.Time `json:"updatedAt,omitempty"`
+	// RequestIP holds the value of the "requestIP" field.
+	RequestIP string `json:"requestIP,omitempty"`
 	// Description holds the value of the "description" field.
 	Description string `json:"description,omitempty"`
 	// NetInterfaces holds the value of the "netInterfaces" field.
@@ -37,7 +39,7 @@ func (*Record) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case record.FieldNetInterfaces:
 			values[i] = new([]byte)
-		case record.FieldID, record.FieldDescription:
+		case record.FieldID, record.FieldRequestIP, record.FieldDescription:
 			values[i] = new(sql.NullString)
 		case record.FieldCreatedAt, record.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -73,6 +75,12 @@ func (r *Record) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field updatedAt", values[i])
 			} else if value.Valid {
 				r.UpdatedAt = value.Time
+			}
+		case record.FieldRequestIP:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field requestIP", values[i])
+			} else if value.Valid {
+				r.RequestIP = value.String
 			}
 		case record.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -129,6 +137,9 @@ func (r *Record) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("updatedAt=")
 	builder.WriteString(r.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("requestIP=")
+	builder.WriteString(r.RequestIP)
 	builder.WriteString(", ")
 	builder.WriteString("description=")
 	builder.WriteString(r.Description)

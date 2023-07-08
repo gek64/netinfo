@@ -34,6 +34,9 @@ func (Record) Fields() []ent.Field {
 			Default(time.Now).
 			UpdateDefault(time.Now),
 
+		field.String("requestIP").
+			Optional(),
+
 		field.String("description").
 			Optional(),
 

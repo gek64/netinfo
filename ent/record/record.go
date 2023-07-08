@@ -17,6 +17,8 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updatedat field in the database.
 	FieldUpdatedAt = "updated_at"
+	// FieldRequestIP holds the string denoting the requestip field in the database.
+	FieldRequestIP = "request_ip"
 	// FieldDescription holds the string denoting the description field in the database.
 	FieldDescription = "description"
 	// FieldNetInterfaces holds the string denoting the netinterfaces field in the database.
@@ -30,6 +32,7 @@ var Columns = []string{
 	FieldID,
 	FieldCreatedAt,
 	FieldUpdatedAt,
+	FieldRequestIP,
 	FieldDescription,
 	FieldNetInterfaces,
 }
@@ -71,6 +74,11 @@ func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
 // ByUpdatedAt orders the results by the updatedAt field.
 func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
+}
+
+// ByRequestIP orders the results by the requestIP field.
+func ByRequestIP(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRequestIP, opts...).ToFunc()
 }
 
 // ByDescription orders the results by the description field.

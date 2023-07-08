@@ -36,6 +36,26 @@ func (ru *RecordUpdate) SetUpdatedAt(t time.Time) *RecordUpdate {
 	return ru
 }
 
+// SetRequestIP sets the "requestIP" field.
+func (ru *RecordUpdate) SetRequestIP(s string) *RecordUpdate {
+	ru.mutation.SetRequestIP(s)
+	return ru
+}
+
+// SetNillableRequestIP sets the "requestIP" field if the given value is not nil.
+func (ru *RecordUpdate) SetNillableRequestIP(s *string) *RecordUpdate {
+	if s != nil {
+		ru.SetRequestIP(*s)
+	}
+	return ru
+}
+
+// ClearRequestIP clears the value of the "requestIP" field.
+func (ru *RecordUpdate) ClearRequestIP() *RecordUpdate {
+	ru.mutation.ClearRequestIP()
+	return ru
+}
+
 // SetDescription sets the "description" field.
 func (ru *RecordUpdate) SetDescription(s string) *RecordUpdate {
 	ru.mutation.SetDescription(s)
@@ -121,6 +141,12 @@ func (ru *RecordUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := ru.mutation.UpdatedAt(); ok {
 		_spec.SetField(record.FieldUpdatedAt, field.TypeTime, value)
 	}
+	if value, ok := ru.mutation.RequestIP(); ok {
+		_spec.SetField(record.FieldRequestIP, field.TypeString, value)
+	}
+	if ru.mutation.RequestIPCleared() {
+		_spec.ClearField(record.FieldRequestIP, field.TypeString)
+	}
 	if value, ok := ru.mutation.Description(); ok {
 		_spec.SetField(record.FieldDescription, field.TypeString, value)
 	}
@@ -158,6 +184,26 @@ type RecordUpdateOne struct {
 // SetUpdatedAt sets the "updatedAt" field.
 func (ruo *RecordUpdateOne) SetUpdatedAt(t time.Time) *RecordUpdateOne {
 	ruo.mutation.SetUpdatedAt(t)
+	return ruo
+}
+
+// SetRequestIP sets the "requestIP" field.
+func (ruo *RecordUpdateOne) SetRequestIP(s string) *RecordUpdateOne {
+	ruo.mutation.SetRequestIP(s)
+	return ruo
+}
+
+// SetNillableRequestIP sets the "requestIP" field if the given value is not nil.
+func (ruo *RecordUpdateOne) SetNillableRequestIP(s *string) *RecordUpdateOne {
+	if s != nil {
+		ruo.SetRequestIP(*s)
+	}
+	return ruo
+}
+
+// ClearRequestIP clears the value of the "requestIP" field.
+func (ruo *RecordUpdateOne) ClearRequestIP() *RecordUpdateOne {
+	ruo.mutation.ClearRequestIP()
 	return ruo
 }
 
@@ -275,6 +321,12 @@ func (ruo *RecordUpdateOne) sqlSave(ctx context.Context) (_node *Record, err err
 	}
 	if value, ok := ruo.mutation.UpdatedAt(); ok {
 		_spec.SetField(record.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if value, ok := ruo.mutation.RequestIP(); ok {
+		_spec.SetField(record.FieldRequestIP, field.TypeString, value)
+	}
+	if ruo.mutation.RequestIPCleared() {
+		_spec.ClearField(record.FieldRequestIP, field.TypeString)
 	}
 	if value, ok := ruo.mutation.Description(); ok {
 		_spec.SetField(record.FieldDescription, field.TypeString, value)

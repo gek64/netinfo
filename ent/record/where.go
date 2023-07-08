@@ -74,6 +74,11 @@ func UpdatedAt(v time.Time) predicate.Record {
 	return predicate.Record(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
+// RequestIP applies equality check predicate on the "requestIP" field. It's identical to RequestIPEQ.
+func RequestIP(v string) predicate.Record {
+	return predicate.Record(sql.FieldEQ(FieldRequestIP, v))
+}
+
 // Description applies equality check predicate on the "description" field. It's identical to DescriptionEQ.
 func Description(v string) predicate.Record {
 	return predicate.Record(sql.FieldEQ(FieldDescription, v))
@@ -157,6 +162,81 @@ func UpdatedAtLT(v time.Time) predicate.Record {
 // UpdatedAtLTE applies the LTE predicate on the "updatedAt" field.
 func UpdatedAtLTE(v time.Time) predicate.Record {
 	return predicate.Record(sql.FieldLTE(FieldUpdatedAt, v))
+}
+
+// RequestIPEQ applies the EQ predicate on the "requestIP" field.
+func RequestIPEQ(v string) predicate.Record {
+	return predicate.Record(sql.FieldEQ(FieldRequestIP, v))
+}
+
+// RequestIPNEQ applies the NEQ predicate on the "requestIP" field.
+func RequestIPNEQ(v string) predicate.Record {
+	return predicate.Record(sql.FieldNEQ(FieldRequestIP, v))
+}
+
+// RequestIPIn applies the In predicate on the "requestIP" field.
+func RequestIPIn(vs ...string) predicate.Record {
+	return predicate.Record(sql.FieldIn(FieldRequestIP, vs...))
+}
+
+// RequestIPNotIn applies the NotIn predicate on the "requestIP" field.
+func RequestIPNotIn(vs ...string) predicate.Record {
+	return predicate.Record(sql.FieldNotIn(FieldRequestIP, vs...))
+}
+
+// RequestIPGT applies the GT predicate on the "requestIP" field.
+func RequestIPGT(v string) predicate.Record {
+	return predicate.Record(sql.FieldGT(FieldRequestIP, v))
+}
+
+// RequestIPGTE applies the GTE predicate on the "requestIP" field.
+func RequestIPGTE(v string) predicate.Record {
+	return predicate.Record(sql.FieldGTE(FieldRequestIP, v))
+}
+
+// RequestIPLT applies the LT predicate on the "requestIP" field.
+func RequestIPLT(v string) predicate.Record {
+	return predicate.Record(sql.FieldLT(FieldRequestIP, v))
+}
+
+// RequestIPLTE applies the LTE predicate on the "requestIP" field.
+func RequestIPLTE(v string) predicate.Record {
+	return predicate.Record(sql.FieldLTE(FieldRequestIP, v))
+}
+
+// RequestIPContains applies the Contains predicate on the "requestIP" field.
+func RequestIPContains(v string) predicate.Record {
+	return predicate.Record(sql.FieldContains(FieldRequestIP, v))
+}
+
+// RequestIPHasPrefix applies the HasPrefix predicate on the "requestIP" field.
+func RequestIPHasPrefix(v string) predicate.Record {
+	return predicate.Record(sql.FieldHasPrefix(FieldRequestIP, v))
+}
+
+// RequestIPHasSuffix applies the HasSuffix predicate on the "requestIP" field.
+func RequestIPHasSuffix(v string) predicate.Record {
+	return predicate.Record(sql.FieldHasSuffix(FieldRequestIP, v))
+}
+
+// RequestIPIsNil applies the IsNil predicate on the "requestIP" field.
+func RequestIPIsNil() predicate.Record {
+	return predicate.Record(sql.FieldIsNull(FieldRequestIP))
+}
+
+// RequestIPNotNil applies the NotNil predicate on the "requestIP" field.
+func RequestIPNotNil() predicate.Record {
+	return predicate.Record(sql.FieldNotNull(FieldRequestIP))
+}
+
+// RequestIPEqualFold applies the EqualFold predicate on the "requestIP" field.
+func RequestIPEqualFold(v string) predicate.Record {
+	return predicate.Record(sql.FieldEqualFold(FieldRequestIP, v))
+}
+
+// RequestIPContainsFold applies the ContainsFold predicate on the "requestIP" field.
+func RequestIPContainsFold(v string) predicate.Record {
+	return predicate.Record(sql.FieldContainsFold(FieldRequestIP, v))
 }
 
 // DescriptionEQ applies the EQ predicate on the "description" field.

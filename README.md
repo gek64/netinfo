@@ -3,28 +3,30 @@
 ## Features
 
 - Display local IP information
-- Setup as a server to tell client its ip information
+- Server mode and Client mode
 
 ## Usage
 
 ```
-Usage:                                   
-         netinfo {Command} [Option]      
-                                         
-        Command:                         
+Usage:
+        netinfo {Command} [Option]
+
+        Command:
          -client           : start client
          -server           : start server
-         -h                : show help   
+         -h                : show help
          -v                : show version
-                                         
-        Option:                          
-         -interval       <IP>     : set client interval
-         -description    <Port>   : set client description
+
+        Option:
+         -interval      <IP>          : set client interval   
+         -description   <Port>        : set client description
+         -username      <Username>    : set client basic auth username
+         -password      <Password>    : set client password
 
         Example:
          1) netinfo -show
          2) netinfo -server localhost:1996
-         3) netinfo -client http://localhost:1996/record -interval 6h -description home_opnsense
+         3) netinfo -client http://localhost:1996/record -interval 1h -description home_opnsense -username bob -password 123456
          4) netinfo -h
          5) netinfo -v
 ```
@@ -76,7 +78,7 @@ go build -v -trimpath -ldflags "-s -w"
 netinfo -server localhost:1996
 
 # start netinfo client
-netinfo -client http://localhost:1996/record -interval 1h -description home_opnsense
+netinfo -client https://localhost:1996/record -interval 15m -description home_opnsense -username bob -password 123456
 
 # check info
 curl http://localhost:1996/record/all

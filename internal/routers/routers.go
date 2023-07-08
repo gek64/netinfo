@@ -10,17 +10,15 @@ func LoadRouters(router *gin.Engine) {
 	recordRouterGroup := router.Group("/record")
 	{
 		// 增加记录
-		recordRouterGroup.POST("/", recordService.CreateRecord)
-		// 删除记录
-		recordRouterGroup.DELETE("/", recordService.DeleteRecordByID)
+		recordRouterGroup.POST("/", recordService.UpsertRecord)
 		// 修改记录
-		recordRouterGroup.PUT("/", recordService.UpdateRecordByID)
+		recordRouterGroup.PUT("/", recordService.UpsertRecord)
 		// 查询记录
 		recordRouterGroup.GET("/", recordService.ReadRecordByID)
 		recordRouterGroup.GET("/all", recordService.ReadRecordAll)
 	}
 
-	queryRouterGroup := router.Group("/query")
+	queryRouterGroup := router.Group("/")
 	{
 		queryRouterGroup.GET("/", queryService.Query)
 	}

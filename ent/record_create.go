@@ -49,6 +49,20 @@ func (rc *RecordCreate) SetNillableUpdatedAt(t *time.Time) *RecordCreate {
 	return rc
 }
 
+// SetRequestIP sets the "requestIP" field.
+func (rc *RecordCreate) SetRequestIP(s string) *RecordCreate {
+	rc.mutation.SetRequestIP(s)
+	return rc
+}
+
+// SetNillableRequestIP sets the "requestIP" field if the given value is not nil.
+func (rc *RecordCreate) SetNillableRequestIP(s *string) *RecordCreate {
+	if s != nil {
+		rc.SetRequestIP(*s)
+	}
+	return rc
+}
+
 // SetDescription sets the "description" field.
 func (rc *RecordCreate) SetDescription(s string) *RecordCreate {
 	rc.mutation.SetDescription(s)
@@ -178,6 +192,10 @@ func (rc *RecordCreate) createSpec() (*Record, *sqlgraph.CreateSpec) {
 	if value, ok := rc.mutation.UpdatedAt(); ok {
 		_spec.SetField(record.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
+	}
+	if value, ok := rc.mutation.RequestIP(); ok {
+		_spec.SetField(record.FieldRequestIP, field.TypeString, value)
+		_node.RequestIP = value
 	}
 	if value, ok := rc.mutation.Description(); ok {
 		_spec.SetField(record.FieldDescription, field.TypeString, value)

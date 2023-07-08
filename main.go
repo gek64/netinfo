@@ -22,6 +22,8 @@ var (
 
 	cliInterval    time.Duration
 	cliDescription string
+	cliUsername    string
+	cliPassword    string
 
 	cliHelp    bool
 	cliVersion bool
@@ -34,6 +36,8 @@ func init() {
 
 	flag.DurationVar(&cliInterval, "interval", time.Hour, "-interval 1h")
 	flag.StringVar(&cliDescription, "description", "", "-description home_pc")
+	flag.StringVar(&cliUsername, "username", "", "-username bob")
+	flag.StringVar(&cliPassword, "password", "", "-password 123456")
 
 	flag.BoolVar(&cliHelp, "h", false, "show help")
 	flag.BoolVar(&cliVersion, "v", false, "show version")
@@ -42,7 +46,7 @@ func init() {
 	// 重写显示用法函数
 	flag.Usage = func() {
 		var helpInfo = `Usage:
-	 netinfo {Command} [Option]
+	netinfo {Command} [Option]
 	
 	Command:
 	 -client           : start client
@@ -51,13 +55,15 @@ func init() {
 	 -v                : show version
 	
 	Option:
-	 -interval       <IP>     : set client interval
-	 -description    <Port>   : set client description
+	 -interval      <IP>          : set client interval
+	 -description   <Port>        : set client description
+	 -username      <Username>    : set client basic auth username
+	 -password      <Password>    : set client password
 	
 	Example:
 	 1) netinfo -show
 	 2) netinfo -server localhost:1996
-	 3) netinfo -client http://localhost:1996/record -interval 1h -description home_opnsense
+	 3) netinfo -client http://localhost:1996/record -interval 1h -description home_opnsense -username bob -password 123456
 	 4) netinfo -h
 	 5) netinfo -v`
 
@@ -72,7 +78,7 @@ func init() {
 
 	// 打印版本信息
 	if cliVersion {
-		fmt.Println("v2.00")
+		fmt.Println("v2.01")
 		os.Exit(0)
 	}
 
@@ -91,31 +97,13 @@ func init() {
 	}
 }
 
-func sendToServer(url string, interval time.Duration, description string) {
-	for {
-		_, err := ipClient.Create(url, description)
-		if err != nil {
-			_, err := ipClient.Update(url, description)
-			if err != nil {
-				log.Println(err)
-			} else {
-				log.Println("update completed")
-			}
-		} else {
-			log.Println("created completed")
-		}
-
-		time.Sleep(interval)
-	}
-}
-
 func main() {
 	if cliClient != "" {
 		targetURL, err := url.Parse(cliClient)
 		if err != nil {
 			log.Fatalln("invalid client url")
 		}
-		sendToServer(targetURL.String(), cliInterval, cliDescription)
+		ipClient.SendRequestLoop(targetURL.String(), cliInterval, cliDescription, cliUsername, cliPassword)
 	}
 
 	if cliServer != "" {

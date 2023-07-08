@@ -36,6 +36,7 @@ type RecordMutation struct {
 	id                  *string
 	createdAt           *time.Time
 	updatedAt           *time.Time
+	requestIP           *string
 	description         *string
 	netInterfaces       *[]schema.NetInterface
 	appendnetInterfaces []schema.NetInterface
@@ -221,6 +222,55 @@ func (m *RecordMutation) ResetUpdatedAt() {
 	m.updatedAt = nil
 }
 
+// SetRequestIP sets the "requestIP" field.
+func (m *RecordMutation) SetRequestIP(s string) {
+	m.requestIP = &s
+}
+
+// RequestIP returns the value of the "requestIP" field in the mutation.
+func (m *RecordMutation) RequestIP() (r string, exists bool) {
+	v := m.requestIP
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRequestIP returns the old "requestIP" field's value of the Record entity.
+// If the Record object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RecordMutation) OldRequestIP(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRequestIP is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRequestIP requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRequestIP: %w", err)
+	}
+	return oldValue.RequestIP, nil
+}
+
+// ClearRequestIP clears the value of the "requestIP" field.
+func (m *RecordMutation) ClearRequestIP() {
+	m.requestIP = nil
+	m.clearedFields[record.FieldRequestIP] = struct{}{}
+}
+
+// RequestIPCleared returns if the "requestIP" field was cleared in this mutation.
+func (m *RecordMutation) RequestIPCleared() bool {
+	_, ok := m.clearedFields[record.FieldRequestIP]
+	return ok
+}
+
+// ResetRequestIP resets all changes to the "requestIP" field.
+func (m *RecordMutation) ResetRequestIP() {
+	m.requestIP = nil
+	delete(m.clearedFields, record.FieldRequestIP)
+}
+
 // SetDescription sets the "description" field.
 func (m *RecordMutation) SetDescription(s string) {
 	m.description = &s
@@ -355,12 +405,15 @@ func (m *RecordMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *RecordMutation) Fields() []string {
-	fields := make([]string, 0, 4)
+	fields := make([]string, 0, 5)
 	if m.createdAt != nil {
 		fields = append(fields, record.FieldCreatedAt)
 	}
 	if m.updatedAt != nil {
 		fields = append(fields, record.FieldUpdatedAt)
+	}
+	if m.requestIP != nil {
+		fields = append(fields, record.FieldRequestIP)
 	}
 	if m.description != nil {
 		fields = append(fields, record.FieldDescription)
@@ -380,6 +433,8 @@ func (m *RecordMutation) Field(name string) (ent.Value, bool) {
 		return m.CreatedAt()
 	case record.FieldUpdatedAt:
 		return m.UpdatedAt()
+	case record.FieldRequestIP:
+		return m.RequestIP()
 	case record.FieldDescription:
 		return m.Description()
 	case record.FieldNetInterfaces:
@@ -397,6 +452,8 @@ func (m *RecordMutation) OldField(ctx context.Context, name string) (ent.Value, 
 		return m.OldCreatedAt(ctx)
 	case record.FieldUpdatedAt:
 		return m.OldUpdatedAt(ctx)
+	case record.FieldRequestIP:
+		return m.OldRequestIP(ctx)
 	case record.FieldDescription:
 		return m.OldDescription(ctx)
 	case record.FieldNetInterfaces:
@@ -423,6 +480,13 @@ func (m *RecordMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetUpdatedAt(v)
+		return nil
+	case record.FieldRequestIP:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRequestIP(v)
 		return nil
 	case record.FieldDescription:
 		v, ok := value.(string)
@@ -468,6 +532,9 @@ func (m *RecordMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *RecordMutation) ClearedFields() []string {
 	var fields []string
+	if m.FieldCleared(record.FieldRequestIP) {
+		fields = append(fields, record.FieldRequestIP)
+	}
 	if m.FieldCleared(record.FieldDescription) {
 		fields = append(fields, record.FieldDescription)
 	}
@@ -485,6 +552,9 @@ func (m *RecordMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *RecordMutation) ClearField(name string) error {
 	switch name {
+	case record.FieldRequestIP:
+		m.ClearRequestIP()
+		return nil
 	case record.FieldDescription:
 		m.ClearDescription()
 		return nil
@@ -501,6 +571,9 @@ func (m *RecordMutation) ResetField(name string) error {
 		return nil
 	case record.FieldUpdatedAt:
 		m.ResetUpdatedAt()
+		return nil
+	case record.FieldRequestIP:
+		m.ResetRequestIP()
 		return nil
 	case record.FieldDescription:
 		m.ResetDescription()
