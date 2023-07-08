@@ -41,6 +41,7 @@ func SendRequest(url string, description string, username string, password strin
 	if err != nil {
 		return ent.Record{}, err
 	}
+
 	// 发送POST请求
 	resp, err := client.R().
 		SetBody(body).
@@ -48,7 +49,7 @@ func SendRequest(url string, description string, username string, password strin
 		SetRetryCount(3).
 		SetRetryBackoffInterval(1*time.Second, 5*time.Second).
 		SetBasicAuth(username, password).
-		Post(url)
+		Put(url)
 	if err != nil {
 		return ent.Record{}, err
 	}

@@ -27,7 +27,7 @@ func UpsertRecord(c *gin.Context) {
 	// 获取请求IP
 	requestIPString, err := gNet.GetIPFromRequest(c.Request)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
+		c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	// 数据库操作
@@ -38,7 +38,7 @@ func UpsertRecord(c *gin.Context) {
 		SetRequestIP(requestIPString).
 		Save(ctx)
 	if err != nil || updateCount == 0 {
-		createItem, err := client.Record.Create().
+		_, err := client.Record.Create().
 			SetID(reqBody.ID).
 			SetDescription(reqBody.Description).
 			SetNetInterfaces(reqBody.NetInterfaces).
@@ -47,10 +47,10 @@ func UpsertRecord(c *gin.Context) {
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, err.Error())
 		} else {
-			c.JSON(http.StatusOK, createItem)
+			c.JSON(http.StatusOK, gin.H{})
 		}
 		return
 	} else {
-		c.Status(http.StatusOK)
+		c.JSON(http.StatusOK, gin.H{})
 	}
 }
