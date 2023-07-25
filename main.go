@@ -20,10 +20,11 @@ var (
 	cliServer string
 	cliClient string
 
-	cliInterval    time.Duration
-	cliDescription string
-	cliUsername    string
-	cliPassword    string
+	cliInterval              time.Duration
+	cliDescription           string
+	cliUsername              string
+	cliPassword              string
+	cliSkipCertificateVerify bool
 
 	cliHelp    bool
 	cliVersion bool
@@ -38,6 +39,7 @@ func init() {
 	flag.StringVar(&cliDescription, "description", "", "-description home_pc")
 	flag.StringVar(&cliUsername, "username", "", "-username bob")
 	flag.StringVar(&cliPassword, "password", "", "-password 123456")
+	flag.BoolVar(&cliSkipCertificateVerify, "skip-certificate-verify", false, "-skip-certificate-verify")
 
 	flag.BoolVar(&cliHelp, "h", false, "show help")
 	flag.BoolVar(&cliVersion, "v", false, "show version")
@@ -59,11 +61,12 @@ func init() {
 	 -description   <Port>        : set client description
 	 -username      <Username>    : set client basic auth username
 	 -password      <Password>    : set client password
+	 -skip-certificate-verify     : skip tls certificate verification for http requests
 	
 	Example:
 	 1) netinfo -show
 	 2) netinfo -server localhost:1996
-	 3) netinfo -client http://localhost:1996/record -interval 1h -description home_opnsense -username bob -password 123456
+	 3) netinfo -client http://localhost:1996/record -interval 1h -description main -username bob -password 123456 -skip-certificate-verify
 	 4) netinfo -h
 	 5) netinfo -v`
 
@@ -78,7 +81,7 @@ func init() {
 
 	// 打印版本信息
 	if cliVersion {
-		fmt.Println("v2.01")
+		fmt.Println("v2.02")
 		os.Exit(0)
 	}
 
@@ -103,7 +106,7 @@ func main() {
 		if err != nil {
 			log.Fatalln("invalid client url")
 		}
-		ipClient.SendRequestLoop(targetURL.String(), cliInterval, cliDescription, cliUsername, cliPassword)
+		ipClient.SendRequestLoop(targetURL.String(), cliInterval, cliDescription, cliUsername, cliPassword, cliSkipCertificateVerify)
 	}
 
 	if cliServer != "" {

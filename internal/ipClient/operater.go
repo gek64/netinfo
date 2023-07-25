@@ -31,10 +31,13 @@ func GetRequestBody(description string) (updateRecordBody recordService.RecordBo
 	return updateRecordBody, err
 }
 
-func SendRequest(url string, description string, username string, password string) (result ent.Record, err error) {
+func SendRequest(url string, description string, username string, password string, skipCertVerify bool) (result ent.Record, err error) {
 	client := req.C()
+
 	// 默认不启用跳过TLS证书检测
-	//client.EnableInsecureSkipVerify()
+	if skipCertVerify {
+		client.EnableInsecureSkipVerify()
+	}
 
 	// 组装好发送POST请求的Body
 	body, err := GetRequestBody(description)
@@ -62,9 +65,9 @@ func SendRequest(url string, description string, username string, password strin
 	}
 }
 
-func SendRequestLoop(url string, interval time.Duration, description string, username string, password string) {
+func SendRequestLoop(url string, interval time.Duration, description string, username string, password string, skipCertVerify bool) {
 	for {
-		_, err := SendRequest(url, description, username, password)
+		_, err := SendRequest(url, description, username, password, skipCertVerify)
 		if err != nil {
 			log.Println(err)
 		} else {
