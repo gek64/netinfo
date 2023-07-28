@@ -1,36 +1,36 @@
 package database
 
 import (
-	"database/sql"
-	"database/sql/driver"
-	"modernc.org/sqlite"
-	"netinfo/ent"
+    "database/sql"
+    "database/sql/driver"
+    "modernc.org/sqlite"
+    "netinfo/ent"
 )
 
 type sqlite3Driver struct {
-	*sqlite.Driver
+    *sqlite.Driver
 }
 
 type sqlite3DriverConn interface {
-	Exec(string, []driver.Value) (driver.Result, error)
+    Exec(string, []driver.Value) (driver.Result, error)
 }
 
 func (d sqlite3Driver) Open(name string) (conn driver.Conn, err error) {
-	conn, err = d.Driver.Open(name)
-	if err != nil {
-		return
-	}
-	_, err = conn.(sqlite3DriverConn).Exec("PRAGMA foreign_keys = ON;", nil)
-	if err != nil {
-		_ = conn.Close()
-	}
-	return
+    conn, err = d.Driver.Open(name)
+    if err != nil {
+        return
+    }
+    _, err = conn.(sqlite3DriverConn).Exec("PRAGMA foreign_keys = ON;", nil)
+    if err != nil {
+        _ = conn.Close()
+    }
+    return
 }
 
 func init() {
-	sql.Register("sqlite3", sqlite3Driver{Driver: &sqlite.Driver{}})
+    sql.Register("sqlite3", sqlite3Driver{Driver: &sqlite.Driver{}})
 }
 
 func NewSqliteClient(dsn string) (client *ent.Client, err error) {
-	return ent.Open("sqlite3", dsn)
+    return ent.Open("sqlite3", dsn)
 }
