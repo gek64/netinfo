@@ -53,11 +53,19 @@ curl -Lo /etc/systemd/system/netinfo.service https://github.com/gek64/netinfo/ra
 systemctl enable netinfo && systemctl restart netinfo && systemctl status netinfo
 ```
 
+### Linux(openrc)
+
+```sh
+curl -Lo /etc/init.d/netinfo https://github.com/gek64/netinfo/raw/main/configs/netinfo.openrc
+chmod +x /etc/init.d/netinfo
+rc-update add netinfo && rc-service netinfo restart && rc-service netinfo status
+```
+
 ### FreeBSD(rc.d)
 
 ```sh
 mkdir /usr/local/etc/rc.d/
-curl -Lo /usr/local/etc/rc.d/netinfo https://github.com/gek64/netinfo/raw/main/configs/netinfo
+curl -Lo /usr/local/etc/rc.d/netinfo https://github.com/gek64/netinfo/raw/main/configs/netinfo.rcd
 chmod +x /usr/local/etc/rc.d/netinfo
 service netinfo enable && service netinfo restart && service netinfo status
 ```
@@ -79,7 +87,7 @@ go build -v -trimpath -ldflags "-s -w"
 netinfo -server localhost:1996
 
 # start netinfo client
-netinfo -client https://localhost:1996/record -interval 1m -description main
+netinfo -client http://localhost:1996/record -interval 15m -description main
 
 # check info
 curl http://localhost:1996/record/all
