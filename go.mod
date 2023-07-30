@@ -5,18 +5,18 @@ go 1.20
 require (
 	entgo.io/ent v0.12.3
 	github.com/denisbrodbeck/machineid v1.0.1
-	github.com/gek64/gek v1.0.5
+	github.com/gek64/gek v1.0.7
 	github.com/gin-gonic/gin v1.9.1
-	github.com/imroc/req/v3 v3.37.2
+	github.com/imroc/req/v3 v3.38.0
 	modernc.org/sqlite v1.24.0
 )
 
 require (
-	ariga.io/atlas v0.12.0 // indirect
+	ariga.io/atlas v0.12.1 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
-	github.com/bytedance/sonic v1.10.0-rc2 // indirect
+	github.com/bytedance/sonic v1.10.0-rc3 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/chenzhuoyu/iasm v0.9.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
@@ -31,7 +31,7 @@ require (
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
-	github.com/google/pprof v0.0.0-20230705174524-200ffdc848b8 // indirect
+	github.com/google/pprof v0.0.0-20230728192033-2ba5b33183c6 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
@@ -57,7 +57,7 @@ require (
 	github.com/zclconf/go-cty v1.13.2 // indirect
 	golang.org/x/arch v0.4.0 // indirect
 	golang.org/x/crypto v0.11.0 // indirect
-	golang.org/x/exp v0.0.0-20230725093048-515e97ebf090 // indirect
+	golang.org/x/exp v0.0.0-20230728194245-b0cb94b80691 // indirect
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/net v0.12.0 // indirect
 	golang.org/x/sys v0.10.0 // indirect
