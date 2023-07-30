@@ -8,7 +8,7 @@ command_user="root"
 pidfile="/run/${RC_SVCNAME}.pid"
 
 depend() {
-    need net
-    use dns logger netmount
-    after sshd firewall
+  need net
+  use dns logger netmount
+  after sshd firewall
 }

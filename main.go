@@ -4,6 +4,7 @@ import (
     "context"
     "flag"
     "fmt"
+    "github.com/denisbrodbeck/machineid"
     "github.com/gin-gonic/gin"
     "log"
     "net/url"
@@ -16,7 +17,7 @@ import (
 )
 
 var (
-    cliShow   bool
+    cliShowId bool
     cliServer string
     cliClient string
 
@@ -31,7 +32,7 @@ var (
 )
 
 func init() {
-    flag.BoolVar(&cliShow, "show", false, "-show")
+    flag.BoolVar(&cliShowId, "showid", false, "-showid")
     flag.StringVar(&cliServer, "server", "", "-server localhost:1996")
     flag.StringVar(&cliClient, "client", "", "-client http://localhost:1996/record")
 
@@ -48,27 +49,29 @@ func init() {
     // 重写显示用法函数
     flag.Usage = func() {
         var helpInfo = `Usage:
-	netinfo {Command} [Option]
+netinfo {Command} [Option]
 	
-	Command:
-	 -client           : start client
-	 -server           : start server
-	 -h                : show help
-	 -v                : show version
+Command:
+  -client           : start client
+  -server           : start server
+  -showid           : show local machine id
+  -h                : show help
+  -v                : show version
 	
-	Option:
-	 -interval      <IP>          : set client interval
-	 -description   <Port>        : set client description
-	 -username      <Username>    : set client basic auth username
-	 -password      <Password>    : set client password
-	 -skip-certificate-verify     : skip tls certificate verification for http requests
+Option:
+  -interval      <IP>          : set client interval
+  -description   <Port>        : set client description
+  -username      <Username>    : set client basic auth username
+  -password      <Password>    : set client password
+  -skip-certificate-verify     : skip tls certificate verification for http requests
 	
-	Example:
-	 1) netinfo -show
-	 2) netinfo -server localhost:1996
-	 3) netinfo -client http://localhost:1996/record -interval 1h -description main -username bob -password 123456 -skip-certificate-verify
-	 4) netinfo -h
-	 5) netinfo -v`
+Example:
+  1) netinfo
+  2) netinfo -showid
+  3) netinfo -server localhost:1996
+  4) netinfo -client http://localhost:1996/record -interval 1h -description main -username bob -password 123456 -skip-certificate-verify
+  5) netinfo -h
+  6) netinfo -v`
 
         fmt.Println(helpInfo)
     }
@@ -81,12 +84,12 @@ func init() {
 
     // 打印版本信息
     if cliVersion {
-        fmt.Println("v2.02")
+        fmt.Println("v2.03")
         os.Exit(0)
     }
 
     // 如果无 args 返回本地网络信息
-    if len(os.Args) == 1 || cliShow {
+    if len(os.Args) == 1 {
         err := ipClient.PrintNetInterfaces()
         if err != nil {
             os.Exit(1)
@@ -94,8 +97,17 @@ func init() {
         os.Exit(0)
     }
 
+    if cliShowId {
+        id, err := machineid.ID()
+        if err != nil {
+            log.Panicln(err)
+        }
+        fmt.Println(id)
+        os.Exit(0)
+    }
+
     if cliServer != "" && cliClient != "" {
-        log.Println("Only one of server mode and client mode can be selected")
+        log.Println("only one of server mode and client mode can be selected")
         os.Exit(0)
     }
 }
