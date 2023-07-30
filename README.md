@@ -19,7 +19,7 @@ Command:
   -v                : show version
 
 Option:
-  -interval      <IP>          : set client interval
+  -interval      <Time>        : set client interval
   -description   <Port>        : set client description
   -username      <Username>    : set client basic auth username
   -password      <Password>    : set client password
