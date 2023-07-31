@@ -36,7 +36,7 @@ func init() {
     flag.StringVar(&cliServer, "server", "", "-server localhost:1996")
     flag.StringVar(&cliClient, "client", "", "-client http://localhost:1996/record")
 
-    flag.DurationVar(&cliInterval, "interval", time.Hour, "-interval 1h")
+    flag.DurationVar(&cliInterval, "interval", 0, "-interval 1h")
     flag.StringVar(&cliDescription, "description", "", "-description home_pc")
     flag.StringVar(&cliUsername, "username", "", "-username bob")
     flag.StringVar(&cliPassword, "password", "", "-password 123456")
@@ -69,9 +69,10 @@ Example:
   1) netinfo
   2) netinfo -showid
   3) netinfo -server localhost:1996
-  4) netinfo -client http://localhost:1996/record -interval 1h -description main -username bob -password 123456 -skip-certificate-verify
-  5) netinfo -h
-  6) netinfo -v`
+  4) netinfo -client http://localhost:1996/record/ -description main
+  5) netinfo -client https://localhost:1996/record/ -description main -interval 1h -skip-certificate-verify
+  6) netinfo -h
+  7) netinfo -v`
 
         fmt.Println(helpInfo)
     }
@@ -118,7 +119,18 @@ func main() {
         if err != nil {
             log.Fatalln("invalid client url")
         }
-        ipClient.SendRequestLoop(targetURL.String(), cliInterval, cliDescription, cliUsername, cliPassword, cliSkipCertificateVerify)
+
+        if cliInterval != 0 {
+            ipClient.SendRequestLoop(targetURL.String(), cliInterval, cliDescription, cliUsername, cliPassword, cliSkipCertificateVerify)
+        } else {
+            _, err := ipClient.SendRequest(targetURL.String(), cliDescription, cliUsername, cliPassword, cliSkipCertificateVerify)
+            if err != nil {
+                log.Println(err)
+            } else {
+                log.Println("update completed")
+            }
+        }
+
     }
 
     if cliServer != "" {
