@@ -211,11 +211,15 @@ func (rc *RecordCreate) createSpec() (*Record, *sqlgraph.CreateSpec) {
 // RecordCreateBulk is the builder for creating many Record entities in bulk.
 type RecordCreateBulk struct {
 	config
+	err      error
 	builders []*RecordCreate
 }
 
 // Save creates the Record entities in the database.
 func (rcb *RecordCreateBulk) Save(ctx context.Context) ([]*Record, error) {
+	if rcb.err != nil {
+		return nil, rcb.err
+	}
 	specs := make([]*sqlgraph.CreateSpec, len(rcb.builders))
 	nodes := make([]*Record, len(rcb.builders))
 	mutators := make([]Mutator, len(rcb.builders))

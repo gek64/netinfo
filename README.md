@@ -81,7 +81,7 @@ service netinfo enable && service netinfo restart && service netinfo status
 git clone https://github.com/gek64/netinfo.git
 cd netinfo
 go generate ./ent
-go build -v -trimpath -ldflags "-s -w"
+go build -v -trimpath -ldflags "-s -w -extldflags -static"
 ```
 
 ## Test
