@@ -2,37 +2,55 @@
 
 ## Features
 
-- Display local IP information
-- Server mode and Client mode
+- Send network information to a remote server or file
+- Gateway for receiving network information
 
 ## Usage
 
 ```
 Usage:
-netinfo {Command} [Option]
+netinfo [OPTION]...
 	
-Command:
-  -client           : start client
-  -server           : start server
-  -showid           : show local machine id
-  -h                : show help
-  -v                : show version
-	
-Option:
-  -interval      <Time>        : set client interval
-  -description   <Port>        : set client description
-  -username      <Username>    : set client basic auth username
-  -password      <Password>    : set client basic auth password
-  -skip-certificate-verify     : skip tls certificate verification for http requests
-	
-Example:
-  1) netinfo
-  2) netinfo -showid
-  3) netinfo -server localhost:1996
-  4) netinfo -client http://localhost:1996/record/ -description main
-  5) netinfo -client https://localhost:1996/record/ -description main -interval 1h -skip-certificate-verify
-  6) netinfo -h
-  7) netinfo -v
+Startup:
+  -l
+  -h
+  -v
+-------------------------------------------
+Send Mode:
+  -id <string>
+  -interval <time>
+  -sendmode <mode>
+    mode value: file, s3, webdav, netinfo
+
+Send Mode file:
+  -send_file <file>
+
+Send Mode s3:
+  -endpoint <url>
+  -access_key_id <string>
+  -secret_access_key <string>
+  -object_path <bucket/object>
+  -skip-certificate-verify
+
+Send Mode webdav:
+  -endpoint <url>
+  -webdav_user <string>
+  -webdav_password <string>
+  -skip-certificate-verify
+
+Send Mode netinfo:
+  -endpoint <url>
+  -netinfo_user <string>
+  -netinfo_password <string>
+  -skip-certificate-verify
+-------------------------------------------
+Receive Mode:
+  -receivemode <mode>
+    mode value: file, memory
+  -listen <address:port>
+    
+Receive Mode file:
+  -receive_file <file>
 ```
 
 ## Install
