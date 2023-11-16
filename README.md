@@ -10,7 +10,7 @@
 ```
 Usage:
 netinfo [OPTION]...
-	
+
 Startup:
   -l
   -h
@@ -22,33 +22,31 @@ Send Mode:
   -sendmode <mode>
     mode value: file, s3, webdav, netinfo
 
-Send Mode file:
-  -send_file <file>
+  Send Mode file:
+    -send_file <file>
 
-Send Mode s3:
-  -endpoint <url>
-  -access_key_id <string>
-  -secret_access_key <string>
-  -object_path <bucket/object>
-  -skip-certificate-verify
+  Send Mode s3:
+    -endpoint <url>
+    -access_key_id <string>
+    -secret_access_key <string>
+    -object_path <bucket/object>
+    -skip-certificate-verify
 
-Send Mode webdav:
-  -endpoint <url>
-  -webdav_user <string>
-  -webdav_password <string>
-  -skip-certificate-verify
+  Send Mode webdav:
+    -endpoint <url>
+    -webdav_user <string>
+    -webdav_password <string>
+    -skip-certificate-verify
 
-Send Mode netinfo:
-  -endpoint <url>
-  -netinfo_user <string>
-  -netinfo_password <string>
-  -skip-certificate-verify
+  Send Mode netinfo:
+    -endpoint <url>
+    -netinfo_user <string>
+    -netinfo_password <string>
+    -skip-certificate-verify
 -------------------------------------------
 Receive Mode:
   -receivemode <mode>
     mode value: netinfo
-    
-Receive Mode netinfo:
   -listen <address:port>
 ```
 
