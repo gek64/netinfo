@@ -45,9 +45,9 @@ Send Mode:
     -skip-certificate-verify
 -------------------------------------------
 Receive Mode:
+  -listen <address:port>
   -receivemode <mode>
     mode value: netinfo
-  -listen <address:port>
 ```
 
 ## Install
