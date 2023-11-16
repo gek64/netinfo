@@ -34,6 +34,6 @@ func ReadRecordAll(c *gin.Context) {
 	if ok {
 		c.JSON(http.StatusOK, database)
 	} else {
-		c.JSON(http.StatusOK, gin.H{})
+		c.JSON(http.StatusOK, []cache.NetInfoInMemoryData{})
 	}
 }

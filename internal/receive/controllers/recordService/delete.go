@@ -17,7 +17,7 @@ func DeleteRecordByID(c *gin.Context) {
 	}
 
 	// 删除内存数据库中记录内的元素
-	var newDatabase []cache.NetInfoInMemoryData
+	var newDatabase = []cache.NetInfoInMemoryData{}
 	database, ok := cache.Get(cache.Database)
 	if ok {
 		found := false

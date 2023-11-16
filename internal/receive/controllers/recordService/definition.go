@@ -5,10 +5,10 @@ import (
 )
 
 type RecordBody struct {
-	ID            string                 `json:"id" form:"id" binding:"required"`
-	NetInterfaces []startup.NetInterface `json:"netInterfaces" form:"netInterfaces" binding:"required"`
+	ID            string                 `json:"id" xml:"id" form:"id" binding:"required"`
+	NetInterfaces []startup.NetInterface `json:"netInterfaces" xml:"netInterfaces" form:"netInterfaces" binding:"required"`
 }
 
 type RecordQuery struct {
-	ID string `json:"id" form:"id" binding:"required"`
+	ID string `json:"id" xml:"id" form:"id" binding:"required"`
 }

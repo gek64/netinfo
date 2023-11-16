@@ -41,7 +41,7 @@ func UpsertRecord(c *gin.Context) {
 	data.UpdatedAt = time.Now()
 
 	// 更新内存数据库中记录内的元素
-	var newDatabase []cache.NetInfoInMemoryData
+	var newDatabase = []cache.NetInfoInMemoryData{}
 	database, ok := cache.Get(cache.Database)
 	if ok {
 		for _, d := range database.([]cache.NetInfoInMemoryData) {

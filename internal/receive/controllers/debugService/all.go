@@ -1,10 +1,8 @@
 package debugService
 
 import (
-	"fmt"
 	"github.com/gek64/gek/gNet"
 	"github.com/gin-gonic/gin"
-	"io"
 	"net/http"
 	"net/netip"
 )
@@ -23,17 +21,16 @@ func Reflector(c *gin.Context) {
 		return
 	}
 
-	// body
-	bodyBytes, err := io.ReadAll(c.Request.Body)
-	if err != nil {
-		fmt.Println(err)
-	}
+	// 读取绑定 body, 有安全风险
+	//body, err := io.ReadAll(c.Request.Body)
+	//if err != nil {
+	//	c.JSON(http.StatusBadRequest, gin.H{"msg": err.Error()})
+	//}
 
 	c.JSON(http.StatusOK,
 		Response{
 			Method:    c.Request.Method,
 			RequestIP: requestIP,
-			Body:      bodyBytes,
 			Query:     c.Request.URL.Query(),
 			Header:    c.Request.Header,
 		})
