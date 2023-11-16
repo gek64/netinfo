@@ -23,7 +23,7 @@ Send Mode:
     mode value: file, s3, webdav, netinfo
 
   Send Mode file:
-    -send_file <file>
+    -file <file>
 
   Send Mode s3:
     -endpoint <url>

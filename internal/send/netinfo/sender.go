@@ -15,14 +15,14 @@ func SendRequest(url string, id string, username string, password string, skipCe
 	}
 
 	// 组装负载
-	body, err := NewPreload(id)
+	preload, err := NewPreload(id)
 	if err != nil {
 		return nil, err
 	}
 
 	// 发送 PUT 请求
 	resp, err = client.R().
-		SetBody(body).
+		SetBody(preload).
 		SetRetryCount(3).
 		SetRetryBackoffInterval(1*time.Second, 5*time.Second).
 		SetBasicAuth(username, password).
@@ -40,7 +40,7 @@ func SendRequestLoop(url string, interval time.Duration, id string, username str
 		if err != nil {
 			log.Println(err)
 		} else {
-			log.Println("update completed")
+			log.Println("sent successfully using mode netinfo")
 		}
 
 		time.Sleep(interval)
