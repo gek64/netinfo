@@ -46,11 +46,10 @@ Send Mode netinfo:
 -------------------------------------------
 Receive Mode:
   -receivemode <mode>
-    mode value: file, memory
-  -listen <address:port>
+    mode value: netinfo
     
-Receive Mode file:
-  -receive_file <file>
+Receive Mode netinfo:
+  -listen <address:port>
 ```
 
 ## Install
@@ -98,7 +97,6 @@ service netinfo enable && service netinfo restart && service netinfo status
 ```sh
 git clone https://github.com/gek64/netinfo.git
 cd netinfo
-go generate ./ent
 go build -v -trimpath -ldflags "-s -w"
 ```
 
@@ -109,10 +107,10 @@ go build -v -trimpath -ldflags "-s -w"
 netinfo -server localhost:1996
 
 # start netinfo client
-netinfo -client http://localhost:1996/record -interval 15m -description main
+netinfo -client http://localhost:1996 -interval 15m -id center
 
 # check info
-curl http://localhost:1996/record/all
+curl http://localhost:1996/all
 ```
 
 ## License

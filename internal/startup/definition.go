@@ -8,6 +8,6 @@ type NetInterface struct {
 	Mac  string       `json:"mac,omitempty"`
 }
 
-var Version = "v3.00"
+var Version = "v3.00-dev"
 
-var HelpInfomation = `1234`
+var HelpInformation = `test help information`

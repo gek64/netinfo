@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
+	"net/url"
 	"netinfo/internal/receive/routers"
+	"netinfo/internal/send/netinfo"
 	"netinfo/internal/startup"
 	"os"
 	"time"
@@ -16,7 +18,7 @@ var (
 	cliClient string
 
 	cliInterval              time.Duration
-	cliDescription           string
+	cliID                    string
 	cliUsername              string
 	cliPassword              string
 	cliSkipCertificateVerify bool
@@ -30,7 +32,7 @@ func init() {
 	flag.StringVar(&cliClient, "client", "", "-client http://localhost:1996/record")
 
 	flag.DurationVar(&cliInterval, "interval", 0, "-interval 1h")
-	flag.StringVar(&cliDescription, "description", "", "-description home_pc")
+	flag.StringVar(&cliID, "id", "", "-id center")
 	flag.StringVar(&cliUsername, "username", "", "-username bob")
 	flag.StringVar(&cliPassword, "password", "", "-password 123456")
 	flag.BoolVar(&cliSkipCertificateVerify, "skip-certificate-verify", false, "-skip-certificate-verify")
@@ -41,7 +43,7 @@ func init() {
 
 	// 重写显示用法函数
 	flag.Usage = func() {
-		fmt.Println(startup.HelpInfomation)
+		fmt.Println(startup.HelpInformation)
 	}
 
 	// 打印帮助信息
@@ -73,25 +75,23 @@ func init() {
 }
 
 func main() {
-	//if cliClient != "" {
-	//	targetURL, err := url.Parse(cliClient)
-	//	if err != nil {
-	//		log.Fatalln("invalid client url")
-	//	}
-	//
-	//	if cliInterval != 0 {
-	//		ipClient.SendRequestLoop(targetURL.String(), cliInterval, cliDescription, cliUsername, cliPassword, cliSkipCertificateVerify)
-	//	} else {
-	//		_, err := ipClient.SendRequest(targetURL.String(), cliDescription, cliUsername, cliPassword, cliSkipCertificateVerify)
-	//		if err != nil {
-	//			log.Println(err)
-	//		} else {
-	//			log.Println("update completed")
-	//		}
-	//	}
-	//
-	//}
-	//
+	if cliClient != "" {
+		targetURL, err := url.Parse(cliClient)
+		if err != nil {
+			log.Fatalln("invalid client url")
+		}
+
+		if cliInterval != 0 {
+			netinfo.SendRequestLoop(targetURL.String(), cliInterval, cliID, cliUsername, cliPassword, cliSkipCertificateVerify)
+		} else {
+			_, err := netinfo.SendRequest(targetURL.String(), cliID, cliUsername, cliPassword, cliSkipCertificateVerify)
+			if err != nil {
+				log.Println(err)
+			} else {
+				log.Println("update completed")
+			}
+		}
+	}
 
 	if cliServer != "" {
 		// 创建默认路由引擎,上下文
