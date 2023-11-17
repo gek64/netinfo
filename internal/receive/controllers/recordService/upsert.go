@@ -13,7 +13,7 @@ import (
 // UpsertRecord 内容记录
 func UpsertRecord(c *gin.Context) {
 	var reqBody RecordBody
-	var data cache.NetInfoInMemoryData
+	var data NetInfoInMemoryData
 
 	// 请求的body数据绑定到结构体
 	err := c.ShouldBindWith(&reqBody, binding.JSON)
@@ -41,10 +41,10 @@ func UpsertRecord(c *gin.Context) {
 	data.UpdatedAt = time.Now()
 
 	// 更新内存数据库中记录内的元素
-	var newDatabase = []cache.NetInfoInMemoryData{}
-	database, ok := cache.Get(cache.Database)
+	var newDatabase = []NetInfoInMemoryData{}
+	database, ok := cache.Get(Database)
 	if ok {
-		for _, d := range database.([]cache.NetInfoInMemoryData) {
+		for _, d := range database.([]NetInfoInMemoryData) {
 			if d.ID == data.ID {
 				continue
 			} else {
@@ -53,5 +53,5 @@ func UpsertRecord(c *gin.Context) {
 		}
 	}
 	newDatabase = append(newDatabase, data)
-	cache.Set(cache.Database, newDatabase)
+	cache.Set(Database, newDatabase)
 }

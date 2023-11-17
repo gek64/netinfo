@@ -3,10 +3,11 @@ package netinfo
 import (
 	"github.com/imroc/req/v3"
 	"log"
+	"netinfo/internal/send"
 	"time"
 )
 
-func SendRequest(url string, id string, username string, password string, skipCertVerify bool) (resp *req.Response, err error) {
+func SendRequest(endpoint string, username string, password string, skipCertVerify bool, id string) (resp *req.Response, err error) {
 	client := req.C()
 
 	// 跳过 TLS 证书检测
@@ -15,7 +16,7 @@ func SendRequest(url string, id string, username string, password string, skipCe
 	}
 
 	// 组装负载
-	preload, err := NewPreload(id)
+	preload, err := send.NewPreload(id)
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +27,7 @@ func SendRequest(url string, id string, username string, password string, skipCe
 		SetRetryCount(3).
 		SetRetryBackoffInterval(1*time.Second, 5*time.Second).
 		SetBasicAuth(username, password).
-		Put(url)
+		Put(endpoint)
 	if err == nil && resp.IsSuccessState() {
 		return resp, nil
 	} else {
@@ -34,15 +35,14 @@ func SendRequest(url string, id string, username string, password string, skipCe
 	}
 }
 
-func SendRequestLoop(url string, interval time.Duration, id string, username string, password string, skipCertVerify bool) {
+func SendRequestLoop(endpoint string, username string, password string, skipCertVerify bool, id string, interval time.Duration) {
 	for {
-		_, err := SendRequest(url, id, username, password, skipCertVerify)
+		resp, err := SendRequest(endpoint, username, password, skipCertVerify, id)
 		if err != nil {
 			log.Println(err)
 		} else {
-			log.Println("sent successfully using mode netinfo")
+			log.Println(resp.Status)
 		}
-
 		time.Sleep(interval)
 	}
 }

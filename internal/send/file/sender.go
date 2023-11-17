@@ -3,13 +3,13 @@ package file
 import (
 	"github.com/gek64/gek/gJson"
 	"log"
-	"netinfo/internal/send/netinfo"
+	"netinfo/internal/send"
 	"time"
 )
 
 func SendRequest(file string, id string) (err error) {
 	// 组装负载
-	preload, err := netinfo.NewPreload(id)
+	preload, err := send.NewPreload(id)
 	if err != nil {
 		return err
 	}
@@ -22,15 +22,14 @@ func SendRequest(file string, id string) (err error) {
 	return jsonOperator.WriteToFile(file)
 }
 
-func SendRequestLoop(file string, interval time.Duration, id string) {
+func SendRequestLoop(file string, id string, interval time.Duration) {
 	for {
 		err := SendRequest(file, id)
 		if err != nil {
 			log.Println(err)
 		} else {
-			log.Println("sent successfully using mode file")
+			log.Printf("save file to %s\n", file)
 		}
-
 		time.Sleep(interval)
 	}
 }

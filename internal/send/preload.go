@@ -1,4 +1,4 @@
-package netinfo
+package send
 
 import (
 	"netinfo/internal/receive/controllers/recordService"

@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/gek64/gek/gS3"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/url"
@@ -82,9 +84,9 @@ func main() {
 		}
 
 		if cliInterval != 0 {
-			netinfo.SendRequestLoop(targetURL.String(), cliInterval, cliID, cliUsername, cliPassword, cliSkipCertificateVerify)
+			netinfo.SendRequestLoop(targetURL.String(), cliUsername, cliPassword, cliSkipCertificateVerify, cliID, cliInterval)
 		} else {
-			_, err := netinfo.SendRequest(targetURL.String(), cliID, cliUsername, cliPassword, cliSkipCertificateVerify)
+			_, err := netinfo.SendRequest(targetURL.String(), cliUsername, cliPassword, cliSkipCertificateVerify, cliID)
 			if err != nil {
 				log.Println(err)
 			} else {
@@ -106,4 +108,16 @@ func main() {
 			log.Println(err)
 		}
 	}
+
+	//err := s3.SendRequest("http://192.168.1.185:9000", "default", "admin", "adminadmin", "", true, true, "storage", "center.json", "center")
+	//if err != nil {
+	//	log.Println(err)
+	//}
+
+	s := gS3.NewS3Session("http://192.168.1.185:9000", "default", "admin", "adminadmin", "", true, true)
+	result, err := s.DeleteBucket("storage11")
+	if err != nil {
+		log.Println(err.(awserr.Error))
+	}
+	fmt.Println(result)
 }

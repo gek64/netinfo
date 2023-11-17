@@ -16,9 +16,9 @@ func ReadRecordByID(c *gin.Context) {
 		return
 	}
 
-	database, ok := cache.Get(cache.Database)
+	database, ok := cache.Get(Database)
 	if ok {
-		for _, d := range database.([]cache.NetInfoInMemoryData) {
+		for _, d := range database.([]NetInfoInMemoryData) {
 			if d.ID == reqQuery.ID {
 				c.JSON(http.StatusOK, d)
 				return
@@ -30,10 +30,10 @@ func ReadRecordByID(c *gin.Context) {
 
 // ReadRecordAll 搜索所有记录
 func ReadRecordAll(c *gin.Context) {
-	database, ok := cache.Get(cache.Database)
+	database, ok := cache.Get(Database)
 	if ok {
 		c.JSON(http.StatusOK, database)
 	} else {
-		c.JSON(http.StatusOK, []cache.NetInfoInMemoryData{})
+		c.JSON(http.StatusOK, []NetInfoInMemoryData{})
 	}
 }

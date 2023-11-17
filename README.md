@@ -36,6 +36,7 @@ Send Mode:
     -endpoint <url>
     -webdav_user <string>
     -webdav_password <string>
+    -file_path <string>
     -skip-certificate-verify
 
   Send Mode netinfo:
