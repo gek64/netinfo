@@ -12,7 +12,7 @@
 netinfo list
 
 # Start nconnect server
-netinfo receive -listen 0.0.0.0:1996
+netinfo receive -listen localhost:1996
 
 # Send local network information to a file
 netinfo send file -id="center" -filepath="./center.json"
@@ -38,11 +38,9 @@ netinfo send webdav -id="center" -endpoint="http://192.168.1.2/" -filepath="/dav
 netinfo send webdav -id="center" -endpoint="http://192.168.1.2/" -filepath="/dav/center.json" -encryption_key="admin123" -interval 5s
 
 # Send local network information to nconnect server
-netinfo send nconnect -id="center" -endpoint="http://127.0.0.1:1996/"
-## Send local network information to webdav server and encrypt the file
-netinfo send webdav -id="center" -endpoint="http://192.168.1.2/" -filepath="/dav/center.json" -encryption_key="admin123"
-## Loop Send local network information to webdav server and encrypt the file
-netinfo send webdav -id="center" -endpoint="http://192.168.1.2/" -filepath="/dav/center.json" -encryption_key="admin123" -interval 5s
+netinfo send nconnect -id="center" -endpoint="http://localhost:1996/"
+## Loop Send local network information to nconnect server
+netinfo send nconnect -id="center" -endpoint="http://localhost:1996/" -interval 5s
 ```
 
 ## Install
