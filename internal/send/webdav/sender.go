@@ -8,9 +8,9 @@ import (
 	"time"
 )
 
-func SendRequest(endpoint string, filepath string, username string, password string, allowInsecure bool, id string, encryptedKey []byte) (resp *http.Response, err error) {
+func SendRequest(endpoint string, username string, password string, allowInsecure bool, filepath string, id string, encryptionKey []byte) (resp *http.Response, err error) {
 	// 获取负载
-	p, err := preload.GetPreload(id, encryptedKey)
+	p, err := preload.GetPreload(id, encryptionKey)
 	if err != nil {
 		return nil, err
 	}
@@ -23,9 +23,9 @@ func SendRequest(endpoint string, filepath string, username string, password str
 	return client.Upload(filepath, p)
 }
 
-func SendRequestLoop(endpoint string, filepath string, username string, password string, allowInsecure bool, id string, encryptedKey []byte, interval time.Duration) {
+func SendRequestLoop(endpoint string, username string, password string, allowInsecure bool, filepath string, id string, encryptionKey []byte, interval time.Duration) {
 	for {
-		resp, err := SendRequest(endpoint, filepath, username, password, allowInsecure, id, encryptedKey)
+		resp, err := SendRequest(endpoint, username, password, allowInsecure, filepath, id, encryptionKey)
 		if err != nil {
 			log.Println(err)
 		} else {

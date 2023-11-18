@@ -7,7 +7,3 @@ type NetInterface struct {
 	IPs  []netip.Addr `json:"ips"`
 	Mac  string       `json:"mac,omitempty"`
 }
-
-var Version = "v3.00-dev"
-
-var HelpInformation = `test help information`

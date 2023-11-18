@@ -1,109 +1,321 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/urfave/cli/v2"
 	"log"
-	"net/url"
 	"netinfo/internal/receive/routers"
-	"netinfo/internal/send/netinfo"
+	"netinfo/internal/send/file"
+	"netinfo/internal/send/nconnect"
+	"netinfo/internal/send/s3"
+	"netinfo/internal/send/webdav"
 	"netinfo/internal/startup"
 	"os"
 	"time"
 )
 
-var (
-	cliServer string
-	cliClient string
-
-	cliInterval      time.Duration
-	cliID            string
-	cliUsername      string
-	cliPassword      string
-	cliAllowInsecure bool
-
-	cliHelp    bool
-	cliVersion bool
-)
-
-func init() {
-	flag.StringVar(&cliServer, "server", "", "-server localhost:1996")
-	flag.StringVar(&cliClient, "client", "", "-client http://localhost:1996/record")
-
-	flag.DurationVar(&cliInterval, "interval", 0, "-interval 1h")
-	flag.StringVar(&cliID, "id", "", "-id center")
-	flag.StringVar(&cliUsername, "username", "", "-username bob")
-	flag.StringVar(&cliPassword, "password", "", "-password 123456")
-	flag.BoolVar(&cliAllowInsecure, "skip-certificate-verify", false, "-skip-certificate-verify")
-
-	flag.BoolVar(&cliHelp, "h", false, "show help")
-	flag.BoolVar(&cliVersion, "v", false, "show version")
-	flag.Parse()
-
-	// 重写显示用法函数
-	flag.Usage = func() {
-		fmt.Println(startup.HelpInformation)
-	}
-
-	// 打印帮助信息
-	if cliHelp {
-		flag.Usage()
-		os.Exit(0)
-	}
-
-	// 打印版本信息
-	if cliVersion {
-		fmt.Println(startup.Version)
-		os.Exit(0)
-	}
-
-	// 如果无 args 返回本地网络信息
-	if len(os.Args) == 1 {
-		err := startup.PrintNetInterfaces()
-		if err != nil {
-			os.Exit(1)
-		}
-
-		//os.Exit(0)
-	}
-
-	if cliServer != "" && cliClient != "" {
-		log.Println("only one of server mode and client mode can be selected")
-		os.Exit(0)
-	}
-}
-
 func main() {
-	if cliClient != "" {
-		targetURL, err := url.Parse(cliClient)
-		if err != nil {
-			log.Fatalln("invalid client url")
-		}
+	// send mode
+	var id string
+	var allow_insecure bool
+	var encryption_key string
+	var interval time.Duration
+	var endpoint string
+	var username string
+	var password string
 
-		if cliInterval != 0 {
-			netinfo.SendRequestLoop(targetURL.String(), cliUsername, cliPassword, cliAllowInsecure, cliID, cliInterval)
-		} else {
-			_, err := netinfo.SendRequest(targetURL.String(), cliUsername, cliPassword, cliAllowInsecure, cliID)
-			if err != nil {
-				log.Println(err)
-			} else {
-				log.Println("update completed")
-			}
-		}
+	// send mode file
+	var filepath string
+
+	// send mode s3
+	var regin string
+	var sts_token string
+	var path_style bool
+	var bucket string
+	var object_path string
+
+	// receive mode
+	var listen_address string
+
+	cmds := []*cli.Command{
+		{
+			Name:    "list",
+			Aliases: []string{"l"},
+			Usage:   "list network information",
+			Action: func(ctx *cli.Context) error {
+				return startup.PrintNetInterfaces()
+			},
+		},
+		{
+			Name:    "send",
+			Aliases: []string{"s"},
+			Usage:   "send network information",
+
+			Subcommands: []*cli.Command{
+				{
+					Name:  "file",
+					Usage: "send to filesystem",
+					Flags: []cli.Flag{
+						&cli.StringFlag{
+							Name:        "id",
+							Usage:       "set id",
+							Required:    true,
+							Destination: &id,
+						},
+						&cli.StringFlag{
+							Name:        "filepath",
+							Usage:       "set file path",
+							Required:    true,
+							Destination: &filepath,
+						},
+						&cli.StringFlag{
+							Name:        "encryption_key",
+							Usage:       "set file encryption key",
+							Destination: &encryption_key,
+						},
+						&cli.DurationFlag{
+							Name:        "interval",
+							Usage:       "set send interval",
+							Destination: &interval,
+						},
+					},
+					Action: func(ctx *cli.Context) error {
+						if interval != 0 {
+							file.SendRequestLoop(filepath, id, []byte(encryption_key), interval)
+						} else {
+							return file.SendRequest(filepath, id, []byte(encryption_key))
+						}
+						return nil
+					},
+				},
+				{
+					Name:  "s3",
+					Usage: "send to s3 server",
+					Flags: []cli.Flag{
+						&cli.StringFlag{
+							Name:        "id",
+							Usage:       "set id",
+							Required:    true,
+							Destination: &id,
+						},
+						&cli.BoolFlag{
+							Name:        "allow_insecure",
+							Usage:       "set allow insecure connect",
+							Value:       false,
+							Destination: &allow_insecure,
+						},
+						&cli.StringFlag{
+							Name:        "encryption_key",
+							Usage:       "set file encryption key",
+							Destination: &encryption_key,
+						},
+						&cli.DurationFlag{
+							Name:        "interval",
+							Usage:       "set send interval",
+							Destination: &interval,
+						},
+						&cli.StringFlag{
+							Name:        "endpoint",
+							Usage:       "set s3 server endpoint",
+							Required:    true,
+							Destination: &endpoint,
+						},
+						&cli.StringFlag{
+							Name:        "regin",
+							Usage:       "set s3 server regin",
+							Value:       "us-east-1",
+							Destination: &regin,
+						},
+						&cli.StringFlag{
+							Name:        "access_key_id",
+							Usage:       "set s3 server access key id",
+							Required:    true,
+							Destination: &username,
+						},
+						&cli.StringFlag{
+							Name:        "secret_access_key",
+							Usage:       "set s3 server secret access key",
+							Required:    true,
+							Destination: &password,
+						},
+						&cli.StringFlag{
+							Name:        "sts_token",
+							Usage:       "set s3 server sts token",
+							Destination: &sts_token,
+						},
+						&cli.BoolFlag{
+							Name:        "path_style",
+							Usage:       "set s3 server path style, false: virtual host, true: path",
+							Value:       false,
+							Destination: &path_style,
+						},
+						&cli.StringFlag{
+							Name:        "bucket",
+							Usage:       "set s3 server bucket",
+							Required:    true,
+							Destination: &bucket,
+						},
+						&cli.StringFlag{
+							Name:        "object_path",
+							Usage:       "set s3 server object path",
+							Required:    true,
+							Destination: &object_path,
+						},
+					},
+					Action: func(ctx *cli.Context) error {
+						if interval != 0 {
+							s3.SendRequestLoop(endpoint, regin, username, password, sts_token, path_style, allow_insecure, bucket, object_path, id, []byte(encryption_key), interval)
+						} else {
+							_, err := s3.SendRequest(endpoint, regin, username, password, sts_token, path_style, allow_insecure, bucket, object_path, id, []byte(encryption_key))
+							if err != nil {
+								return err
+							}
+						}
+						return nil
+					},
+				},
+				{
+					Name:  "webdav",
+					Usage: "send to webdav server",
+					Flags: []cli.Flag{
+						&cli.StringFlag{
+							Name:        "id",
+							Usage:       "set id",
+							Required:    true,
+							Destination: &id,
+						},
+						&cli.BoolFlag{
+							Name:        "allow_insecure",
+							Usage:       "set allow insecure connect",
+							Value:       false,
+							Destination: &allow_insecure,
+						},
+						&cli.StringFlag{
+							Name:        "encryption_key",
+							Usage:       "set file encryption key",
+							Destination: &encryption_key,
+						},
+						&cli.DurationFlag{
+							Name:        "interval",
+							Usage:       "set send interval",
+							Destination: &interval,
+						},
+						&cli.StringFlag{
+							Name:        "endpoint",
+							Usage:       "set webdav server endpoint",
+							Required:    true,
+							Destination: &endpoint,
+						},
+						&cli.StringFlag{
+							Name:        "username",
+							Usage:       "set webdav server username",
+							Destination: &username,
+						},
+						&cli.StringFlag{
+							Name:        "password",
+							Usage:       "set webdav server password",
+							Destination: &password,
+						},
+						&cli.StringFlag{
+							Name:        "filepath",
+							Usage:       "set webdav server filepath",
+							Required:    true,
+							Destination: &filepath,
+						},
+					},
+					Action: func(ctx *cli.Context) error {
+						if interval != 0 {
+							webdav.SendRequestLoop(endpoint, username, password, allow_insecure, filepath, id, []byte(encryption_key), interval)
+						} else {
+							_, err := webdav.SendRequest(endpoint, username, password, allow_insecure, filepath, id, []byte(encryption_key))
+							if err != nil {
+								return err
+							}
+						}
+						return nil
+					},
+				},
+				{
+					Name:  "nconnect",
+					Usage: "send to nconnect server",
+					Flags: []cli.Flag{
+						&cli.StringFlag{
+							Name:        "id",
+							Usage:       "set id",
+							Required:    true,
+							Destination: &id,
+						},
+						&cli.BoolFlag{
+							Name:        "allow_insecure",
+							Usage:       "set allow insecure connect",
+							Value:       false,
+							Destination: &allow_insecure,
+						},
+						&cli.DurationFlag{
+							Name:        "interval",
+							Usage:       "set send interval",
+							Destination: &interval,
+						},
+						&cli.StringFlag{
+							Name:        "endpoint",
+							Usage:       "set nconnect server endpoint",
+							Required:    true,
+							Destination: &endpoint,
+						},
+					},
+					Action: func(ctx *cli.Context) error {
+						if interval != 0 {
+							nconnect.SendRequestLoop(endpoint, username, password, allow_insecure, id, interval)
+						} else {
+							_, err := nconnect.SendRequest(endpoint, username, password, allow_insecure, id)
+							if err != nil {
+								return err
+							}
+						}
+						return nil
+					},
+				},
+			},
+		},
+		{
+			Name:    "receive",
+			Aliases: []string{"r"},
+			Usage:   "receive network information",
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:        "listen",
+					Aliases:     []string{"l"},
+					Usage:       "set nconnect server listen address",
+					Value:       "127.0.0.1:1996",
+					Destination: &listen_address,
+				},
+			},
+			Action: func(context *cli.Context) error {
+				// 创建默认路由引擎
+				engine := gin.Default()
+				routers.LoadRecordRouters(engine)
+				routers.LoadDebugRouters(engine)
+
+				// 启动
+				return engine.Run(listen_address)
+			},
+		},
 	}
 
-	if cliServer != "" {
-		// 创建默认路由引擎,上下文
-		engine := gin.Default()
+	// 打印版本函数
+	cli.VersionPrinter = func(cCtx *cli.Context) {
+		fmt.Printf("%s", cCtx.App.Version)
+	}
 
-		// 加载路由
-		routers.LoadRecordRouters(engine)
-		routers.LoadDebugRouters(engine)
-		// 启动
-		err := engine.Run(cliServer)
-		if err != nil {
-			log.Println(err)
-		}
+	app := &cli.App{
+		Usage:    "Network information manager",
+		Version:  "v3.00",
+		Commands: cmds,
+	}
+
+	err := app.Run(os.Args)
+	if err != nil {
+		log.Fatal(err)
 	}
 }

@@ -5,53 +5,44 @@
 - Send network information to a remote server or file
 - Gateway for receiving network information
 
-## Usage
+## Example
 
-```
-Usage:
-netinfo [OPTION]...
+```sh
+# Show local network information
+netinfo list
 
-Startup:
-  -l
-  -h
-  -v
--------------------------------------------
-Send Mode:
-  -id <string>
-  -interval <time>
-  -sendmode <mode>
-    mode value: file, s3, webdav, netinfo
+# Start nconnect server
+netinfo receive -listen 0.0.0.0:1996
 
-  Send Mode file:
-    -file <file>
-    -encrypt <key>
+# Send local network information to a file
+netinfo send file -id="center" -filepath="./center.json"
+## Send local network information to a file and encrypt the file
+netinfo send file -id="center" -filepath="./center.json" -encryption_key="adminadmin"
+## Loop sending local network information to a file and encrypting the file
+netinfo send file -id="center" -filepath="./center.json" -encryption_key="adminadmin" -interval 5s
 
-  Send Mode s3:
-    -endpoint <url>
-    -access_key_id <string>
-    -secret_access_key <string>
-    -object_path <bucket/object>
-    -skip-certificate-verify
-    -encrypt <key>
+# Send local network information to s3 server
+netinfo send s3 -id="center" -endpoint="https://s3.amazonaws.com" -access_key_id="admin" -secret_access_key="adminadmin" -bucket="storage" -object_path="center.json"
+## Send local network information to minio s3 server
+netinfo send s3 -id="center" -endpoint="http://192.168.1.185:9000" -path_style -access_key_id="admin" -secret_access_key="adminadmin" -bucket="storage" -object_path="center.json"
+## Send local network information to minio s3 server and encrypt the file
+netinfo send s3 -id="center" -endpoint="http://192.168.1.185:9000" -path_style -access_key_id="admin" -secret_access_key="adminadmin" -bucket="storage" -object_path="center.json" -encryption_key="admin123"
+## Loop Send local network information to minio s3 server and encrypt the file
+netinfo send s3 -id="center" -endpoint="http://192.168.1.185:9000" -path_style -access_key_id="admin" -secret_access_key="adminadmin" -bucket="storage" -object_path="center.json" -encryption_key="admin123" -interval 5s
 
-  Send Mode webdav:
-    -endpoint <url>
-    -webdav_user <string>
-    -webdav_password <string>
-    -file_path <string>
-    -skip-certificate-verify
-    -encrypt <key>
+# Send local network information to webdav server
+netinfo send webdav -id="center" -endpoint="http://192.168.1.2/" -filepath="/dav/center.json"
+## Send local network information to webdav server and encrypt the file
+netinfo send webdav -id="center" -endpoint="http://192.168.1.2/" -filepath="/dav/center.json" -encryption_key="admin123"
+## Loop Send local network information to webdav server and encrypt the file
+netinfo send webdav -id="center" -endpoint="http://192.168.1.2/" -filepath="/dav/center.json" -encryption_key="admin123" -interval 5s
 
-  Send Mode netinfo:
-    -endpoint <url>
-    -netinfo_user <string>
-    -netinfo_password <string>
-    -skip-certificate-verify
--------------------------------------------
-Receive Mode:
-  -listen <address:port>
-  -receivemode <mode>
-    mode value: netinfo
+# Send local network information to nconnect server
+netinfo send nconnect -id="center" -endpoint="http://127.0.0.1:1996/"
+## Send local network information to webdav server and encrypt the file
+netinfo send webdav -id="center" -endpoint="http://192.168.1.2/" -filepath="/dav/center.json" -encryption_key="admin123"
+## Loop Send local network information to webdav server and encrypt the file
+netinfo send webdav -id="center" -endpoint="http://192.168.1.2/" -filepath="/dav/center.json" -encryption_key="admin123" -interval 5s
 ```
 
 ## Install
@@ -100,19 +91,6 @@ service netinfo enable && service netinfo restart && service netinfo status
 git clone https://github.com/gek64/netinfo.git
 cd netinfo
 go build -v -trimpath -ldflags "-s -w"
-```
-
-## Test
-
-```sh
-# start netinfo server at 127.0.0.1:1996
-netinfo -server localhost:1996
-
-# start netinfo client
-netinfo -client http://localhost:1996 -interval 15m -id center
-
-# check info
-curl http://localhost:1996/all
 ```
 
 ## License

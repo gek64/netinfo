@@ -34,17 +34,12 @@ func newEncryptedPreload(id string, key []byte, associatedDataSize uint) (preloa
 
 func GetPreload(id string, key []byte) (preload []byte, err error) {
 	// 通过密钥长度判断是否使用加密
-	switch len(key) != chacha20poly1305.KeySize {
-	case true:
-		preload, err = newPreload(id)
-		if err != nil {
-			return nil, err
-		}
-	case false:
-		preload, err = newEncryptedPreload(id, key, AssociatedDataSize)
-		if err != nil {
-			return nil, err
-		}
+	switch len(key) {
+	case 0:
+		return newPreload(id)
+	default:
+		key = gCrypto.KeyZeroPadding(key, chacha20poly1305.KeySize)
+		key = gCrypto.KeyCropping(key, chacha20poly1305.KeySize)
+		return newEncryptedPreload(id, key, AssociatedDataSize)
 	}
-	return preload, nil
 }

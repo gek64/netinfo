@@ -1,4 +1,4 @@
-package netinfo
+package nconnect
 
 import (
 	"github.com/imroc/req/v3"
