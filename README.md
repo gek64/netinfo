@@ -24,6 +24,7 @@ Send Mode:
 
   Send Mode file:
     -file <file>
+    -encrypt <key>
 
   Send Mode s3:
     -endpoint <url>
@@ -31,6 +32,7 @@ Send Mode:
     -secret_access_key <string>
     -object_path <bucket/object>
     -skip-certificate-verify
+    -encrypt <key>
 
   Send Mode webdav:
     -endpoint <url>
@@ -38,6 +40,7 @@ Send Mode:
     -webdav_password <string>
     -file_path <string>
     -skip-certificate-verify
+    -encrypt <key>
 
   Send Mode netinfo:
     -endpoint <url>

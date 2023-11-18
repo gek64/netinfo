@@ -3,14 +3,15 @@ module netinfo
 go 1.21.1
 
 require (
-	github.com/gek64/gek v1.0.10-0.20231117075136-794037107c04
+	github.com/gek64/gek v1.1.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/imroc/req/v3 v3.42.1
+	golang.org/x/crypto v0.15.0
 )
 
 require (
 	github.com/andybalholm/brotli v1.0.6 // indirect
-	github.com/aws/aws-sdk-go v1.47.13 // indirect
+	github.com/aws/aws-sdk-go v1.48.0 // indirect
 	github.com/bytedance/sonic v1.10.2 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/chenzhuoyu/iasm v0.9.1 // indirect
@@ -41,11 +42,11 @@ require (
 	github.com/quic-go/qtls-go1-20 v0.4.1 // indirect
 	github.com/quic-go/quic-go v0.40.0 // indirect
 	github.com/refraction-networking/utls v1.5.4 // indirect
+	github.com/tink-crypto/tink-go/v2 v2.0.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
 	go.uber.org/mock v0.3.0 // indirect
 	golang.org/x/arch v0.6.0 // indirect
-	golang.org/x/crypto v0.15.0 // indirect
 	golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa // indirect
 	golang.org/x/mod v0.14.0 // indirect
 	golang.org/x/net v0.18.0 // indirect

@@ -3,8 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/aws/aws-sdk-go/aws/awserr"
-	"github.com/gek64/gek/gS3"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/url"
@@ -19,11 +17,11 @@ var (
 	cliServer string
 	cliClient string
 
-	cliInterval              time.Duration
-	cliID                    string
-	cliUsername              string
-	cliPassword              string
-	cliSkipCertificateVerify bool
+	cliInterval      time.Duration
+	cliID            string
+	cliUsername      string
+	cliPassword      string
+	cliAllowInsecure bool
 
 	cliHelp    bool
 	cliVersion bool
@@ -37,7 +35,7 @@ func init() {
 	flag.StringVar(&cliID, "id", "", "-id center")
 	flag.StringVar(&cliUsername, "username", "", "-username bob")
 	flag.StringVar(&cliPassword, "password", "", "-password 123456")
-	flag.BoolVar(&cliSkipCertificateVerify, "skip-certificate-verify", false, "-skip-certificate-verify")
+	flag.BoolVar(&cliAllowInsecure, "skip-certificate-verify", false, "-skip-certificate-verify")
 
 	flag.BoolVar(&cliHelp, "h", false, "show help")
 	flag.BoolVar(&cliVersion, "v", false, "show version")
@@ -84,9 +82,9 @@ func main() {
 		}
 
 		if cliInterval != 0 {
-			netinfo.SendRequestLoop(targetURL.String(), cliUsername, cliPassword, cliSkipCertificateVerify, cliID, cliInterval)
+			netinfo.SendRequestLoop(targetURL.String(), cliUsername, cliPassword, cliAllowInsecure, cliID, cliInterval)
 		} else {
-			_, err := netinfo.SendRequest(targetURL.String(), cliUsername, cliPassword, cliSkipCertificateVerify, cliID)
+			_, err := netinfo.SendRequest(targetURL.String(), cliUsername, cliPassword, cliAllowInsecure, cliID)
 			if err != nil {
 				log.Println(err)
 			} else {
@@ -108,16 +106,4 @@ func main() {
 			log.Println(err)
 		}
 	}
-
-	//err := s3.SendRequest("http://192.168.1.185:9000", "default", "admin", "adminadmin", "", true, true, "storage", "center.json", "center")
-	//if err != nil {
-	//	log.Println(err)
-	//}
-
-	s := gS3.NewS3Session("http://192.168.1.185:9000", "default", "admin", "adminadmin", "", true, true)
-	result, err := s.DeleteBucket("storage11")
-	if err != nil {
-		log.Println(err.(awserr.Error))
-	}
-	fmt.Println(result)
 }

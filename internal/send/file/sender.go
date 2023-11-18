@@ -1,30 +1,24 @@
 package file
 
 import (
-	"github.com/gek64/gek/gJson"
 	"log"
-	"netinfo/internal/send"
+	"netinfo/internal/send/preload"
+	"os"
 	"time"
 )
 
-func SendRequest(file string, id string) (err error) {
-	// 组装负载
-	preload, err := send.NewPreload(id)
+func SendRequest(file string, id string, encryptedKey []byte) (err error) {
+	// 获取负载
+	p, err := preload.GetPreload(id, encryptedKey)
 	if err != nil {
 		return err
 	}
-
-	jsonOperator, err := gJson.NewJsonOperator(&preload)
-	if err != nil {
-		return err
-	}
-
-	return jsonOperator.WriteToFile(file)
+	return os.WriteFile(file, p, 0644)
 }
 
-func SendRequestLoop(file string, id string, interval time.Duration) {
+func SendRequestLoop(file string, id string, encryptedKey []byte, interval time.Duration) {
 	for {
-		err := SendRequest(file, id)
+		err := SendRequest(file, id, encryptedKey)
 		if err != nil {
 			log.Println(err)
 		} else {

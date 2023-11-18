@@ -1,37 +1,31 @@
 package webdav
 
 import (
-	"encoding/json"
 	"github.com/gek64/gek/gWebDAV"
 	"log"
 	"net/http"
-	"netinfo/internal/send"
+	"netinfo/internal/send/preload"
 	"time"
 )
 
-func SendRequest(endpoint string, file string, username string, password string, skipCertVerify bool, id string) (resp *http.Response, err error) {
-	client, err := gWebDAV.NewClient(endpoint, username, password, skipCertVerify)
+func SendRequest(endpoint string, filepath string, username string, password string, allowInsecure bool, id string, encryptedKey []byte) (resp *http.Response, err error) {
+	// 获取负载
+	p, err := preload.GetPreload(id, encryptedKey)
 	if err != nil {
 		return nil, err
 	}
 
-	// 组装负载
-	preload, err := send.NewPreload(id)
-	if err != nil {
-		return nil, err
-	}
-	// 负载结构体转换为比特切片
-	preloadBytes, err := json.Marshal(preload)
+	client, err := gWebDAV.NewClient(endpoint, username, password, allowInsecure)
 	if err != nil {
 		return nil, err
 	}
 
-	return client.Upload(file, preloadBytes)
+	return client.Upload(filepath, p)
 }
 
-func SendRequestLoop(endpoint string, file string, username string, password string, skipCertVerify bool, id string, interval time.Duration) {
+func SendRequestLoop(endpoint string, filepath string, username string, password string, allowInsecure bool, id string, encryptedKey []byte, interval time.Duration) {
 	for {
-		resp, err := SendRequest(endpoint, file, username, password, skipCertVerify, id)
+		resp, err := SendRequest(endpoint, filepath, username, password, allowInsecure, id, encryptedKey)
 		if err != nil {
 			log.Println(err)
 		} else {
