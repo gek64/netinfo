@@ -13,7 +13,7 @@ import (
 
 // UpsertRecord 内容记录
 func UpsertRecord(c *gin.Context) {
-	var reqBody RecordBody
+	var reqBody netinfo.Data
 	var data netinfo.Data
 
 	// 请求的body数据绑定到结构体

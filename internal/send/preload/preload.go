@@ -5,13 +5,13 @@ import (
 	"github.com/gek64/gek/gCrypto"
 	"golang.org/x/crypto/chacha20poly1305"
 	"netinfo/internal/netinfo"
-	"netinfo/internal/receive/controllers/recordService"
+	"time"
 )
 
 const AssociatedDataSize = 8
 
 func newPreload(id string) (preload []byte, err error) {
-	var preloadStrut recordService.RecordBody
+	var preloadStrut netinfo.Data
 
 	netInterfaces, err := netinfo.GetNetInterfaces()
 	if err != nil {
@@ -19,6 +19,7 @@ func newPreload(id string) (preload []byte, err error) {
 	}
 
 	preloadStrut.ID = id
+	preloadStrut.UpdatedAt = time.Now()
 	preloadStrut.NetInterfaces = netInterfaces
 
 	return json.Marshal(preloadStrut)
