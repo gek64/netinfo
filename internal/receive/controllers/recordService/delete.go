@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"netinfo/internal/cache"
+	"netinfo/internal/netinfo"
 )
 
 // DeleteRecordByID 删除记录(ID)
@@ -17,11 +18,11 @@ func DeleteRecordByID(c *gin.Context) {
 	}
 
 	// 删除内存数据库中记录内的元素
-	var newDatabase = []NetInfoInMemoryData{}
+	var newDatabase = []netinfo.Data{}
 	database, ok := cache.Get(Database)
 	if ok {
 		found := false
-		for _, d := range database.([]NetInfoInMemoryData) {
+		for _, d := range database.([]netinfo.Data) {
 			if d.ID == reqQuery.ID {
 				found = true
 			} else {
@@ -38,5 +39,5 @@ func DeleteRecordByID(c *gin.Context) {
 
 // DeleteRecordAll 删除所有记录
 func DeleteRecordAll(c *gin.Context) {
-	cache.Set(Database, []NetInfoInMemoryData{})
+	cache.Set(Database, []netinfo.Data{})
 }

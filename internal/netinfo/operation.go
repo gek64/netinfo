@@ -1,13 +1,12 @@
-package startup
+package netinfo
 
 import (
 	"fmt"
 	"github.com/gek64/gek/gNet"
 	"net/netip"
-	"netinfo/internal/receive/controllers/recordService"
 )
 
-func GetNetInterfaces() (netInterfaces []recordService.NetInterface, err error) {
+func GetNetInterfaces() (netInterfaces []NetInterface, err error) {
 	nis, err := gNet.GetNetInterfaces()
 	if err != nil {
 		return nil, err
@@ -47,7 +46,7 @@ func GetNetInterfaces() (netInterfaces []recordService.NetInterface, err error) 
 
 		// 跳过回环网络接口
 		if len(ips) > 0 {
-			netInterfaces = append(netInterfaces, recordService.NetInterface{
+			netInterfaces = append(netInterfaces, NetInterface{
 				Name: ni.Name,
 				IPs:  ips,
 				Mac:  ni.Mac,

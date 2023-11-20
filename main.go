@@ -5,12 +5,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/urfave/cli/v2"
 	"log"
+	"netinfo/internal/netinfo"
 	"netinfo/internal/receive/routers"
 	"netinfo/internal/send/file"
 	"netinfo/internal/send/nconnect"
 	"netinfo/internal/send/s3"
 	"netinfo/internal/send/webdav"
-	"netinfo/internal/startup"
 	"os"
 	"time"
 )
@@ -44,7 +44,7 @@ func main() {
 			Aliases: []string{"l"},
 			Usage:   "list network information",
 			Action: func(ctx *cli.Context) error {
-				return startup.PrintNetInterfaces()
+				return netinfo.PrintNetInterfaces()
 			},
 		},
 		{

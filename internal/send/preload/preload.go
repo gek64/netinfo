@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"github.com/gek64/gek/gCrypto"
 	"golang.org/x/crypto/chacha20poly1305"
+	"netinfo/internal/netinfo"
 	"netinfo/internal/receive/controllers/recordService"
-	"netinfo/internal/startup"
 )
 
 const AssociatedDataSize = 8
@@ -13,7 +13,7 @@ const AssociatedDataSize = 8
 func newPreload(id string) (preload []byte, err error) {
 	var preloadStrut recordService.RecordBody
 
-	netInterfaces, err := startup.GetNetInterfaces()
+	netInterfaces, err := netinfo.GetNetInterfaces()
 	if err != nil {
 		return nil, err
 	}

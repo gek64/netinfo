@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"netinfo/internal/cache"
+	"netinfo/internal/netinfo"
 )
 
 // ReadRecordByID 搜索记录(ID)
@@ -18,7 +19,7 @@ func ReadRecordByID(c *gin.Context) {
 
 	database, ok := cache.Get(Database)
 	if ok {
-		for _, d := range database.([]NetInfoInMemoryData) {
+		for _, d := range database.([]netinfo.Data) {
 			if d.ID == reqQuery.ID {
 				c.JSON(http.StatusOK, d)
 				return
@@ -34,6 +35,6 @@ func ReadRecordAll(c *gin.Context) {
 	if ok {
 		c.JSON(http.StatusOK, database)
 	} else {
-		c.JSON(http.StatusOK, []NetInfoInMemoryData{})
+		c.JSON(http.StatusOK, []netinfo.Data{})
 	}
 }
