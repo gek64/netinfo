@@ -50,19 +50,25 @@ jobs:
           go build -v -trimpath -ldflags "-s -w" -o "${{ github.workspace }}/gobuilder_runner"
           chmod +x "${{ github.workspace }}/gobuilder_runner"
           cd ${{ github.workspace }}
+          
+          # 获取版本信息
+          echo "$(go run . -v)" > bin/version.txt
 
           # 编译所有支持的架构/系统对
           go mod tidy
           "${{ github.workspace }}/gobuilder_runner" -main -d bin
+          
+          # 编译 openwrt mipsle 版本
+          export GOOS=linux
+          export GOARCH=mipsle
+          export GOMIPS=softfloat
+          go build -v -trimpath -ldflags "-s -w" -o bin/netinfo-linux-mipsle-softfloat
 
           # 显示文件路径(debug)
           # ls .. -R -las
 
           # 获取sha256 checksum
           sha256sum bin/* > bin/SHA256SUMS.txt
-
-          # 获取版本信息
-          echo "$(go run . -v)" > bin/version.txt
 
       - name: Remove old Releases
         uses: dev-drprasad/delete-older-releases@v0.3.2
