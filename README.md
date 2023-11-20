@@ -17,9 +17,9 @@ netinfo receive -listen localhost:1996
 # Send local network information to a file
 netinfo send file -id="center" -filepath="./center.json"
 ## Send local network information to a file and encrypt the file
-netinfo send file -id="center" -filepath="./center.json" -encryption_key="adminadmin"
-## Loop sending local network information to a file and encrypting the file
-netinfo send file -id="center" -filepath="./center.json" -encryption_key="adminadmin" -interval 5s
+netinfo send file -id="center" -filepath="./center.json" -encryption_key="admin123"
+## Loop sending local network information to a file and encrypt the file
+netinfo send file -id="center" -filepath="./center.json" -encryption_key="admin123" -interval 5s
 
 # Send local network information to s3 server
 netinfo send s3 -id="center" -endpoint="https://s3.amazonaws.com" -access_key_id="admin" -secret_access_key="adminadmin" -bucket="storage" -object_path="center.json"
