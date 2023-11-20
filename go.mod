@@ -5,7 +5,7 @@ go 1.21.1
 require (
 	github.com/gek64/gek v1.1.1-0.20231118143549-25524f1e3fd8
 	github.com/gin-gonic/gin v1.9.1
-	github.com/imroc/req/v3 v3.42.1
+	github.com/imroc/req/v3 v3.42.2
 	github.com/urfave/cli/v2 v2.25.7
 	golang.org/x/crypto v0.15.0
 )

@@ -20,6 +20,7 @@ start_cmd="${name}_start"
 
 netinfo_start() {
   echo "Starting ${name}."
+  export GIN_MODE=release
   /usr/sbin/daemon -cf -p ${pidfile} ${command} receive -listen localhost:1996
 }
 

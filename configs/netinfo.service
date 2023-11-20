@@ -3,6 +3,7 @@ Description=NetInfo Server
 After=network.target
 
 [Service]
+Environment="GIN_MODE=release"
 Type=simple
 User=root
 ExecStart=/usr/local/bin/netinfo receive -listen localhost:1996

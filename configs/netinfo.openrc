@@ -7,6 +7,8 @@ command_background=true
 command_user="root"
 pidfile="/run/${RC_SVCNAME}.pid"
 
+export GIN_MODE=release
+
 depend() {
   need net
   use dns logger netmount

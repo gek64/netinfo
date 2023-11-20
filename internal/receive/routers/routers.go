@@ -23,7 +23,7 @@ func LoadRecordRouters(router *gin.Engine) {
 }
 
 func LoadDebugRouters(router *gin.Engine) {
-	debugRouterGroup := router.Group("/debug")
+	debugRouterGroup := router.Group("/debug/")
 	{
 		debugRouterGroup.GET("/", debugService.Reflector)
 		debugRouterGroup.HEAD("/", debugService.Reflector)

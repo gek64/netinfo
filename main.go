@@ -60,7 +60,6 @@ func main() {
 						&cli.StringFlag{
 							Name:        "id",
 							Usage:       "set id",
-							Required:    true,
 							Destination: &id,
 						},
 						&cli.StringFlag{
@@ -96,7 +95,6 @@ func main() {
 						&cli.StringFlag{
 							Name:        "id",
 							Usage:       "set id",
-							Required:    true,
 							Destination: &id,
 						},
 						&cli.BoolFlag{
@@ -182,7 +180,6 @@ func main() {
 						&cli.StringFlag{
 							Name:        "id",
 							Usage:       "set id",
-							Required:    true,
 							Destination: &id,
 						},
 						&cli.BoolFlag{
@@ -287,7 +284,7 @@ func main() {
 					Name:        "listen",
 					Aliases:     []string{"l"},
 					Usage:       "set nconnect server listen address",
-					Value:       "127.0.0.1:1996",
+					Value:       "localhost:1996",
 					Destination: &listen_address,
 				},
 			},
@@ -295,7 +292,9 @@ func main() {
 				// 创建默认路由引擎
 				engine := gin.Default()
 				routers.LoadRecordRouters(engine)
-				routers.LoadDebugRouters(engine)
+				if os.Getenv(gin.EnvGinMode) == gin.DebugMode || os.Getenv(gin.EnvGinMode) == "" {
+					routers.LoadDebugRouters(engine)
+				}
 
 				// 启动
 				return engine.Run(listen_address)
