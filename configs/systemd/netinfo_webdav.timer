@@ -1,0 +1,11 @@
+[Unit]
+Description=NetInfo Webdav Sender Timer
+
+[Timer]
+Unit=netinfo_webdav.service
+OnBootSec=10s
+OnUnitActiveSec=5m
+Persistent=true
+
+[Install]
+WantedBy=multi-user.target

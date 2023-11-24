@@ -2,7 +2,7 @@
 # https://github.com/OpenRC/openrc/blob/master/service-script-guide.md
 
 command="/usr/local/bin/netinfo"
-command_args="receive -listen localhost:1996"
+command_args="receive -listen=localhost:1996"
 command_background=true
 command_user="root"
 pidfile="/run/${RC_SVCNAME}.pid"

@@ -1,0 +1,11 @@
+[Unit]
+Description=NetInfo Nconnect Sender Timer
+
+[Timer]
+Unit=netinfo_nconnect.service
+OnBootSec=10s
+OnUnitActiveSec=5m
+Persistent=true
+
+[Install]
+WantedBy=multi-user.target

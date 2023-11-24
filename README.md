@@ -60,25 +60,25 @@ chmod +x /usr/local/bin/netinfo
 ### Linux(systemd)
 
 ```sh
-curl -Lo /etc/systemd/system/netinfo.service https://github.com/gek64/netinfo/raw/main/configs/netinfo.service
-systemctl enable netinfo && systemctl restart netinfo && systemctl status netinfo
+curl -Lo /etc/systemd/system/xxx.service https://github.com/gek64/netinfo/raw/main/configs/systemd/xxx.service
+systemctl enable xxx && systemctl restart xxx && systemctl status xxx
 ```
 
-### Linux(openrc)
+### Alpine Linux(openrc)
 
 ```sh
-curl -Lo /etc/init.d/netinfo https://github.com/gek64/netinfo/raw/main/configs/netinfo.openrc
-chmod +x /etc/init.d/netinfo
-rc-update add netinfo && rc-service netinfo restart && rc-service netinfo status
+curl -Lo /etc/init.d/xxx https://github.com/gek64/netinfo/raw/main/configs/openrc/xxx
+chmod +x /etc/init.d/xxx
+rc-update add xxx && rc-service xxx restart && rc-service xxx status
 ```
 
 ### FreeBSD(rc.d)
 
 ```sh
 mkdir /usr/local/etc/rc.d/
-curl -Lo /usr/local/etc/rc.d/netinfo https://github.com/gek64/netinfo/raw/main/configs/netinfo.rcd
-chmod +x /usr/local/etc/rc.d/netinfo
-service netinfo enable && service netinfo restart && service netinfo status
+curl -Lo /usr/local/etc/rc.d/xxx https://github.com/gek64/netinfo/raw/main/configs/rc.d/xxx
+chmod +x /usr/local/etc/rc.d/xxx
+service xxx enable && service xxx restart && service xxx status
 ```
 
 ## Compile
