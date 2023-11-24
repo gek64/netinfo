@@ -81,6 +81,13 @@ chmod +x /usr/local/etc/rc.d/netinfo
 service netinfo enable && service netinfo restart && service netinfo status
 ```
 
+### cron
+
+```sh
+echo '*/10 * * * * root (/usr/local/bin/netinfo send s3 -endpoint="http://192.168.1.185:9000")' > /etc/cron.d/netinfo
+service cron restart
+```
+
 ## Compile
 
 ### How to compile if prebuilt binaries are not found
