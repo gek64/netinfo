@@ -83,6 +83,14 @@ chmod +x /usr/local/etc/rc.d/xxx
 service xxx enable && service xxx restart && service xxx status
 ```
 
+### OpenWRT(init.d)
+
+```sh
+curl -Lo /etc/init.d/xxx https://github.com/gek64/netinfo/raw/main/configs/init.d/xxx
+chmod +x /etc/init.d/xxx
+service xxx enable && service xxx restart && service xxx status
+```
+
 ## Compile
 
 ### How to compile if prebuilt binaries are not found
