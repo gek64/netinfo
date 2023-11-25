@@ -61,7 +61,9 @@ chmod +x /usr/local/bin/netinfo
 
 ```sh
 curl -Lo /etc/systemd/system/xxx.service https://github.com/gek64/netinfo/raw/main/configs/systemd/xxx.service
-systemctl enable xxx && systemctl restart xxx && systemctl status xxx
+systemctl enable xxx.service && systemctl restart xxx.service && systemctl status xxx.service
+curl -Lo /etc/systemd/system/xxx.timer https://github.com/gek64/netinfo/raw/main/configs/systemd/xxx.timer
+systemctl enable xxx.timer && systemctl restart xxx.timer && systemctl status xxx.timer
 ```
 
 ### Alpine Linux(openrc)
