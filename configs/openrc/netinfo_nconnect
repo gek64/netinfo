@@ -1,16 +1,18 @@
 #!/sbin/openrc-run
 # https://github.com/OpenRC/openrc/blob/master/service-script-guide.md
+# env
+export N_ID="xxx"
+export N_ENDPOINT="xxx"
+export N_INTERVAL="5m"
 
 command="/usr/local/bin/netinfo"
-command_args="receive -listen=localhost:1996"
+command_args="send nconnect -id=${N_ID} -endpoint=${N_ENDPOINT} -allow_insecure -interval=${N_INTERVAL}"
 command_background=true
 command_user="root"
 pidfile="/run/${RC_SVCNAME}.pid"
 
-export GIN_MODE=release
-
 depend() {
   need net
   use dns logger netmount
-  after sshd firewall
+  after firewall
 }

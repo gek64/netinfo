@@ -11,7 +11,7 @@ start_cmd="${name}_start"
 
 # env
 N_ID="xxx"
-N_ENDPOINT="https://xxx"
+N_ENDPOINT="xxx"
 N_INTERVAL="5m"
 
 netinfo_nconnect_start() {

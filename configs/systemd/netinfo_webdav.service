@@ -4,7 +4,7 @@ After=network.target network-online.target
 
 [Service]
 Environment="GIN_MODE=release"
-Environment="N_ENDPOINT=http://xxx"
+Environment="N_ENDPOINT=xxx"
 Environment="N_USERNAME=xxx"
 Environment="N_PASSWORD=xxx"
 Environment="N_FILEPATH=xxx"
