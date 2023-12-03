@@ -9,7 +9,7 @@ import (
 var globalMap sync.Map
 var globalMapLen int64
 
-func SetTimeout(key string, data interface{}, timeout time.Duration) {
+func SetTimeout(key string, data any, timeout time.Duration) {
 	globalMap.Store(key, data)
 	atomic.AddInt64(&globalMapLen, 1)
 	time.AfterFunc(timeout, func() {
@@ -18,12 +18,12 @@ func SetTimeout(key string, data interface{}, timeout time.Duration) {
 	})
 }
 
-func Set(key string, data interface{}) {
+func Set(key string, data any) {
 	globalMap.Store(key, data)
 	atomic.AddInt64(&globalMapLen, 1)
 }
 
-func Get(key string) (value interface{}, ok bool) {
+func Get(key string) (value any, ok bool) {
 	return globalMap.Load(key)
 }
 
