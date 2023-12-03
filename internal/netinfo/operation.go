@@ -36,7 +36,7 @@ func GetNetInterfaces() (netInterfaces []NetInterface, err error) {
 			if isPrivate {
 				//continue
 			}
-			// 地址转换
+			// 地址转换出错
 			ipAddr, err := netip.ParseAddr(ipString)
 			if err != nil {
 				continue
