@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-const AssociatedDataSize = 8
+const AssociatedDataSize = 16
 
 func newPreload(id string) (preload []byte, err error) {
 	var preloadStrut netinfo.Data
