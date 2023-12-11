@@ -98,6 +98,7 @@ service xxx enable && service xxx restart && service xxx status
 ```sh
 git clone https://github.com/gek64/netinfo.git
 cd netinfo
+export CGO_ENABLED=0
 go build -v -trimpath -ldflags "-s -w"
 ```
 
