@@ -102,6 +102,18 @@ export CGO_ENABLED=0
 go build -v -trimpath -ldflags "-s -w"
 ```
 
+## For mipsle router
+
+```sh
+git clone https://github.com/gek64/netinfo.git
+cd netinfo
+export GOOS=linux
+export GOARCH=mipsle
+export GOMIPS=softfloat
+export CGO_ENABLED=0
+go build -v -trimpath -ldflags "-s -w"
+```
+
 ## License
 
 - **GPL-3.0 License**
