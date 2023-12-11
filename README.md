@@ -102,7 +102,7 @@ export CGO_ENABLED=0
 go build -v -trimpath -ldflags "-s -w"
 ```
 
-## For mipsle router
+### For mipsle router
 
 ```sh
 git clone https://github.com/gek64/netinfo.git
