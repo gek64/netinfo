@@ -1,14 +1,14 @@
 package preload
 
 import (
+	"crypto/sha256"
 	"encoding/json"
 	"github.com/gek64/gek/gCrypto"
+	"github.com/gek64/gek/gCrypto/padding"
 	"golang.org/x/crypto/chacha20poly1305"
 	"netinfo/internal/netinfo"
 	"time"
 )
-
-const AssociatedDataSize = 16
 
 func newPreload(id string) (preload []byte, err error) {
 	var preloadStrut netinfo.Data
@@ -25,12 +25,12 @@ func newPreload(id string) (preload []byte, err error) {
 	return json.Marshal(preloadStrut)
 }
 
-func newEncryptedPreload(id string, key []byte, associatedDataSize uint) (preload []byte, err error) {
+func newEncryptedPreload(id string, key []byte) (preload []byte, err error) {
 	plaintext, err := newPreload(id)
 	if err != nil {
 		return nil, err
 	}
-	return gCrypto.NewChaCha20Poly1305(key, associatedDataSize).Encrypt(plaintext)
+	return gCrypto.NewChaCha20Poly1305WithHashAD(key, sha256.New()).Encrypt(plaintext)
 }
 
 func GetPreload(id string, key []byte) (preload []byte, err error) {
@@ -39,8 +39,8 @@ func GetPreload(id string, key []byte) (preload []byte, err error) {
 	case 0:
 		return newPreload(id)
 	default:
-		key = gCrypto.KeyZeroPadding(key, chacha20poly1305.KeySize)
-		key = gCrypto.KeyCropping(key, chacha20poly1305.KeySize)
-		return newEncryptedPreload(id, key, AssociatedDataSize)
+		key = padding.ZeroPadding(key, chacha20poly1305.KeySize)
+		key = key[0:chacha20poly1305.KeySize]
+		return newEncryptedPreload(id, key)
 	}
 }

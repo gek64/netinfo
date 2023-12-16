@@ -309,7 +309,7 @@ func main() {
 
 	app := &cli.App{
 		Usage:    "Network information manager",
-		Version:  "v3.00",
+		Version:  "v3.01",
 		Commands: cmds,
 	}
 
