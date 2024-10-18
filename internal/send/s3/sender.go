@@ -15,8 +15,8 @@ func SendRequest(endpoint string, region string, accessKeyId string, secretAcces
 	}
 
 	// 使用 s3 协议上传负载
-	s := gS3.NewS3Session(endpoint, region, accessKeyId, secretAccessKey, stsToken, pathStyle, allowInsecure)
-	result, err := s.UploadObject(bucket, objectPath, p)
+	c := gS3.NewS3Client(endpoint, region, accessKeyId, secretAccessKey, stsToken, pathStyle, allowInsecure)
+	result, err := c.UploadObject(bucket, objectPath, p)
 	if err != nil {
 		return nil, err
 	}
