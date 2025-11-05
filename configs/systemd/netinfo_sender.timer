@@ -1,8 +1,8 @@
 [Unit]
-Description=NetInfo S3 Sender Timer
+Description=NetInfo Sender Timer
 
 [Timer]
-Unit=netinfo_s3.service
+Unit=netinfo.service
 OnBootSec=10s
 OnUnitActiveSec=5m
 Persistent=true

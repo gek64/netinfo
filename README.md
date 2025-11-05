@@ -55,44 +55,40 @@ curl -Lo /usr/local/bin/netinfo https://github.com/gek64/netinfo/releases/latest
 chmod +x /usr/local/bin/netinfo
 ```
 
-## Install Service
+## Install Service(WebDAV usage examples)
 
 ### Linux(systemd)
 
 ```sh
-ServiceName=netinfo_webdav
-curl -Lo "/etc/systemd/system/$ServiceName.service" "https://github.com/gek64/netinfo/raw/main/configs/systemd/$ServiceName.service"
-systemctl enable $ServiceName.service && systemctl restart $ServiceName.service && systemctl status $ServiceName.service
-curl -Lo "/etc/systemd/system/$ServiceName.timer" "https://github.com/gek64/netinfo/raw/main/configs/systemd/$ServiceName.timer"
-systemctl enable $ServiceName.timer && systemctl restart $ServiceName.timer && systemctl status $ServiceName.timer
+curl -Lo "/etc/systemd/system/netinfo.service" "https://github.com/gek64/netinfo/raw/main/configs/systemd/netinfo_sender_webdav.service"
+systemctl enable netinfo.service && systemctl restart netinfo.service && systemctl status netinfo.service
+curl -Lo "/etc/systemd/system/netinfo.timer" "https://github.com/gek64/netinfo/raw/main/configs/systemd/netinfo_sender.timer"
+systemctl enable netinfo.timer && systemctl restart netinfo.timer && systemctl status netinfo.timer
 ```
 
 ### Alpine Linux(openrc)
 
 ```sh
-ServiceName=netinfo_webdav
-curl -Lo "/etc/init.d/$ServiceName" "https://github.com/gek64/netinfo/raw/main/configs/openrc/$ServiceName"
-chmod +x /etc/init.d/$ServiceName
-rc-update add $ServiceName && rc-service $ServiceName restart && rc-service $ServiceName status
+curl -Lo "/etc/init.d/netinfo" "https://github.com/gek64/netinfo/raw/main/configs/openrc/netinfo_sender_webdav"
+chmod +x /etc/init.d/netinfo
+rc-update add netinfo && rc-service netinfo restart && rc-service netinfo status
 ```
 
 ### FreeBSD(rc.d)
 
 ```sh
-setenv ServiceName netinfo_webdav
 mkdir /usr/local/etc/rc.d/
-curl -Lo "/usr/local/etc/rc.d/$ServiceName" "https://github.com/gek64/netinfo/raw/main/configs/rc.d/$ServiceName"
-chmod +x /usr/local/etc/rc.d/$ServiceName
-service $ServiceName enable && service $ServiceName restart && service $ServiceName status
+curl -Lo "/usr/local/etc/rc.d/netinfo" "https://github.com/gek64/netinfo/raw/main/configs/rc.d/netinfo_sender_webdav"
+chmod +x /usr/local/etc/rc.d/netinfo
+service netinfo enable && service netinfo restart && service netinfo status
 ```
 
 ### OpenWRT(init.d)
 
 ```sh
-ServiceName=netinfo_webdav
-curl -Lo "/etc/init.d/$ServiceName" "https://github.com/gek64/netinfo/raw/main/configs/init.d/$ServiceName"
-chmod +x /etc/init.d/$ServiceName
-service $ServiceName enable && service $ServiceName restart && service $ServiceName status
+curl -Lo "/etc/init.d/netinfo" "https://github.com/gek64/netinfo/raw/main/configs/init.d/netinfo_sender_webdav"
+chmod +x /etc/init.d/netinfo
+service netinfo enable && service netinfo restart && service netinfo status
 ```
 
 ## Compile

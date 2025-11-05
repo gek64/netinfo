@@ -3,7 +3,6 @@ Description=NetInfo Webdav Sender
 After=network.target network-online.target
 
 [Service]
-Environment="GIN_MODE=release"
 Environment="N_ENDPOINT=xxx"
 Environment="N_USERNAME=xxx"
 Environment="N_PASSWORD=xxx"
@@ -12,7 +11,6 @@ Environment="N_ENCRYPTION_KEY=xxx"
 Type=oneshot
 User=root
 ExecStart=/usr/local/bin/netinfo send webdav -endpoint=${N_ENDPOINT} -username=${N_USERNAME} -password=${N_PASSWORD} -filepath=${N_FILEPATH} -encryption_key=${N_ENCRYPTION_KEY}
-SyslogIdentifier=NetInfo Webdav Sender
 
 [Install]
 WantedBy=multi-user.target

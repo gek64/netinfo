@@ -1,9 +1,9 @@
 #!/bin/sh
-# PROVIDE: netinfo_webdav
+# PROVIDE: netinfo
 # REQUIRE: DAEMON NETWORKING
 
 . /etc/rc.subr
-name=netinfo_webdav
+name=netinfo
 rcvar=${name}_enable
 command="/usr/local/bin/netinfo"
 pidfile="/var/run/${name}.pid"
@@ -19,7 +19,6 @@ N_INTERVAL="5m"
 
 netinfo_webdav_start() {
   echo "Starting ${name}."
-  export GIN_MODE=release
   /usr/sbin/daemon -cf -p ${pidfile} ${command} send webdav -endpoint=${N_ENDPOINT} -username=${N_USERNAME} -password=${N_PASSWORD} -filepath=${N_FILEPATH} -encryption_key=${N_ENCRYPTION_KEY} -interval=${N_INTERVAL}
 }
 

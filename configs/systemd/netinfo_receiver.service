@@ -9,7 +9,6 @@ Type=simple
 User=root
 Restart=on-failure
 ExecStart=/usr/local/bin/netinfo receive -listen=${N_LISTEN}
-SyslogIdentifier=NetInfo Receiver
 
 [Install]
 WantedBy=multi-user.target

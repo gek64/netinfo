@@ -1,9 +1,9 @@
 #!/bin/sh
-# PROVIDE: netinfo_nconnect
+# PROVIDE: netinfo
 # REQUIRE: DAEMON NETWORKING
 
 . /etc/rc.subr
-name=netinfo_nconnect
+name=netinfo
 rcvar=${name}_enable
 command="/usr/local/bin/netinfo"
 pidfile="/var/run/${name}.pid"
@@ -16,7 +16,6 @@ N_INTERVAL="5m"
 
 netinfo_nconnect_start() {
   echo "Starting ${name}."
-  export GIN_MODE=release
   /usr/sbin/daemon -cf -p ${pidfile} ${command} send nconnect -id=${N_ID} -endpoint=${N_ENDPOINT} -allow_insecure -interval=${N_INTERVAL}
 }
 
