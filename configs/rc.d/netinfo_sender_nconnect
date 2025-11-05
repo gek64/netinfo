@@ -14,7 +14,7 @@ N_ID="xxx"
 N_ENDPOINT="xxx"
 N_INTERVAL="5m"
 
-netinfo_nconnect_start() {
+netinfo_start() {
   echo "Starting ${name}."
   /usr/sbin/daemon -cf -p ${pidfile} ${command} send nconnect -id=${N_ID} -endpoint=${N_ENDPOINT} -allow_insecure -interval=${N_INTERVAL}
 }
