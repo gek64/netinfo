@@ -9,7 +9,9 @@
 
 ```sh
 # Show local network information
-netinfo list
+netinfo show
+## Show send preload
+netinfo show -p
 
 # Send local network information to a file
 netinfo send file -filepath="./home.json"
