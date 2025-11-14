@@ -20,7 +20,6 @@ func main() {
 	var showPreload bool
 
 	// send mode
-	var id string
 	var allowInsecure bool
 	var encryptionKey string
 	var interval time.Duration
@@ -57,7 +56,7 @@ func main() {
 				var netInterfaces []netinfo.NetInterface
 
 				if showPreload {
-					p, err = preload.GetPreload(id, []byte(encryptionKey))
+					p, err = preload.GetPreload([]byte(encryptionKey))
 				} else {
 					netInterfaces, err = netinfo.GetNetInterfaces()
 					p, err = json.Marshal(netInterfaces)
@@ -78,11 +77,6 @@ func main() {
 					Usage: "send to filesystem",
 					Flags: []cli.Flag{
 						&cli.StringFlag{
-							Name:        "id",
-							Usage:       "set id",
-							Destination: &id,
-						},
-						&cli.StringFlag{
 							Name:        "filepath",
 							Usage:       "set file path",
 							Required:    true,
@@ -101,9 +95,9 @@ func main() {
 					},
 					Action: func(ctx *cli.Context) error {
 						if interval != 0 {
-							file.SendRequestLoop(filepath, id, []byte(encryptionKey), interval)
+							file.SendRequestLoop(filepath, []byte(encryptionKey), interval)
 						} else {
-							return file.SendRequest(filepath, id, []byte(encryptionKey))
+							return file.SendRequest(filepath, []byte(encryptionKey))
 						}
 						return nil
 					},
@@ -112,11 +106,6 @@ func main() {
 					Name:  "s3",
 					Usage: "send to s3 server",
 					Flags: []cli.Flag{
-						&cli.StringFlag{
-							Name:        "id",
-							Usage:       "set id",
-							Destination: &id,
-						},
 						&cli.BoolFlag{
 							Name:        "allow_insecure",
 							Usage:       "set allow insecure connect",
@@ -183,9 +172,9 @@ func main() {
 					},
 					Action: func(ctx *cli.Context) error {
 						if interval != 0 {
-							s3.SendRequestLoop(endpoint, regin, username, password, stsToken, pathStyle, allowInsecure, bucket, objectPath, id, []byte(encryptionKey), interval)
+							s3.SendRequestLoop(endpoint, regin, username, password, stsToken, pathStyle, allowInsecure, bucket, objectPath, []byte(encryptionKey), interval)
 						} else {
-							_, err := s3.SendRequest(endpoint, regin, username, password, stsToken, pathStyle, allowInsecure, bucket, objectPath, id, []byte(encryptionKey))
+							_, err := s3.SendRequest(endpoint, regin, username, password, stsToken, pathStyle, allowInsecure, bucket, objectPath, []byte(encryptionKey))
 							if err != nil {
 								return err
 							}
@@ -197,11 +186,6 @@ func main() {
 					Name:  "webdav",
 					Usage: "send to webdav server",
 					Flags: []cli.Flag{
-						&cli.StringFlag{
-							Name:        "id",
-							Usage:       "set id",
-							Destination: &id,
-						},
 						&cli.BoolFlag{
 							Name:        "allow_insecure",
 							Usage:       "set allow insecure connect",
@@ -243,9 +227,9 @@ func main() {
 					},
 					Action: func(ctx *cli.Context) error {
 						if interval != 0 {
-							webdav.SendRequestLoop(endpoint, username, password, allowInsecure, filepath, id, []byte(encryptionKey), interval)
+							webdav.SendRequestLoop(endpoint, username, password, allowInsecure, filepath, []byte(encryptionKey), interval)
 						} else {
-							_, err := webdav.SendRequest(endpoint, username, password, allowInsecure, filepath, id, []byte(encryptionKey))
+							_, err := webdav.SendRequest(endpoint, username, password, allowInsecure, filepath, []byte(encryptionKey))
 							if err != nil {
 								return err
 							}

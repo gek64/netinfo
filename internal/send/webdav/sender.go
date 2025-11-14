@@ -9,9 +9,9 @@ import (
 	"github.com/gek64/gek/gWebDAV"
 )
 
-func SendRequest(endpoint string, username string, password string, allowInsecure bool, filepath string, id string, encryptionKey []byte) (resp *http.Response, err error) {
+func SendRequest(endpoint string, username string, password string, allowInsecure bool, filepath string, encryptionKey []byte) (resp *http.Response, err error) {
 	// 获取负载
-	p, err := preload.GetPreload(id, encryptionKey)
+	p, err := preload.GetPreload(encryptionKey)
 	if err != nil {
 		return nil, err
 	}
@@ -24,9 +24,9 @@ func SendRequest(endpoint string, username string, password string, allowInsecur
 	return client.Upload(filepath, p)
 }
 
-func SendRequestLoop(endpoint string, username string, password string, allowInsecure bool, filepath string, id string, encryptionKey []byte, interval time.Duration) {
+func SendRequestLoop(endpoint string, username string, password string, allowInsecure bool, filepath string, encryptionKey []byte, interval time.Duration) {
 	for {
-		resp, err := SendRequest(endpoint, username, password, allowInsecure, filepath, id, encryptionKey)
+		resp, err := SendRequest(endpoint, username, password, allowInsecure, filepath, encryptionKey)
 		if err != nil {
 			log.Println(err)
 		} else {

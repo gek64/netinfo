@@ -8,9 +8,9 @@ import (
 	"github.com/gek64/gek/gS3"
 )
 
-func SendRequest(endpoint string, region string, accessKeyId string, secretAccessKey string, stsToken string, pathStyle bool, allowInsecure bool, bucket string, objectPath string, id string, encryptionKey []byte) (location *string, err error) {
+func SendRequest(endpoint string, region string, accessKeyId string, secretAccessKey string, stsToken string, pathStyle bool, allowInsecure bool, bucket string, objectPath string, encryptionKey []byte) (location *string, err error) {
 	// 获取负载
-	p, err := preload.GetPreload(id, encryptionKey)
+	p, err := preload.GetPreload(encryptionKey)
 	if err != nil {
 		return nil, err
 	}
@@ -24,9 +24,9 @@ func SendRequest(endpoint string, region string, accessKeyId string, secretAcces
 	return &result.Location, nil
 }
 
-func SendRequestLoop(endpoint string, region string, accessKeyId string, secretAccessKey string, stsToken string, pathStyle bool, allowInsecure bool, bucket string, objectPath string, id string, encryptionKey []byte, interval time.Duration) {
+func SendRequestLoop(endpoint string, region string, accessKeyId string, secretAccessKey string, stsToken string, pathStyle bool, allowInsecure bool, bucket string, objectPath string, encryptionKey []byte, interval time.Duration) {
 	for {
-		location, err := SendRequest(endpoint, region, accessKeyId, secretAccessKey, stsToken, pathStyle, allowInsecure, bucket, objectPath, id, encryptionKey)
+		location, err := SendRequest(endpoint, region, accessKeyId, secretAccessKey, stsToken, pathStyle, allowInsecure, bucket, objectPath, encryptionKey)
 		if err != nil {
 			log.Println(err)
 		} else {

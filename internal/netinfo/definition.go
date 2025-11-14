@@ -6,9 +6,7 @@ import (
 )
 
 type Data struct {
-	ID            string         `json:"id" xml:"id" form:"id" binding:"required"`
 	UpdatedAt     time.Time      `json:"updatedAt,omitempty" xml:"updatedAt,omitempty" form:"updatedAt,omitempty"`
-	RequestIP     netip.Addr     `json:"requestIP,omitempty" xml:"requestIP,omitempty" form:"requestIP,omitempty"`
 	NetInterfaces []NetInterface `json:"netInterfaces" xml:"netInterfaces" form:"netInterfaces" binding:"required"`
 }
 
