@@ -3,11 +3,12 @@ package preload
 import (
 	"crypto/sha256"
 	"encoding/json"
+	"netinfo/internal/netinfo"
+	"time"
+
 	"github.com/gek64/gek/gCrypto"
 	"github.com/gek64/gek/gCrypto/padding"
 	"golang.org/x/crypto/chacha20poly1305"
-	"netinfo/internal/netinfo"
-	"time"
 )
 
 func newPreload(id string) (preload []byte, err error) {

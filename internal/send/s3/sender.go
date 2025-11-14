@@ -1,10 +1,11 @@
 package s3
 
 import (
-	"github.com/gek64/gek/gS3"
 	"log"
 	"netinfo/internal/send/preload"
 	"time"
+
+	"github.com/gek64/gek/gS3"
 )
 
 func SendRequest(endpoint string, region string, accessKeyId string, secretAccessKey string, stsToken string, pathStyle bool, allowInsecure bool, bucket string, objectPath string, id string, encryptionKey []byte) (location *string, err error) {

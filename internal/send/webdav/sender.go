@@ -1,11 +1,12 @@
 package webdav
 
 import (
-	"github.com/gek64/gek/gWebDAV"
 	"log"
 	"net/http"
 	"netinfo/internal/send/preload"
 	"time"
+
+	"github.com/gek64/gek/gWebDAV"
 )
 
 func SendRequest(endpoint string, username string, password string, allowInsecure bool, filepath string, id string, encryptionKey []byte) (resp *http.Response, err error) {

@@ -1,9 +1,9 @@
 package netinfo
 
 import (
-	"fmt"
-	"github.com/gek64/gek/gNet"
 	"net/netip"
+
+	"github.com/gek64/gek/gNet"
 )
 
 func GetNetInterfaces() (netInterfaces []NetInterface, err error) {
@@ -55,15 +55,4 @@ func GetNetInterfaces() (netInterfaces []NetInterface, err error) {
 	}
 
 	return netInterfaces, nil
-}
-
-func PrintNetInterfaces() (err error) {
-	netInterfaces, err := GetNetInterfaces()
-	if err != nil {
-		return err
-	}
-	for _, netInterface := range netInterfaces {
-		fmt.Printf("name: %s\nmac: %s\nips: %v\n", netInterface.Name, netInterface.Mac, netInterface.IPs)
-	}
-	return nil
 }

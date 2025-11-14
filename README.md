@@ -3,7 +3,7 @@
 ## Features
 
 - Send network information to a remote server or file
-- Gateway for receiving network information
+- Show local network information
 
 ## Example
 
@@ -11,36 +11,28 @@
 # Show local network information
 netinfo list
 
-# Start nconnect server
-netinfo receive -listen localhost:1996
-
 # Send local network information to a file
-netinfo send file -filepath="./center.json"
+netinfo send file -filepath="./home.json"
 ## Send local network information to a file and encrypt the file
-netinfo send file -filepath="./center.json" -encryption_key="admin123"
+netinfo send file -filepath="./home.json" -encryption_key="admin123"
 ## Loop sending local network information to a file and encrypt the file
-netinfo send file -filepath="./center.json" -encryption_key="admin123" -interval="5m"
+netinfo send file -filepath="./home.json" -encryption_key="admin123" -interval="5m"
 
 # Send local network information to s3 server
-netinfo send s3 -endpoint="https://s3.amazonaws.com" -access_key_id="admin" -secret_access_key="adminadmin" -bucket="storage" -object_path="center.json"
+netinfo send s3 -endpoint="https://s3.amazonaws.com" -access_key_id="admin" -secret_access_key="adminadmin" -bucket="storage" -object_path="home.json"
 ## Send local network information to minio s3 server
-netinfo send s3 -endpoint="http://192.168.1.185:9000" -path_style -access_key_id="admin" -secret_access_key="adminadmin" -bucket="storage" -object_path="center.json"
+netinfo send s3 -endpoint="http://192.168.1.185:9000" -path_style -access_key_id="admin" -secret_access_key="adminadmin" -bucket="storage" -object_path="home.json"
 ## Send local network information to minio s3 server and encrypt the file
-netinfo send s3 -endpoint="http://192.168.1.185:9000" -path_style -access_key_id="admin" -secret_access_key="adminadmin" -bucket="storage" -object_path="center.json" -encryption_key="admin123"
+netinfo send s3 -endpoint="http://192.168.1.185:9000" -path_style -access_key_id="admin" -secret_access_key="adminadmin" -bucket="storage" -object_path="home.json" -encryption_key="admin123"
 ## Loop Send local network information to minio s3 server and encrypt the file
-netinfo send s3 -endpoint="http://192.168.1.185:9000" -path_style -access_key_id="admin" -secret_access_key="adminadmin" -bucket="storage" -object_path="center.json" -encryption_key="admin123" -interval="5m"
+netinfo send s3 -endpoint="http://192.168.1.185:9000" -path_style -access_key_id="admin" -secret_access_key="adminadmin" -bucket="storage" -object_path="home.json" -encryption_key="admin123" -interval="5m"
 
 # Send local network information to webdav server
-netinfo send webdav -endpoint="http://192.168.1.2/" -filepath="/dav/center.json"
+netinfo send webdav -endpoint="http://192.168.1.2/" -filepath="/dav/home.json"
 ## Send local network information to webdav server and encrypt the file
-netinfo send webdav -endpoint="http://192.168.1.2/" -filepath="/dav/center.json" -encryption_key="admin123"
+netinfo send webdav -endpoint="http://192.168.1.2/" -filepath="/dav/home.json" -encryption_key="admin123"
 ## Loop Send local network information to webdav server and encrypt the file
-netinfo send webdav -endpoint="http://192.168.1.2/" -filepath="/dav/center.json" -encryption_key="admin123" -interval="5m"
-
-# Send local network information to nconnect server
-netinfo send nconnect -id="center" -endpoint="http://localhost:1996/"
-## Loop Send local network information to nconnect server
-netinfo send nconnect -id="center" -endpoint="http://localhost:1996/" -interval="5m"
+netinfo send webdav -endpoint="http://192.168.1.2/" -filepath="/dav/home.json" -encryption_key="admin123" -interval="5m"
 ```
 
 ## Install
