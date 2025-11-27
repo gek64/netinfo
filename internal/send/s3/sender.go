@@ -5,7 +5,7 @@ import (
 	"netinfo/internal/send/preload"
 	"time"
 
-	"github.com/gek64/gek/gS3"
+	"github.com/unix755/xtools/xS3"
 )
 
 func SendRequest(endpoint string, region string, accessKeyId string, secretAccessKey string, stsToken string, pathStyle bool, allowInsecure bool, bucket string, objectPath string, encryptionKey []byte) (location *string, err error) {
@@ -16,7 +16,7 @@ func SendRequest(endpoint string, region string, accessKeyId string, secretAcces
 	}
 
 	// 使用 s3 协议上传负载
-	c := gS3.NewS3Client(endpoint, region, accessKeyId, secretAccessKey, stsToken, pathStyle, allowInsecure)
+	c := xS3.NewS3Client(endpoint, region, accessKeyId, secretAccessKey, stsToken, pathStyle, allowInsecure)
 	result, err := c.UploadObject(bucket, objectPath, p)
 	if err != nil {
 		return nil, err

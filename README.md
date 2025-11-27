@@ -41,11 +41,11 @@ netinfo send webdav -endpoint="http://192.168.1.2/" -filepath="/dav/home.json" -
 
 ```sh
 # system is linux(debian,redhat linux,ubuntu,fedora...) and arch is amd64
-curl -Lo /usr/local/bin/netinfo https://github.com/gek64/netinfo/releases/latest/download/netinfo-linux-amd64
+curl -Lo /usr/local/bin/netinfo https://github.com/unix755/netinfo/releases/latest/download/netinfo-linux-amd64
 chmod +x /usr/local/bin/netinfo
 
 # system is freebsd and arch is amd64
-curl -Lo /usr/local/bin/netinfo https://github.com/gek64/netinfo/releases/latest/download/netinfo-freebsd-amd64
+curl -Lo /usr/local/bin/netinfo https://github.com/unix755/netinfo/releases/latest/download/netinfo-freebsd-amd64
 chmod +x /usr/local/bin/netinfo
 ```
 
@@ -54,16 +54,16 @@ chmod +x /usr/local/bin/netinfo
 ### Linux(systemd)
 
 ```sh
-curl -Lo "/etc/systemd/system/netinfo.service" "https://github.com/gek64/netinfo/raw/main/configs/systemd/netinfo_sender_webdav.service"
+curl -Lo "/etc/systemd/system/netinfo.service" "https://github.com/unix755/netinfo/raw/main/configs/systemd/netinfo_sender_webdav.service"
 systemctl enable netinfo.service && systemctl restart netinfo.service && systemctl status netinfo.service
-curl -Lo "/etc/systemd/system/netinfo.timer" "https://github.com/gek64/netinfo/raw/main/configs/systemd/netinfo_sender.timer"
+curl -Lo "/etc/systemd/system/netinfo.timer" "https://github.com/unix755/netinfo/raw/main/configs/systemd/netinfo_sender.timer"
 systemctl enable netinfo.timer && systemctl restart netinfo.timer && systemctl status netinfo.timer
 ```
 
 ### Alpine Linux(openrc)
 
 ```sh
-curl -Lo "/etc/init.d/netinfo" "https://github.com/gek64/netinfo/raw/main/configs/openrc/netinfo_sender_webdav"
+curl -Lo "/etc/init.d/netinfo" "https://github.com/unix755/netinfo/raw/main/configs/openrc/netinfo_sender_webdav"
 chmod +x /etc/init.d/netinfo
 rc-update add netinfo && rc-service netinfo restart && rc-service netinfo status
 ```
@@ -72,7 +72,7 @@ rc-update add netinfo && rc-service netinfo restart && rc-service netinfo status
 
 ```sh
 mkdir /usr/local/etc/rc.d/
-curl -Lo "/usr/local/etc/rc.d/netinfo" "https://github.com/gek64/netinfo/raw/main/configs/rc.d/netinfo_sender_webdav"
+curl -Lo "/usr/local/etc/rc.d/netinfo" "https://github.com/unix755/netinfo/raw/main/configs/rc.d/netinfo_sender_webdav"
 chmod +x /usr/local/etc/rc.d/netinfo
 service netinfo enable && service netinfo restart && service netinfo status
 ```
@@ -80,7 +80,7 @@ service netinfo enable && service netinfo restart && service netinfo status
 ### OpenWRT(init.d)
 
 ```sh
-curl -Lo "/etc/init.d/netinfo" "https://github.com/gek64/netinfo/raw/main/configs/init.d/netinfo_sender_webdav"
+curl -Lo "/etc/init.d/netinfo" "https://github.com/unix755/netinfo/raw/main/configs/init.d/netinfo_sender_webdav"
 chmod +x /etc/init.d/netinfo
 service netinfo enable && service netinfo restart && service netinfo status
 ```
@@ -90,7 +90,7 @@ service netinfo enable && service netinfo restart && service netinfo status
 ### How to compile if prebuilt binaries are not found
 
 ```sh
-git clone https://github.com/gek64/netinfo.git
+git clone https://github.com/unix755/netinfo.git
 cd netinfo
 export CGO_ENABLED=0
 go build -v -trimpath -ldflags "-s -w"
@@ -99,7 +99,7 @@ go build -v -trimpath -ldflags "-s -w"
 ### For mipsle router
 
 ```sh
-git clone https://github.com/gek64/netinfo.git
+git clone https://github.com/unix755/netinfo.git
 cd netinfo
 export GOOS=linux
 export GOARCH=mipsle

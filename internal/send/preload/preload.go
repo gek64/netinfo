@@ -6,8 +6,8 @@ import (
 	"netinfo/internal/netinfo"
 	"time"
 
-	"github.com/gek64/gek/gCrypto"
-	"github.com/gek64/gek/gCrypto/padding"
+	"github.com/unix755/xtools/xCrypto"
+	"github.com/unix755/xtools/xCrypto/padding"
 	"golang.org/x/crypto/chacha20poly1305"
 )
 
@@ -30,7 +30,7 @@ func newEncryptedPreload(key []byte) (preload []byte, err error) {
 	if err != nil {
 		return nil, err
 	}
-	return gCrypto.NewChaCha20Poly1305WithHashAD(key, sha256.New()).Encrypt(plaintext)
+	return xCrypto.NewChaCha20Poly1305WithHashAD(key, sha256.New()).Encrypt(plaintext)
 }
 
 func GetPreload(key []byte) (preload []byte, err error) {

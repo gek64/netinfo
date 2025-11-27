@@ -3,11 +3,11 @@ package netinfo
 import (
 	"net/netip"
 
-	"github.com/gek64/gek/gNet"
+	"github.com/unix755/xtools/xNet"
 )
 
 func GetNetInterfaces() (netInterfaces []NetInterface, err error) {
-	nis, err := gNet.GetNetInterfaces()
+	nis, err := xNet.GetNetInterfaces()
 	if err != nil {
 		return nil, err
 	}
@@ -22,17 +22,17 @@ func GetNetInterfaces() (netInterfaces []NetInterface, err error) {
 		var ips []netip.Addr
 		for _, ipString := range append(ni.Ipv4, ni.Ipv6...) {
 			// 回环地址
-			isLoopback, _ := gNet.IsLoopback(ipString)
+			isLoopback, _ := xNet.IsLoopback(ipString)
 			if isLoopback {
 				continue
 			}
 			// 链路本地地址
-			isLinkLocal, _ := gNet.IsLinkLocal(ipString)
+			isLinkLocal, _ := xNet.IsLinkLocal(ipString)
 			if isLinkLocal {
 				continue
 			}
 			// 专用网络地址
-			isPrivate, _ := gNet.IsPrivate(ipString)
+			isPrivate, _ := xNet.IsPrivate(ipString)
 			if isPrivate {
 				//continue
 			}

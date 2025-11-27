@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -12,7 +13,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 func main() {
@@ -50,8 +51,7 @@ func main() {
 					Destination: &showPreload,
 				},
 			},
-			Action: func(ctx *cli.Context) error {
-				var err error
+			Action: func(ctx context.Context, cmd *cli.Command) (err error) {
 				var p []byte
 				var netInterfaces []netinfo.NetInterface
 
@@ -71,7 +71,7 @@ func main() {
 			Aliases: []string{"s"},
 			Usage:   "send network information",
 
-			Subcommands: []*cli.Command{
+			Commands: []*cli.Command{
 				{
 					Name:  "file",
 					Usage: "send to filesystem",
@@ -93,7 +93,7 @@ func main() {
 							Destination: &interval,
 						},
 					},
-					Action: func(ctx *cli.Context) error {
+					Action: func(ctx context.Context, cmd *cli.Command) (err error) {
 						if interval != 0 {
 							file.SendRequestLoop(filepath, []byte(encryptionKey), interval)
 						} else {
@@ -170,11 +170,11 @@ func main() {
 							Destination: &objectPath,
 						},
 					},
-					Action: func(ctx *cli.Context) error {
+					Action: func(ctx context.Context, cmd *cli.Command) (err error) {
 						if interval != 0 {
 							s3.SendRequestLoop(endpoint, regin, username, password, stsToken, pathStyle, allowInsecure, bucket, objectPath, []byte(encryptionKey), interval)
 						} else {
-							_, err := s3.SendRequest(endpoint, regin, username, password, stsToken, pathStyle, allowInsecure, bucket, objectPath, []byte(encryptionKey))
+							_, err = s3.SendRequest(endpoint, regin, username, password, stsToken, pathStyle, allowInsecure, bucket, objectPath, []byte(encryptionKey))
 							if err != nil {
 								return err
 							}
@@ -225,11 +225,11 @@ func main() {
 							Destination: &filepath,
 						},
 					},
-					Action: func(ctx *cli.Context) error {
+					Action: func(ctx context.Context, cmd *cli.Command) (err error) {
 						if interval != 0 {
 							webdav.SendRequestLoop(endpoint, username, password, allowInsecure, filepath, []byte(encryptionKey), interval)
 						} else {
-							_, err := webdav.SendRequest(endpoint, username, password, allowInsecure, filepath, []byte(encryptionKey))
+							_, err = webdav.SendRequest(endpoint, username, password, allowInsecure, filepath, []byte(encryptionKey))
 							if err != nil {
 								return err
 							}
@@ -242,17 +242,17 @@ func main() {
 	}
 
 	// 打印版本函数
-	cli.VersionPrinter = func(cCtx *cli.Context) {
-		fmt.Printf("%s", cCtx.App.Version)
+	cli.VersionPrinter = func(cmd *cli.Command) {
+		fmt.Printf("%s\n", cmd.Root().Version)
 	}
 
-	app := &cli.App{
+	cmd := &cli.Command{
 		Usage:    "Network information manager",
-		Version:  "v3.10",
+		Version:  "v3.20",
 		Commands: cmds,
 	}
 
-	err := app.Run(os.Args)
+	err := cmd.Run(context.Background(), os.Args)
 	if err != nil {
 		log.Fatal(err)
 	}

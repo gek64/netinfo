@@ -6,7 +6,7 @@ import (
 	"netinfo/internal/send/preload"
 	"time"
 
-	"github.com/gek64/gek/gWebDAV"
+	"github.com/unix755/xtools/xWebDAV"
 )
 
 func SendRequest(endpoint string, username string, password string, allowInsecure bool, filepath string, encryptionKey []byte) (resp *http.Response, err error) {
@@ -16,7 +16,7 @@ func SendRequest(endpoint string, username string, password string, allowInsecur
 		return nil, err
 	}
 
-	client, err := gWebDAV.NewClient(endpoint, username, password, allowInsecure)
+	client, err := xWebDAV.NewClient(endpoint, username, password, allowInsecure)
 	if err != nil {
 		return nil, err
 	}
